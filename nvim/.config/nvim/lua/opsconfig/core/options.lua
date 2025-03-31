@@ -24,7 +24,7 @@ vim.opt.showmode = false
 vim.opt.laststatus = 3
 
 -- Clipboard
-vim.opt.clipboard = ''
+vim.opt.clipboard = 'unnamedplus'
 
 -- Complete
 vim.opt.completeopt = { 'noinsert', 'menuone', 'noselect' }
