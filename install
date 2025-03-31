@@ -176,9 +176,9 @@ msg git "Configuring Odara repository..."
 
 [[ -d "$HOME/.opsconfig" ]] && rm -rf "$HOME/.opsconfig"
 
-git clone https://github.com/OdaraIT/servers.git "$HOME/.opsconfig"
+git clone https://github.com/jonatas-sas/OpsConfig.git "$HOME/.opsconfig"
 
-msg git "Applying stow to Odara repository..."
+msg git "Applying stow to OpsConfig repository..."
 
 cd "${HOME}/.opsconfig" || exit
 
