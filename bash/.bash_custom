@@ -30,7 +30,7 @@ if [[ -n $ODARA_TYPE && $ODARA_TYPE == "servers" ]]; then
 
   update_system() {
     echo_log "Baixando e executando o script de instalação..."
-    curl -fsSL https://raw.githubusercontent.com/OdaraIT/servers/main/install | bash
+    curl -fsSL https://raw.githubusercontent.com/jonatas-sas/opsconfig/main/install | bash
 
     echo_log "Removendo pacotes desnecessários..."
     sudo apt autoremove -y
