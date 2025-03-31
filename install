@@ -1,0 +1,188 @@
+#!/usr/bin/env bash
+
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+CYAN="\e[36m"
+WHITE="\e[97m"
+MAGENTA="\e[35m"
+RESET="\e[0m"
+
+SUCCESS_ICON=" "  # \uf00c
+ERROR_ICON=" "    # \uf00d
+WARNING_ICON="  " # \uf071
+INFO_ICON=" "     # \uf05a
+DOWNLOAD_ICON=" " # \uf0eb
+DELETE_ICON=" "   # \uf014
+GIT_ICON=" "      # \uf1d3
+
+msg() {
+  local type="$1"
+  local text="$2"
+  local icon=""
+  local color=""
+
+  case "$type" in
+    success)
+      icon="$SUCCESS_ICON"
+      color="$GREEN"
+      ;;
+    error)
+      icon="$ERROR_ICON"
+      color="$RED"
+      ;;
+    warning)
+      icon="$WARNING_ICON"
+      color="$YELLOW"
+      ;;
+    info)
+      icon="$INFO_ICON"
+      color="$CYAN"
+      ;;
+    download)
+      icon="$DOWNLOAD_ICON"
+      color="$WHITE"
+      ;;
+    delete)
+      icon="$DELETE_ICON"
+      color="$RED"
+      ;;
+    git)
+      icon="$GIT_ICON"
+      color="$MAGENTA"
+      ;;
+    *)
+      icon=" "
+      color="$WHITE"
+      ;;
+  esac
+
+  echo -e "${color}${icon}${text}${RESET}"
+}
+
+if [[ $EUID -eq 0 ]]; then
+  msg info "Installing required packages..."
+
+  sudo apt install -y git curl jq stow ripgrep perl ruby-full build-essential clang
+
+  msg info "Installing Neovim globally..."
+
+  NVIM_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
+  NVIM_DEST="/opt/nvim"
+  NVIM_TAR="nvim-linux-x86_64.tar.gz"
+  NVIM_TMP="/opt/nvim-linux-x86_64"
+
+  curl -LO "${NVIM_URL}"
+  sudo rm -rf "${NVIM_DEST}"
+  sudo tar -C /opt -xzf "${NVIM_TAR}"
+  sudo mv "${NVIM_TMP}" "${NVIM_DEST}"
+  sudo rm -rf "${NVIM_TAR}"
+
+  /opt/nvim/bin/nvim --version
+
+  ENV_FILE="/etc/environment"
+  NVIM_PATH="/opt/nvim/bin"
+
+  if ! grep -qE "^PATH=.*${NVIM_PATH}" "${ENV_FILE}"; then
+    msg info "Adding Neovim to PATH..."
+    sudo sed -i "/^PATH=/ s|\"$|:${NVIM_PATH}\"|" "${ENV_FILE}"
+  fi
+
+  if ! grep -q "^ODARA_TYPE=" "${ENV_FILE}"; then
+    echo "ODARA_TYPE=servers" | sudo tee -a "${ENV_FILE}" >/dev/null
+  fi
+fi
+
+if [[ ! -d "$HOME/.fzf" ]]; then
+  msg download "Installing fzf..."
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --all
+else
+  msg info "Updating fzf..."
+  cd ~/.fzf && git pull && ./install --all
+fi
+
+update_nerd_font() {
+  FONT_NAME="$1"
+  FONT_URL="$2"
+  FONT_DIR="${HOME}/.local/share/fonts"
+  TEMP_DIR="$(mktemp -d)"
+  STORAGE_DIR="${HOME}/.opsconfig/storage"
+  HASH_FILE="${STORAGE_DIR}/${FONT_NAME}.hash"
+
+  mkdir -p "${FONT_DIR}" "${STORAGE_DIR}"
+
+  msg download "Downloading ${FONT_NAME} Nerd Font..."
+
+  wget -q --show-progress -O "${TEMP_DIR}/${FONT_NAME}.zip" "${FONT_URL}"
+
+  NEW_HASH=$(sha256sum "${TEMP_DIR}/${FONT_NAME}.zip" | awk '{print $1}')
+
+  if [[ -f ${HASH_FILE} && $(cat "${HASH_FILE}") == "${NEW_HASH}" ]]; then
+    msg info "No updates found for ${FONT_NAME}. Skipping installation."
+
+    rm -rf "${TEMP_DIR}"
+
+    return
+  fi
+
+  msg info "Extracting font files..."
+
+  unzip -q "${TEMP_DIR}/${FONT_NAME}.zip" -d "${TEMP_DIR}"
+
+  msg info "Moving fonts to ${FONT_DIR}..."
+
+  mv -vf "${TEMP_DIR}"/*.ttf "${FONT_DIR}/"
+
+  msg info "Updating font cache..."
+
+  fc-cache -fv
+
+  echo "${NEW_HASH}" >"${HASH_FILE}"
+
+  msg success "${FONT_NAME} Nerd Font successfully updated!"
+}
+
+update_nerd_font "JetBrainsMono" "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip"
+update_nerd_font "FiraCode" "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip"
+
+if [[ -d "$HOME/.SpaceVim" ]]; then
+  msg delete "Removing SpaceVim..."
+  curl -sLf https://spacevim.org/install.sh | bash -s -- --uninstall
+  rm -rf "${HOME}/.SpaceVim" "${HOME}/.SpaceVim.d"
+  unlink "${HOME}/.nvim" 2>/dev/null
+  unlink "${HOME}/.vim" 2>/dev/null
+fi
+
+msg delete "Removing old configurations..."
+
+FILES=(
+  "${HOME}/.bashrc"
+  "${HOME}/.bash_aliases"
+  "${HOME}/.bash_custom"
+  "${HOME}/.bash_logout"
+  "${HOME}/.bash_ps1"
+  "${HOME}/.config/nvim"
+  "${HOME}/.config/vim"
+  "${HOME}/.vim"
+  "${HOME}/.vimrc"
+)
+
+for FILE in "${FILES[@]}"; do
+  [[ -L ${FILE} || -e ${FILE} ]] && rm -rf "${FILE}"
+done
+
+msg git "Configuring Odara repository..."
+
+[[ -d "$HOME/.opsconfig" ]] && rm -rf "$HOME/.opsconfig"
+
+git clone https://github.com/OdaraIT/servers.git "$HOME/.opsconfig"
+
+msg git "Applying stow to Odara repository..."
+
+cd "${HOME}/.opsconfig" || exit
+
+stow bash
+stow nvim
+
+msg success "Installation completed!"

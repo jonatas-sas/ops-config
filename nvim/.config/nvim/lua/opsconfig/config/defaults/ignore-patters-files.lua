@@ -1,0 +1,15 @@
+return {
+  '*.cache',
+  '*.swp',
+  '*.log',
+  '*.phar',
+  '*.bak',
+  '.git/',
+  '.idea/',
+  '.code/',
+  '.DS_Store',
+  '__pycache__',
+  'node_modules',
+  'vendor',
+  'build',
+}
