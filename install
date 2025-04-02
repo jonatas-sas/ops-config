@@ -102,15 +102,24 @@ else
   cd ~/.fzf && git pull && ./install --all
 fi
 
+CONFIG_DIR="${HOME}/.config/opsconfig"
+
+mkdir -p "${CONFIG_DIRN}"
+
 update_nerd_font() {
   FONT_NAME="$1"
   FONT_URL="$2"
   FONT_DIR="${HOME}/.local/share/fonts"
   TEMP_DIR="$(mktemp -d)"
-  STORAGE_DIR="${HOME}/.opsconfig/storage"
-  HASH_FILE="${STORAGE_DIR}/${FONT_NAME}.hash"
+  HASH_FILE="${CONFIG_DIR}/${FONT_NAME}.hash"
 
-  mkdir -p "${FONT_DIR}" "${STORAGE_DIR}"
+  if [[ -f ${HASH_FILE} ]]; then
+    OLD_HASH=$(cat "${HASH_FILE}")
+  else
+    OLD_HASH=""
+  fi
+
+  mkdir -p "${FONT_DIR}"
 
   msg download "Downloading ${FONT_NAME} Nerd Font..."
 
@@ -118,7 +127,7 @@ update_nerd_font() {
 
   NEW_HASH=$(sha256sum "${TEMP_DIR}/${FONT_NAME}.zip" | awk '{print $1}')
 
-  if [[ -f ${HASH_FILE} && $(cat "${HASH_FILE}") == "${NEW_HASH}" ]]; then
+  if [[ ${OLD_HASH} == "${NEW_HASH}" ]]; then
     msg info "No updates found for ${FONT_NAME}. Skipping installation."
 
     rm -rf "${TEMP_DIR}"
@@ -166,7 +175,6 @@ FILES=(
   "${HOME}/.config/vim"
   "${HOME}/.vim"
   "${HOME}/.vimrc"
-  "${HOME}/.opsconfig"
 )
 
 for FILE in "${FILES[@]}"; do
