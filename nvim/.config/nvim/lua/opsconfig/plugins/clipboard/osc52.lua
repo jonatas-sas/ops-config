@@ -18,34 +18,16 @@ return {
       tmux_passthrough = true,
     })
 
-    local function copy()
-      osc52.copy_register('+')
-    end
-
     vim.api.nvim_create_autocmd('TextYankPost', {
       callback = function()
         if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
-          copy()
+          if vim.g.opsconfig.global.is_servers then
+            osc52.copy_register('"')
+          else
+            osc52.copy_register('+')
+          end
         end
       end,
     })
-
-    if vim.g.opsconfig.global.is_servers then
-      vim.g.clipboard = {
-        name = 'osc52',
-        copy = {
-          ['+'] = osc52.copy,
-          ['*'] = osc52.copy,
-        },
-        paste = {
-          ['+'] = function()
-            return ''
-          end,
-          ['*'] = function()
-            return ''
-          end,
-        },
-      }
-    end
   end,
 }
