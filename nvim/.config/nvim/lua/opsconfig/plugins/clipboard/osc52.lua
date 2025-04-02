@@ -29,5 +29,23 @@ return {
         end
       end,
     })
+
+    if vim.g.opsconfig.global.is_servers then
+      vim.g.clipboard = {
+        name = 'osc52',
+        copy = {
+          ['+'] = osc52.copy,
+          ['*'] = osc52.copy,
+        },
+        paste = {
+          ['+'] = function()
+            return ''
+          end,
+          ['*'] = function()
+            return ''
+          end,
+        },
+      }
+    end
   end,
 }
