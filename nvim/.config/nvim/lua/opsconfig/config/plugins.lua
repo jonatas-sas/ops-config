@@ -64,7 +64,7 @@ return {
   --  Permite ativar/desativar sugestões por buffer ou modo de inserção.
   --  Integrável com plugins como nvim-cmp para uma experiência personalizada.
   --  Repositório: https://github.com/zbirenbaum/copilot.lua
-  copilot_lua = true,
+  copilot_lua = false,
 
   -- NOTE:  Autocompletar código com IA no Neovim.
   --  Sugestões em tempo real para diversas linguagens de programação.
@@ -142,7 +142,7 @@ return {
   --  Ajuda a visualizar o estado da IA sem sair do fluxo de trabalho.
   --  Configurável, permitindo ajustar a exibição conforme a necessidade.
   --  Repositório: https://github.com/AndreM222/copilot-lualine
-  copilot_lualine = true,
+  copilot_lualine = false,
 
   -- NOTE:  Melhora a experiência com mensagens, comandos e LSP no Neovim.
   --  Substitui `:messages`, entrada de comandos e UI de notificações.
@@ -317,7 +317,7 @@ return {
   --  Melhora a experiência de código com previsões mais naturais e fluídas.
   --  Totalmente configurável, com suporte a prioridades e ajustes finos.
   --  Repositório: https://github.com/zbirenbaum/copilot-cmp
-  copilot_cmp = true,
+  copilot_cmp = false,
 
   -- }}}
 

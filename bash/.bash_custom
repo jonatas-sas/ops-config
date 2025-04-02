@@ -75,7 +75,7 @@ if [[ -n $ODARA_TYPE && $ODARA_TYPE == "servers" ]]; then
     echo_log "Atualização concluída com sucesso!"
   }
 
-  alias update="curl -fsSL https://raw.githubusercontent.com/OdaraIT/servers/main/install | bash"
+  alias update="curl -fsSL https://raw.githubusercontent.com/jonatas-sas/opsconfig/main/install | bash"
   alias updagrade="update_system"
   alias u="update_system"
 fi

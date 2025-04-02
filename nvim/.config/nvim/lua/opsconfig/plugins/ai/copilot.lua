@@ -6,7 +6,7 @@ return {
   --  Repositório: https://github.com/zbirenbaum/copilot.lua
   'zbirenbaum/copilot.lua',
 
-  enabled = vim.g.opsconfig.plugins.copilot_vim,
+  enabled = false,
 
   lazy = false,
 
