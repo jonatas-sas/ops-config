@@ -104,7 +104,7 @@ fi
 
 CONFIG_DIR="${HOME}/.config/opsconfig"
 
-mkdir -p "${CONFIG_DIRN}"
+mkdir -p "${CONFIG_DIR}"
 
 update_nerd_font() {
   FONT_NAME="$1"
