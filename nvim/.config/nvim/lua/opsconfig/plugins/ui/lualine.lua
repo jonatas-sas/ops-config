@@ -90,18 +90,6 @@ return {
       }
     end
 
-    local registry = require('mason-registry')
-
-    local function mason_updates()
-      local outdated = 0
-      for _, pkg in ipairs(registry.get_installed_packages()) do
-        if pkg:is_outdated() then
-          outdated = outdated + 1
-        end
-      end
-      return outdated > 0 and ('󰇚 ' .. outdated) or ''
-    end
-
     local noice = require('noice')
 
     setup.sections = {
@@ -159,13 +147,6 @@ return {
         {
           lazy_status.updates,
           cond = lazy_status.has_updates,
-          color = { fg = plugins_updates_color },
-        },
-        {
-          mason_updates,
-          cond = function()
-            return pcall(require, 'mason-registry')
-          end,
           color = { fg = plugins_updates_color },
         },
         {
