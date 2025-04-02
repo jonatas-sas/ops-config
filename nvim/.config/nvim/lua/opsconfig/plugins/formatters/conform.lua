@@ -69,6 +69,15 @@ return {
           },
           stdin = false,
         },
+
+        kdlfmt = {
+          command = os.getenv('HOME') .. '/.cargo/bin/kdlfmt',
+          args = {
+            'format',
+            '$FILENAME',
+          },
+          stdin = false,
+        },
       },
 
       formatters_by_ft = {
@@ -92,6 +101,7 @@ return {
         systemd = { 'systemd_analyze' },
         php = { 'phpcs' },
         toml = { 'taplo' },
+        kdl = { 'kdlfmt' },
       },
 
       format_on_save = function(bufnr)
