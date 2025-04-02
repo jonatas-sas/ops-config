@@ -88,8 +88,8 @@ if [[ $EUID -eq 0 ]]; then
     sudo sed -i "/^PATH=/ s|\"$|:${NVIM_PATH}\"|" "${ENV_FILE}"
   fi
 
-  if ! grep -q "^ODARA_TYPE=" "${ENV_FILE}"; then
-    echo "ODARA_TYPE=servers" | sudo tee -a "${ENV_FILE}" >/dev/null
+  if ! grep -q "^OPSCONFIG_TYPE=" "${ENV_FILE}"; then
+    echo "OPSCONFIG_TYPE=servers" | sudo tee -a "${ENV_FILE}" >/dev/null
   fi
 fi
 
@@ -172,7 +172,7 @@ for FILE in "${FILES[@]}"; do
   [[ -L ${FILE} || -e ${FILE} ]] && rm -rf "${FILE}"
 done
 
-msg git "Configuring Odara repository..."
+msg git "Configuring OpsConfig repository..."
 
 [[ -d "$HOME/.opsconfig" ]] && rm -rf "$HOME/.opsconfig"
 
