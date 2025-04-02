@@ -166,7 +166,7 @@ FILES=(
   "${HOME}/.config/vim"
   "${HOME}/.vim"
   "${HOME}/.vimrc"
-  "${HOME}/.odara"
+  "${HOME}/.opsconfig"
 )
 
 for FILE in "${FILES[@]}"; do

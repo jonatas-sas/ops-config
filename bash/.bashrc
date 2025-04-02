@@ -80,4 +80,3 @@ if ! shopt -oq posix; then
 fi
 
 source "${HOME}/.bash_custom"
-. "$HOME/.cargo/env"
