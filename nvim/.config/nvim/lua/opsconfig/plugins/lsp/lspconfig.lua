@@ -191,7 +191,7 @@ return {
     -- Intelephense {{{
 
     if vim.g.opsconfig.global.languages.php.intelephense then
-      local intelephense_key = os.getenv('ODARA_INTELEPHENSE_KEY') or ''
+      local intelephense_key = os.getenv('OPSCONFIG_INTELEPHENSE_KEY') or ''
 
       lspconfig.intelephense.setup({
         cmd = { 'intelephense', '--stdio' },

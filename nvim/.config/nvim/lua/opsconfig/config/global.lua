@@ -78,6 +78,6 @@ return {
   },
 
   binaries = {
-    python_path = os.getenv('ODARA_PYTHON_PATH') or '/home/linuxbrew/.linuxbrew/bin/python3',
+    python_path = os.getenv('OPSCONFIG_PYTHON_PATH') or '/home/linuxbrew/.linuxbrew/bin/python3',
   },
 }

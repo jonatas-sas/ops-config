@@ -15,10 +15,10 @@ local config = {
   plugins = require('opsconfig.config.plugins'),
 }
 
-local odara_type = os.getenv('ODARA_TYPE') or 'dev'
+local opsconfig_type = os.getenv('OPSCONFIG_TYPE') or 'dev'
 local servers_config = {}
 
-if odara_type == 'servers' then
+if opsconfig_type == 'servers' then
   config.global.is_dev = true
   config.global.is_servers = true
 

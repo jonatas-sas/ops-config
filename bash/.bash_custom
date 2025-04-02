@@ -23,7 +23,7 @@ alias q='exit'
 #######################################################################################################################
 ## Update & Upgrade
 #######################################################################################################################
-if [[ -n $ODARA_TYPE && $ODARA_TYPE == "servers" ]]; then
+if [[ -n $OPSCONFIG_TYPE && $OPSCONFIG_TYPE == "servers" ]]; then
   echo_log() {
     echo -e "\033[1;34m[INFO]\033[0m $1"
   }
@@ -105,9 +105,9 @@ alias nano='nvim'
 #######################################################################################################################
 ## Python
 #######################################################################################################################
-if [[ -n ${ODARA_PYTHON_LIB_PATH} ]]; then
-  if [[ -f "${ODARA_PYTHON_LIB_PATH}/bin/activate" ]]; then
-    source "${ODARA_PYTHON_LIB_PATH}/bin/activate"
+if [[ -n ${OPSCONFIG_PYTHON_LIB_PATH} ]]; then
+  if [[ -f "${OPSCONFIG_PYTHON_LIB_PATH}/bin/activate" ]]; then
+    source "${OPSCONFIG_PYTHON_LIB_PATH}/bin/activate"
   fi
 fi
 
