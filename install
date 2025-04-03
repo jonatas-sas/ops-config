@@ -60,6 +60,14 @@ msg() {
   echo -e "${color}${icon}${text}${RESET}"
 }
 
+CONFIG_DIR="${HOME}/.config/opsconfig"
+LIB_DIR="${CONFIG_DIR}/lib"
+NPYTHON_DIR="${LIB_DIR}/python"
+NODE_DIR="${LIB_DIR}/node"
+
+mkdir -p "${CONFIG_DIR}"
+mkdir -p "${LIB_DIR}"
+
 if [[ $EUID -eq 0 ]]; then
   msg info "Installing required packages..."
 
@@ -102,9 +110,96 @@ else
   cd ~/.fzf && git pull && ./install --all
 fi
 
-CONFIG_DIR="${HOME}/.config/opsconfig"
+update_python() {
+  msg refresh "Starting Neovim Python environment setup..."
 
-mkdir -p "${CONFIG_DIR}"
+  # Define the directory where the Python environment will be installed
+  local npython_dir="${NPYTHON_DIR}"
+  local python_bin="$npython_dir/bin/python3"
+
+  # Check if Python3 is installed
+  if ! command -v python3 &>/dev/null; then
+    msg error "Python3 not found. Please install Python3 before proceeding."
+
+    return 1
+  fi
+
+  # Check if the Python environment already exists
+  if [[ -d $npython_dir ]]; then
+    msg info "Python environment already exists at $npython_dir"
+  else
+    msg info "Creating Python environment at $npython_dir..."
+
+    python3 -m venv "$npython_dir"
+
+    source "$npython_dir/bin/activate"
+
+    msg info "Installing Neovim dependencies..."
+    pip install --upgrade pip
+    pip install neovim tasklib pynvim requests flask black numpy pandas nginxfmt
+    deactivate
+    msg success "Python environment created at $npython_dir"
+  fi
+
+  # Inform the user about the Neovim configuration
+  msg info "To use this environment in Neovim, update your init.lua with:"
+  msg info "    vim.g.python3_host_prog = '$python_bin'"
+
+  # Display final instructions
+  msg info "To verify the installation, run the following commands in Neovim:"
+  msg info "    :echo system('which python3')"
+  msg info "    :echo system('python3 -m pip list')"
+
+  msg success "Neovim Python environment setup completed successfully! 🚀"
+}
+
+update_python
+
+update_node() {
+  msg search "Checking the latest NVM version..."
+
+  NVM_VERSION=$(curl -sL https://api.github.com/repos/nvm-sh/nvm/releases/latest | jq -r ".tag_name")
+
+  if [ -n "${NVM_VERSION}" ]; then
+    msg download "Installing the latest NVM version (${NVM_VERSION})..."
+
+    if curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash; then
+      msg success "NVM updated successfully."
+
+      export NVM_DIR="${HOME}/.nvm"
+
+      [ -s "${NVM_DIR}/nvm.sh" ] && \ . "${NVM_DIR}/nvm.sh"
+
+      nvm use default >/dev/null 2>&1
+
+      NODE_SYMLINK="${NODE_DIR}"
+
+      if [ -L "${NODE_SYMLINK}" ] || [ -e "${NODE_SYMLINK}" ]; then
+        msg warning "Removing existing symlink: ${NODE_SYMLINK}"
+
+        unlink "${NODE_SYMLINK}"
+      fi
+
+      ln -s "$(dirname "$(which node)")" "${NODE_SYMLINK}"
+
+      if [[ $EUID -eq 0 ]]; then
+        if ! grep -qE "^PATH=.*${NODE_DIR}" "${ENV_FILE}"; then
+          msg info "Adding Node to PATH..."
+
+          sudo sed -i "/^PATH=/ s|\"$|:${NODE_DIR}\"|" "${ENV_FILE}"
+        fi
+      fi
+
+      msg success "Symlink created: ${NODE_SYMLINK} → $(dirname "$(which node)")"
+    else
+      msg error "Failed to update NVM."
+    fi
+  else
+    msg error "Failed to get the latest NVM version."
+  fi
+}
+
+update_node
 
 update_nerd_font() {
   FONT_NAME="$1"

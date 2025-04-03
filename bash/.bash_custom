@@ -17,6 +17,7 @@ export GIT_EDITOR='nvim'
 ## General
 #######################################################################################################################
 alias c='clear'
+alias quit='exit'
 alias e='exit'
 alias q='exit'
 
@@ -29,6 +30,11 @@ if [[ -n $OPSCONFIG_TYPE && $OPSCONFIG_TYPE == "servers" ]]; then
   }
 
   update_system() {
+    if [[ -f "${HOME}/.config/opsconfig/before_install" ]]; then
+      echo_log "Rodando o script before_install"
+      source "${HOME}/.config/opsconfig/before_install"
+    fi
+
     echo_log "Baixando e executando o script de instalação..."
     curl -fsSL https://raw.githubusercontent.com/jonatas-sas/opsconfig/main/install | bash
 
@@ -46,8 +52,10 @@ if [[ -n $OPSCONFIG_TYPE && $OPSCONFIG_TYPE == "servers" ]]; then
 
     echo_log "Verificando versão do PHP..."
 
-    if [[ -f /root/.php ]]; then
-      PHP_VERSION=$(cat /root/.php | tr -d ' ')
+    PHP_VERSION_CONFIG_PATH="${HOME}/.config/opsconfig/.php"
+
+    if [[ -f $PHP_VERSION_CONFIG_PATH ]]; then
+      PHP_VERSION=$(cat "${PHP_VERSION_CONFIG_PATH}" | tr -d ' ')
 
       if [[ -n $PHP_VERSION ]]; then
         PHP_BIN="/usr/bin/$PHP_VERSION"
@@ -62,14 +70,19 @@ if [[ -n $OPSCONFIG_TYPE && $OPSCONFIG_TYPE == "servers" ]]; then
           echo_log "Erro: O binário $PHP_BIN não existe ou não é executável."
         fi
       else
-        echo_log "Erro: Nenhuma versão válida encontrada no arquivo /root/.php."
+        echo_log "Erro: Nenhuma versão válida encontrada no arquivo ${PHP_VERSION_CONFIG_PATH}."
       fi
     else
-      echo_log "Arquivo /root/.php não encontrado, nenhuma ação necessária para PHP."
+      echo_log "Arquivo ${PHP_VERSION_CONFIG_PATH} não encontrado, nenhuma ação necessária para PHP."
     fi
 
     if [[ -f "${HOME}/.bashrc" ]]; then
       source "${HOME}/.bashrc"
+    fi
+
+    if [[ -f "${HOME}/.config/opsconfig/after_install" ]]; then
+      echo_log "Rodando o script after_install"
+      source "${HOME}/.config/opsconfig/after_install"
     fi
 
     echo_log "Atualização concluída com sucesso!"
@@ -109,6 +122,10 @@ if [[ -n ${OPSCONFIG_PYTHON_LIB_PATH} ]]; then
   if [[ -f "${OPSCONFIG_PYTHON_LIB_PATH}/bin/activate" ]]; then
     source "${OPSCONFIG_PYTHON_LIB_PATH}/bin/activate"
   fi
+fi
+
+if [[ -f "${HOME}/.config/opsconfig/lib/python/bin/python3/activate" ]]; then
+  source "${HOME}/.config/opsconfig/lib/python/bin/python3/activate"
 fi
 
 #######################################################################################################################
