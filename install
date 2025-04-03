@@ -117,6 +117,10 @@ update_python() {
   local npython_dir="${NPYTHON_DIR}"
   local python_bin="$npython_dir/bin/python3"
 
+  if command -v deactivate &>/dev/null; then
+    deactivate
+  fi
+
   rm -rf "${npython_dir}" && mkdir -p "${npython_dir}"
 
   # Check if Python3 is installed
