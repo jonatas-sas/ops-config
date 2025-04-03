@@ -170,6 +170,8 @@ update_node() {
 
       [ -s "${NVM_DIR}/nvm.sh" ] && \ . "${NVM_DIR}/nvm.sh"
 
+      nvm install v22
+      nvm default v22
       nvm use default >/dev/null 2>&1
 
       NODE_SYMLINK="${NODE_DIR}"
