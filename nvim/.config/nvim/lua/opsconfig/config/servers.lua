@@ -4,8 +4,8 @@ return {
     show_git_ignored_files = true,
     show_git_ignored_parent_files = false,
     python_path = '/usr/bin/python3',
-    skip_lsp = true,
-    skip_none_ls = true,
+    skip_lsp = false,
+    skip_none_ls = false,
   },
   plugins = {
     vim_suda = false,
