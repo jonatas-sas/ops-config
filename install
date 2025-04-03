@@ -130,26 +130,17 @@ update_python() {
     return 1
   fi
 
-  # Check if the Python environment already exists
-  if [[ -d $npython_dir ]]; then
-    msg info "Python environment already exists at $npython_dir"
-  else
-    msg info "Creating Python environment at $npython_dir..."
+  msg info "Creating Python environment at $npython_dir..."
 
-    python3 -m venv "$npython_dir"
+  python3 -m venv "$npython_dir"
 
-    source "$npython_dir/bin/activate"
+  source "$npython_dir/bin/activate"
 
-    msg info "Installing Neovim dependencies..."
-    pip install --upgrade pip
-    pip install neovim tasklib pynvim requests flask black numpy pandas nginxfmt
-    deactivate
-    msg success "Python environment created at $npython_dir"
-  fi
-
-  # Inform the user about the Neovim configuration
-  msg info "To use this environment in Neovim, update your init.lua with:"
-  msg info "    vim.g.python3_host_prog = '$python_bin'"
+  msg info "Installing Neovim dependencies..."
+  pip install --upgrade pip
+  pip install neovim tasklib pynvim requests flask black numpy pandas nginxfmt
+  deactivate
+  msg success "Python environment created at $npython_dir"
 
   # Display final instructions
   msg info "To verify the installation, run the following commands in Neovim:"
@@ -177,7 +168,7 @@ update_node() {
       [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"
 
       nvm install v22
-      nvm default v22
+      nvm alias default v22
       nvm use default >/dev/null 2>&1
 
       NODE_SYMLINK="${NODE_DIR}"
