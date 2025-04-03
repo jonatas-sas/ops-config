@@ -15,30 +15,34 @@ return {
 
     -- Available Linters {{{
 
+    local linters = {}
     local php_linters = {}
 
-    if vim.g.opsconfig.global.linters.enable_phpstan then
-      table.insert(php_linters, 'phpstan')
+    if vim.g.opsconfig.global.is_dev then
+      linters = {
+        go = { 'golangci-lint' },
+        javascript = { 'eslint_d' },
+        typescript = { 'eslint_d' },
+        javascriptreact = { 'eslint_d' },
+        typescriptreact = { 'eslint_d' },
+        svelte = { 'eslint_d' },
+        python = { 'pylint' },
+        php = php_linters,
+      }
+      if vim.g.opsconfig.global.linters.enable_phpstan then
+        table.insert(php_linters, 'phpstan')
+      end
+
+      if vim.g.opsconfig.global.linters.phpcs then
+        table.insert(php_linters, 'phpcs')
+      end
+
+      if vim.g.opsconfig.global.linters.phpmd then
+        table.insert(php_linters, 'phpmd')
+      end
     end
 
-    if vim.g.opsconfig.global.linters.phpcs then
-      table.insert(php_linters, 'phpcs')
-    end
-
-    if vim.g.opsconfig.global.linters.phpmd then
-      table.insert(php_linters, 'phpmd')
-    end
-
-    lint.linters_by_ft = {
-      -- go = { 'golangci-lint' },
-      javascript = { 'eslint_d' },
-      typescript = { 'eslint_d' },
-      javascriptreact = { 'eslint_d' },
-      typescriptreact = { 'eslint_d' },
-      svelte = { 'eslint_d' },
-      python = { 'pylint' },
-      php = php_linters,
-    }
+    lint.linters_by_ft = linters
 
     -- }}}
 
@@ -53,7 +57,7 @@ return {
 
     -- Go Linters {{{
 
-    if vim.g.opsconfig.global.linters.enable_golangci_lint then
+    if vim.g.opsconfig.global.is_dev and vim.g.opsconfig.global.linters.enable_golangci_lint then
       lint.linters.golangci_lint = {
         name = 'GolangCI-Lint',
         cmd = 'golangci-lint',
@@ -74,7 +78,7 @@ return {
 
     -- Configuração do PHPStan {{{
 
-    if vim.g.opsconfig.global.linters.enable_phpstan then
+    if vim.g.opsconfig.global.is_dev and vim.g.opsconfig.global.linters.enable_phpstan then
       lint.linters.phpstan = {
         name = 'PHPStan',
         cmd = 'phpstan',
@@ -133,7 +137,7 @@ return {
 
     -- Configuração do PHPCS (PSR-12) {{{
 
-    if vim.g.opsconfig.global.linters.enable_phpcs then
+    if vim.g.opsconfig.global.is_dev and vim.g.opsconfig.global.linters.enable_phpcs then
       lint.linters.phpcs = {
         name = 'PHPCS',
         cmd = 'phpcs',
@@ -168,7 +172,7 @@ return {
 
     -- Configuração do PHP-MD (Code Smells) {{{
 
-    if vim.g.opsconfig.global.linters.enable_phpmd then
+    if vim.g.opsconfig.global.is_dev and vim.g.opsconfig.global.linters.enable_phpmd then
       lint.linters.phpmd = {
         name = 'PHPMD',
         cmd = 'phpmd',

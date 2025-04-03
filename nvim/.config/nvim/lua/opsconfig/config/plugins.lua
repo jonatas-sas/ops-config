@@ -1,5 +1,4 @@
 return {
-
   -- Buffers {{{
 
   -- NOTE:  Salvamento automático de arquivos no Neovim.
@@ -71,7 +70,7 @@ return {
   --  Acelera o desenvolvimento com previsões contextuais e inteligentes.
   --  Configurável, com suporte a atalhos e preferências personalizadas.
   --  Repositório: https://github.com/Exafunction/codeium.vim
-  codeium_vim = false,
+  codeium_vim = true,
 
   -- }}}
 
@@ -208,6 +207,26 @@ return {
   --  Repositório: https://github.com/leath-dub/snipe.nvim
   snipe_nvim = true,
 
+  -- NOTE:  Navegação fluida entre janelas do Neovim e painéis do tmux.
+  --  Usa atalhos intuitivos para alternar entre splits e tmux panes.
+  --  Funciona sem necessidade de configuração extra no tmux.
+  --  Leve e sem impacto no desempenho do Neovim.
+  --  Repositório: https://github.com/christoomey/vim-tmux-navigator
+  vim_tmux_navigator = true,
+
+  -- NOTE:   Plugin para interação entre Neovim/Vim e tmux.
+  --   Permite enviar comandos do editor para um painel do tmux.
+  --   Suporte a execução assíncrona de scripts e testes.
+  --   Atalhos configuráveis para envio rápido de comandos ao tmux.
+  --   Repositório: https://github.com/preservim/vimux
+  vimux = false,
+
+  -- NOTE:  Integração entre Neovim e o terminal multiplexador Zellij.
+  --  Permite enviar comandos e interagir com painéis do Zellij diretamente do Neovim.
+  --  Melhora a produtividade ao unificar editor e terminal no mesmo fluxo.
+  --  Configurável, com suporte a atalhos e scripts personalizados.
+  --  Repositório: https://github.com/fresh2dev/zellij.vim
+  zellij_vim = true,
   -- }}}
 
   -- File Explorers {{{
@@ -703,24 +722,6 @@ return {
   --  Configuração flexível com atalhos personalizáveis.
   --  Repositório: https://github.com/akinsho/toggleterm.nvim
   toggleterm_nvim = true,
-
-  -- }}}
-
-  -- TMUX {{{
-
-  -- NOTE:  Navegação fluida entre janelas do Neovim e painéis do tmux.
-  --  Usa atalhos intuitivos para alternar entre splits e tmux panes.
-  --  Funciona sem necessidade de configuração extra no tmux.
-  --  Leve e sem impacto no desempenho do Neovim.
-  --  Repositório: https://github.com/christoomey/vim-tmux-navigator
-  vim_tmux_navigator = true,
-
-  -- NOTE:   Plugin para interação entre Neovim/Vim e tmux.
-  --   Permite enviar comandos do editor para um painel do tmux.
-  --   Suporte a execução assíncrona de scripts e testes.
-  --   Atalhos configuráveis para envio rápido de comandos ao tmux.
-  --   Repositório: https://github.com/preservim/vimux
-  vimux = false,
 
   -- }}}
 

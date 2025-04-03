@@ -9,6 +9,8 @@ return {
     and vim.g.opsconfig.plugins.nvim_lspconfig
     and vim.g.opsconfig.plugins.mason_lspconfig_nvim,
 
+  -- Dependencies {{{
+
   dependencies = {
     -- NOTE:  Coleção de configurações prontas para servidores LSP no Neovim.
     --  Facilita a configuração e gerenciamento de LSPs com opções personalizáveis.
@@ -59,6 +61,8 @@ return {
     },
   },
 
+  -- }}}
+
   config = function()
     local mason = require('mason')
 
@@ -69,19 +73,21 @@ return {
     local mason_lspconfig = require('mason-lspconfig')
 
     local lsp = {
-      'lua_ls',
       'bashls',
-      'cssls',
-      'html',
       'jsonls',
-      'marksman',
-      'pyright',
-      'tsp_server',
       'eslint',
       'yamlls',
-      'intelephense',
-      'phpactor',
     }
+
+    if vim.g.opsconfig.global.is_dev then
+      table.insert(lsp, 'lua_ls')
+      table.insert(lsp, 'cssls')
+      table.insert(lsp, 'html')
+      table.insert(lsp, 'pyright')
+      table.insert(lsp, 'tsp_server')
+      table.insert(lsp, 'intelephense')
+      table.insert(lsp, 'phpactor')
+    end
 
     if vim.g.opsconfig.global.skip_lsp then
       lsp = {}
@@ -120,6 +126,21 @@ return {
       'jq',
     }
 
+    if vim.g.opsconfig.global.is_dev then
+      -- Linters
+      table.insert(formatters, 'golangci-lint')
+      table.insert(formatters, 'phpstan')
+      table.insert(formatters, 'phpcs')
+      table.insert(formatters, 'phpmd')
+
+      -- Formatters
+      table.insert(formatters, 'stylua')
+      table.insert(formatters, 'gofmt')
+      table.insert(formatters, 'goimports')
+      table.insert(formatters, 'php_cs_fixer')
+      table.insert(formatters, 'taplo')
+    end
+
     if vim.g.opsconfig.global.skip_none_ls then
       formatters = {}
     end
@@ -133,7 +154,7 @@ return {
 
     -- DAP {{{
 
-    if vim.g.opsconfig.plugins.nvim_dap then
+    if vim.g.opsconfig.global.is_dev and vim.g.opsconfig.plugins.nvim_dap then
       local mason_dap = require('mason-nvim-dap')
       local dap = {
         'php',

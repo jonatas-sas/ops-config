@@ -164,6 +164,10 @@ return {
       table.insert(sources, { name = 'copilot' })
     end
 
+    if vim.g.opsconfig.plugins.codeium_vim then
+      table.insert(sources, { name = 'codeium' })
+    end
+
     table.insert(sources, { name = 'nvim_lsp' })
     table.insert(sources, { name = 'buffer' })
     table.insert(sources, { name = 'path' })

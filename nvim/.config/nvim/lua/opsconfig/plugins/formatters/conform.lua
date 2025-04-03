@@ -12,6 +12,9 @@ return {
 
   config = function()
     local conform = require('conform')
+
+    -- Setup {{{
+
     local format_opts = {
       lsp_fallback = true,
       async = false,
@@ -19,96 +22,108 @@ return {
     }
     local config_path = os.getenv('HOME') .. '/.config'
 
-    -- Setup {{{
+    -- Formatters {{{
+
+    local formatters = {}
+
+    if vim.g.opsconfig.global.is_dev then
+      formatters.phpcs = {
+        inherit = false,
+        command = 'php-cs-fixer',
+        args = {
+          'fix',
+          '--config=' .. config_path .. '/phpcs/config.php',
+          '--using-cache=no',
+          '--allow-risky=no',
+          '--verbose',
+          '$FILENAME',
+        },
+        stdin = false,
+      }
+
+      formatters.kdlfmt = {
+        command = os.getenv('HOME') .. '/.cargo/bin/kdlfmt',
+        args = {
+          'format',
+          '$FILENAME',
+        },
+        stdin = false,
+      }
+    end
+
+    formatters.shfmt = {
+      inherit = false,
+      command = 'shfmt',
+      args = {
+        '-i',
+        '2',
+        '-ci',
+        '-s',
+      },
+      stdin = true,
+    }
+
+    formatters.systemd_analyze = {
+      command = 'systemd-analyze',
+      args = {
+        'verify',
+      },
+      stdin = false,
+    }
+
+    formatters.nginxfmt = {
+      inherit = false,
+      command = 'nginxfmt',
+      args = {
+        '--indent',
+        '2',
+        '$FILENAME',
+      },
+      stdin = false,
+    }
+
+    -- }}}
+
+    -- Formatters by File Type {{{
+
+    local formatters_by_ft = {}
+
+    if vim.g.opsconfig.global.is_dev then
+      formatters_by_ft.lua = { 'stylua' }
+      formatters_by_ft.go = { 'gofmt', 'goimports' }
+      formatters_by_ft.javascript = { 'prettier' }
+      formatters_by_ft.typescript = { 'prettier' }
+      formatters_by_ft.javascriptreact = { 'prettier' }
+      formatters_by_ft.typescriptreact = { 'prettier' }
+      formatters_by_ft.css = { 'prettier' }
+      formatters_by_ft.html = { 'prettier' }
+      formatters_by_ft.python = { 'isort', 'black' }
+      formatters_by_ft.php = { 'phpcs' }
+      formatters_by_ft.toml = { 'taplo' }
+      formatters_by_ft.kdl = { 'kdlfmt' }
+    end
+
+    formatters_by_ft.nginx = { 'nginxfmt' }
+    formatters_by_ft.json = { 'prettier' }
+    formatters_by_ft.yaml = { 'yamlfmt' }
+    formatters_by_ft.markdown = { 'prettier' }
+    formatters_by_ft.graphql = { 'prettier' }
+    formatters_by_ft.sh = { 'shfmt' }
+    formatters_by_ft.bash = { 'shfmt' }
+    formatters_by_ft.zsh = { 'shfmt' }
+    formatters_by_ft.systemd = { 'systemd_analyze' }
+
+    -- }}}
 
     conform.setup({
       log_level = vim.log.levels.DEBUG,
-
-      formatters = {
-        shfmt = {
-          inherit = false,
-          command = 'shfmt',
-          args = {
-            '-i',
-            '2',
-            '-ci',
-            '-s',
-          },
-          stdin = true,
-        },
-
-        systemd_analyze = {
-          command = 'systemd-analyze',
-          args = {
-            'verify',
-          },
-          stdin = false,
-        },
-
-        nginxfmt = {
-          inherit = false,
-          command = 'nginxfmt',
-          args = {
-            '--indent',
-            '2',
-            '$FILENAME',
-          },
-          stdin = false,
-        },
-
-        phpcs = {
-          inherit = false,
-          command = 'php-cs-fixer',
-          args = {
-            'fix',
-            '--config=' .. config_path .. '/phpcs/config.php',
-            '--using-cache=no',
-            '--allow-risky=no',
-            '--verbose',
-            '$FILENAME',
-          },
-          stdin = false,
-        },
-
-        kdlfmt = {
-          command = os.getenv('HOME') .. '/.cargo/bin/kdlfmt',
-          args = {
-            'format',
-            '$FILENAME',
-          },
-          stdin = false,
-        },
-      },
-
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        go = { 'gofmt', 'goimports' },
-        javascript = { 'prettier' },
-        typescript = { 'prettier' },
-        javascriptreact = { 'prettier' },
-        typescriptreact = { 'prettier' },
-        nginx = { 'nginxfmt' },
-        css = { 'prettier' },
-        html = { 'prettier' },
-        json = { 'prettier' },
-        yaml = { 'yamlfmt' },
-        markdown = { 'prettier' },
-        graphql = { 'prettier' },
-        python = { 'isort', 'black' },
-        sh = { 'shfmt' },
-        bash = { 'shfmt' },
-        zsh = { 'shfmt' },
-        systemd = { 'systemd_analyze' },
-        php = { 'phpcs' },
-        toml = { 'taplo' },
-        kdl = { 'kdlfmt' },
-      },
+      notify_on_error = true,
+      formatters = formatters,
+      formatters_by_ft = formatters_by_ft,
 
       format_on_save = function(bufnr)
         conform.format(vim.tbl_extend('force', { bufnr = bufnr }, format_opts))
       end,
-
-      notify_on_error = true,
     })
 
     -- }}}
