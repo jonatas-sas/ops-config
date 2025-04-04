@@ -224,8 +224,8 @@ vim.keymap.set({ 'n', 'v' }, '<down>', '<cmd>echo "Please only use j to move dow
 
 -- Keybinds to make split navigation easier.
 if vim.g.opsconfig.global.is_servers or not vim.g.opsconfig.plugins.vim_tmux_navigator then
-  vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move focus to the left window' })
-  vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move focus to the right window' })
-  vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move focus to the lower window' })
-  vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move focus to the upper window' })
+  --vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move focus to the left window' })
+  --vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move focus to the right window' })
+  --vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move focus to the lower window' })
+  --vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move focus to the upper window' })
 end
