@@ -44,6 +44,7 @@ return {
     go = {
       enabled = true,
       delve = true,
+      linter = true,
     },
 
     php = {

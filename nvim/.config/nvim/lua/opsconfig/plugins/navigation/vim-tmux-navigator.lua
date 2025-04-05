@@ -6,7 +6,7 @@ return {
   --  Repositório: https://github.com/christoomey/vim-tmux-navigator
   'christoomey/vim-tmux-navigator',
 
-  enabled = vim.g.opsconfig.plugins.vim_tmux_navigator or false,
+  enabled = vim.g.opsconfig.plugins.vim_tmux_navigator,
 
   cmd = {
     'TmuxNavigateLeft',

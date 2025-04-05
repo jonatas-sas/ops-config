@@ -20,7 +20,7 @@ return {
 
     if vim.g.opsconfig.global.is_dev then
       linters = {
-        go = { 'golangci-lint' },
+        go = {},
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
         javascriptreact = { 'eslint_d' },
@@ -29,6 +29,11 @@ return {
         python = { 'pylint' },
         php = php_linters,
       }
+
+      if vim.g.opsconfig.global.languages.go.linter then
+        table.insert(linters.go, 'golangci_lint')
+      end
+
       if vim.g.opsconfig.global.linters.enable_phpstan then
         table.insert(php_linters, 'phpstan')
       end
@@ -57,18 +62,52 @@ return {
 
     -- Go Linters {{{
 
-    if vim.g.opsconfig.global.is_dev and vim.g.opsconfig.global.linters.enable_golangci_lint then
+    if vim.g.opsconfig.global.is_dev and vim.g.opsconfig.global.languages.go.linter then
       lint.linters.golangci_lint = {
         name = 'GolangCI-Lint',
         cmd = 'golangci-lint',
         stdin = false,
-        args = { 'run', '--out-format', 'json' },
+        append_filename = true,
+        args = {
+          'run',
+          '--output.json.path',
+          'stdout',
+          '--show-stats=false',
+        },
         stream = 'stdout',
         ignore_exitcode = true,
-        parser = require('lint.parser').from_errorformat('%f:%l:%c: %m', {
-          source = 'golangci-lint',
-          severity = vim.diagnostic.severity.WARN,
-        }),
+        parser = function(output, bufnr)
+          local diagnostics = {}
+
+          local ok, decoded = pcall(vim.fn.json_decode, output)
+          if not ok or not decoded or type(decoded.Issues) ~= 'table' then
+            return diagnostics
+          end
+
+          local severities = {
+            ['error'] = vim.diagnostic.severity.ERROR,
+            ['warning'] = vim.diagnostic.severity.WARN,
+            ['info'] = vim.diagnostic.severity.INFO,
+            ['hint'] = vim.diagnostic.severity.HINT,
+          }
+
+          for _, issue in ipairs(decoded.Issues) do
+            local severity = severities[(issue.Severity or ''):lower()] or vim.diagnostic.severity.ERROR
+
+            table.insert(diagnostics, {
+              bufnr = bufnr,
+              lnum = issue.Pos.Line - 1,
+              col = issue.Pos.Column - 1,
+              end_lnum = issue.Pos.Line - 1,
+              end_col = issue.Pos.Column,
+              source = issue.FromLinter or 'golangci-lint',
+              message = issue.Text or 'Unknown issue',
+              severity = severity,
+            })
+          end
+
+          return diagnostics
+        end,
       }
     end
 
@@ -83,13 +122,13 @@ return {
         name = 'PHPStan',
         cmd = 'phpstan',
         stdin = false,
+        append_filename = true,
         args = {
           'analyse',
           '--error-format=json',
           '--level=max',
           '--no-progress',
           '--no-interaction',
-          vim.fn.expand('%:p'),
         },
         ignore_exitcode = true,
         parser = function(output, bufnr)
@@ -142,7 +181,11 @@ return {
         name = 'PHPCS',
         cmd = 'phpcs',
         stdin = false,
-        args = { '--standard=PSR12', '--report=json', vim.fn.expand('%:p') },
+        append_filename = true,
+        args = {
+          '--standard=PSR12',
+          '--report=json',
+        },
         ignore_exitcode = true,
         parser = function(output, bufnr)
           local decoded = vim.fn.json_decode(output)
@@ -177,6 +220,7 @@ return {
         name = 'PHPMD',
         cmd = 'phpmd',
         stdin = false,
+        append_filename = true,
         args = { vim.fn.expand('%:p'), 'json', 'cleancode,codesize,unusedcode' },
         ignore_exitcode = true,
         parser = function(output, bufnr)
