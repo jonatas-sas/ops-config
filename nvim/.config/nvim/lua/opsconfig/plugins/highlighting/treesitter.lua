@@ -6,7 +6,7 @@ return {
   --  Repositório: https://github.com/nvim-treesitter/nvim-treesitter
   'nvim-treesitter/nvim-treesitter',
 
-  enabled = vim.g.opsconfig.plugins.nvim_treesitter or false,
+  enabled = vim.g.opsconfig.plugins.nvim_treesitter,
 
   event = { 'BufReadPre', 'BufNewFile' },
 
@@ -30,13 +30,21 @@ return {
     treesitter.setup({
       modules = {},
 
-      highlight = { enable = true },
+      highlight = {
+        enable = true,
+      },
 
-      indent = { enable = true },
+      indent = {
+        enable = true,
+      },
 
-      autotag = { enable = true },
+      autotag = {
+        enable = true,
+      },
 
-      fold = { enable = true },
+      fold = {
+        enable = true,
+      },
 
       sync_install = false,
 

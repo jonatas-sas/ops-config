@@ -1,67 +1,71 @@
-#!/usr/bin/env bash
+# Cores ANSI
+RESET='\[\e[0m\]'
+WHITE='\[\e[97m\]'
+ORANGE='\[\e[38;5;208m\]'
+GREEN='\[\e[32m\]'
+BLUE='\[\e[34m\]'
+YELLOW='\[\e[33m\]'
+MAGENTA='\[\e[35m\]'
+CYAN='\[\e[36m\]'
+GRAY='\[\e[90m\]'
 
-# get current branch in git repo
-function parse_git_branch() {
-  BRANCH=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-  if [ ! "${BRANCH}" == "" ]; then
-    STAT=$(parse_git_dirty)
-    echo "[${BRANCH}${STAT}]"
+# Ícones Nerd Font
+ICON_SERVER="󰢹"
+ICON_BRANCH=""
+ICON_MODIFIED=""
+ICON_UNTRACKED=""
+ICON_DELETED=""
+ICON_RENAMED="󰑕"
+ICON_CONFLICT=""
+ICON_AHEAD=""
+ICON_VENV=""
+ICON_ARROW_DOWN=""
+ICON_PROMPT=""
+
+# Atualiza o PS1 dinamicamente
+__update_ps1_components() {
+  local hostname path venv git
+
+  # Hostname
+  hostname="\[\e[34m\]${SERVER_NAME:-$(hostname)}\[\e[0m\]"
+
+  # Path
+  path="$PWD"
+  [[ $path == "$HOME"* ]] && path="~${path#$HOME}"
+  path="\[\e[33m\]${path}\[\e[0m\]"
+
+  # Virtualenv
+  if [[ -n $VIRTUAL_ENV ]]; then
+    local name
+    name=$(basename "$VIRTUAL_ENV")
+    venv="\[\e[35m\]${ICON_VENV} ${name}\[\e[0m\]"
   else
-    echo ""
+    venv=""
   fi
+
+  # Git
+  if git rev-parse --is-inside-work-tree &>/dev/null; then
+    local branch status flags
+    branch=$(git symbolic-ref --short HEAD 2>/dev/null || git describe --tags --exact-match 2>/dev/null)
+    status=$(git status --porcelain=2 --branch 2>/dev/null)
+
+    flags=""
+    grep -q "^? " <<<"$status" && flags+="${ICON_UNTRACKED}"
+    grep -q "^ M" <<<"$status" && flags+="${ICON_MODIFIED}"
+    grep -q "^A " <<<"$status" && flags+="${ICON_MODIFIED}"
+    grep -q "^D " <<<"$status" && flags+="${ICON_DELETED}"
+    grep -q "^R " <<<"$status" && flags+="${ICON_RENAMED}"
+    grep -q "^UU" <<<"$status" && flags+="${ICON_CONFLICT}"
+    grep -q "ahead " <<<"$status" && flags+="${ICON_AHEAD}"
+
+    git="\[\e[32m\]${ICON_BRANCH} ${branch} ${flags}\[\e[0m\]"
+  else
+    git=""
+  fi
+
+  # Monta o PS1 final com tudo atualizado
+  export PS1="\n${ORANGE}${ICON_SERVER} ${GREEN}\u@${hostname} ${venv} ${path} ${git}${GRAY} ${ICON_ARROW_DOWN}${RESET}\n${ORANGE}${ICON_PROMPT} ${RESET}"
 }
 
-# get current status of git repo
-function parse_git_dirty {
-  status=$(git status 2>&1 | tee)
-  dirty=$(
-    echo -n "${status}" 2>/dev/null | grep "modified:" &>/dev/null
-    echo "$?"
-  )
-  untracked=$(
-    echo -n "${status}" 2>/dev/null | grep "Untracked files" &>/dev/null
-    echo "$?"
-  )
-  ahead=$(
-    echo -n "${status}" 2>/dev/null | grep "Your branch is ahead of" &>/dev/null
-    echo "$?"
-  )
-  newfile=$(
-    echo -n "${status}" 2>/dev/null | grep "new file:" &>/dev/null
-    echo "$?"
-  )
-  renamed=$(
-    echo -n "${status}" 2>/dev/null | grep "renamed:" &>/dev/null
-    echo "$?"
-  )
-  deleted=$(
-    echo -n "${status}" 2>/dev/null | grep "deleted:" &>/dev/null
-    echo "$?"
-  )
-  bits=''
-  if [ "${renamed}" == "0" ]; then
-    bits=">${bits}"
-  fi
-  if [ "${ahead}" == "0" ]; then
-    bits="*${bits}"
-  fi
-  if [ "${newfile}" == "0" ]; then
-    bits="+${bits}"
-  fi
-  if [ "${untracked}" == "0" ]; then
-    bits="?${bits}"
-  fi
-  if [ "${deleted}" == "0" ]; then
-    bits="x${bits}"
-  fi
-  if [ "${dirty}" == "0" ]; then
-    bits="!${bits}"
-  fi
-  if [ ! "${bits}" == "" ]; then
-    echo " ${bits}"
-  else
-    echo ""
-  fi
-}
-
-export PS1="\n\[\e[32m\]\u\[\e[m\]\[\e[32m\]@\[\e[m\]\[\e[32m\]\h\[\e[m\] \[\e[36m\]\d\[\e[m\] \[\e[36m\]\A\[\e[m\] \[\e[33m\]\w\[\e[m\] \[\e[35m\]\`parse_git_branch\`\[\e[m\] \n\\$ "
+# Atualiza PS1 a cada comando
+PROMPT_COMMAND=__update_ps1_components

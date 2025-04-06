@@ -35,9 +35,6 @@ if [[ -n $OPSCONFIG_TYPE && $OPSCONFIG_TYPE == "servers" ]]; then
       source "${HOME}/.config/opsconfig/before_install"
     fi
 
-    echo_log "Baixando e executando o script de instalação..."
-    curl -fsSL https://raw.githubusercontent.com/jonatas-sas/opsconfig/main/install | bash
-
     echo_log "Removendo pacotes desnecessários..."
     sudo apt autoremove -y
 
@@ -88,7 +85,6 @@ if [[ -n $OPSCONFIG_TYPE && $OPSCONFIG_TYPE == "servers" ]]; then
     echo_log "Atualização concluída com sucesso!"
   }
 
-  alias update="curl -fsSL https://raw.githubusercontent.com/jonatas-sas/opsconfig/main/install | bash"
   alias updagrade="update_system"
   alias u="update_system"
 fi

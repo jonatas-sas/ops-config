@@ -9,7 +9,8 @@ return {
   enabled = vim.g.opsconfig.plugins.nvim_ufo
     and vim.g.opsconfig.plugins.promise_async
     and vim.g.opsconfig.plugins.nvim_lspconfig
-    and vim.g.opsconfig.plugins.which_key_nvim,
+    and vim.g.opsconfig.plugins.which_key_nvim
+    and vim.g.opsconfig.plugins.nvim_treesitter,
 
   -- Dependencies {{{
 
@@ -42,6 +43,16 @@ return {
       'folke/which-key.nvim',
       enabled = true,
     },
+
+    -- NOTE:  Fornece parsing avançado de código-fonte usando árvores sintáticas (Tree-sitter).
+    --  Melhora realce de sintaxe, folds, indentação e análise estrutural do código.
+    --  Suporte a múltiplas linguagens com instalação e atualização automática de parsers.
+    --  Extensível, permitindo desenvolvimento de funcionalidades baseadas em árvore sintática.
+    --  Repositório: https://github.com/nvim-treesitter/nvim-treesitter
+    {
+      'nvim-treesitter/nvim-treesitter',
+      enabled = true,
+    },
   },
 
   -- }}}
@@ -51,7 +62,8 @@ return {
     vim.o.foldlevel = 99
     vim.o.foldlevelstart = 99
     vim.o.foldenable = true
-    vim.o.foldmethod = 'marker'
+    vim.o.foldmethod = 'expr'
+    vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
     local ufo = require('ufo')
 
@@ -65,6 +77,57 @@ return {
         default = { 'imports', 'comment' },
         c = { 'comment', 'region' },
       },
+
+      provider_selector = function(bufnr, filetype, _)
+        -- print('[UFO] Provider called for ' .. filetype)
+
+        if filetype == 'markdown' then
+          -- print('[UFO] Using markdown provider')
+
+          return function()
+            local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+            local folds = {}
+            local stack = {}
+
+            for i, line in ipairs(lines) do
+              local hashes = line:match('^(#+)%s')
+              if hashes then
+                local level = #hashes
+
+                while #stack > 0 and stack[#stack].level >= level do
+                  local last = table.remove(stack)
+                  last.finish = i - 2
+
+                  if last.finish > last.start then
+                    table.insert(folds, {
+                      startLine = last.start,
+                      endLine = last.finish,
+                      kind = 'heading',
+                    })
+                  end
+                end
+
+                table.insert(stack, { level = level, start = i - 1 })
+              end
+            end
+
+            for _, last in ipairs(stack) do
+              last.finish = #lines - 1
+
+              if last.finish > last.start then
+                table.insert(folds, {
+                  startLine = last.start,
+                  endLine = last.finish,
+                  kind = 'heading',
+                })
+              end
+            end
+
+            return folds
+          end
+        end
+        return { 'treesitter', 'indent' }
+      end,
 
       preview = {
         win_config = {
@@ -83,7 +146,13 @@ return {
     })
 
     -- }}}
-
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'markdown',
+      callback = function()
+        vim.opt_local.foldmethod = 'expr'
+        vim.opt_local.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      end,
+    })
     -- Keymaps {{{
 
     local wk = require('which-key')
@@ -125,6 +194,17 @@ return {
         noremap = true,
         silent = true,
       },
+    })
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'markdown',
+      callback = function()
+        for i = 1, 6 do
+          vim.keymap.set('n', string.format('<leader>mf%d', i), function()
+            require('ufo').closeFoldsWith(i)
+          end, { desc = 'Fold markdown heading level ' .. i })
+        end
+      end,
     })
 
     -- }}}
