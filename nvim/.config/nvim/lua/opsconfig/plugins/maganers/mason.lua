@@ -111,7 +111,7 @@ return {
       'eslint_d',
       'phpstan',
       'phpcs',
-      'phpmd',
+      'phpinsights',
 
       -- Formatters
       'stylua',

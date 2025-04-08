@@ -1,6 +1,7 @@
 vim.filetype.add({
   extension = {
     nginx = 'nginx',
+    neon = 'yaml',
   },
 
   filename = {

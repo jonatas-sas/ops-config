@@ -8,41 +8,47 @@ return {
 
   enabled = vim.g.opsconfig.plugins.conform_nvim,
 
-  event = { 'BufReadPre', 'BufNewFile' },
+  event = {
+    'BufReadPre',
+    'BufNewFile',
+  },
 
   config = function()
     local conform = require('conform')
 
     -- Setup {{{
 
+    local home_path = os.getenv('HOME')
+    local config_path = home_path .. '/.opsconfig/applications/config'
     local format_opts = {
       lsp_fallback = true,
       async = false,
       timeout_ms = 1000,
     }
-    local config_path = os.getenv('HOME') .. '/.config'
 
     -- Formatters {{{
 
     local formatters = {}
 
     if vim.g.opsconfig.global.is_dev then
-      formatters.phpcs = {
-        inherit = false,
-        command = 'php-cs-fixer',
-        args = {
-          'fix',
-          '--config=' .. config_path .. '/phpcs/config.php',
-          '--using-cache=no',
-          '--allow-risky=no',
-          '--verbose',
-          '$FILENAME',
-        },
-        stdin = false,
-      }
+      if vim.g.opsconfig.global.languages.php.phpcs then
+        formatters.phpcs = {
+          inherit = false,
+          command = 'php-cs-fixer',
+          args = {
+            'fix',
+            '--config=' .. config_path .. '/phpcs.php',
+            '--using-cache=no',
+            '--allow-risky=yes',
+            '--verbose',
+            '$FILENAME',
+          },
+          stdin = false,
+        }
+      end
 
       formatters.kdlfmt = {
-        command = os.getenv('HOME') .. '/.cargo/bin/kdlfmt',
+        command = home_path .. '/.cargo/bin/kdlfmt',
         args = {
           'format',
           '$FILENAME',
@@ -98,9 +104,12 @@ return {
       formatters_by_ft.css = { 'prettier' }
       formatters_by_ft.html = { 'prettier' }
       formatters_by_ft.python = { 'isort', 'black' }
-      formatters_by_ft.php = { 'phpcs' }
       formatters_by_ft.toml = { 'taplo' }
       formatters_by_ft.kdl = { 'kdlfmt' }
+
+      if vim.g.opsconfig.global.languages.php.phpcs then
+        formatters_by_ft.php = { 'phpcs' }
+      end
     end
 
     formatters_by_ft.nginx = { 'nginxfmt' }

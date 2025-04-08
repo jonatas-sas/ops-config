@@ -16,21 +16,6 @@ return {
     enabled = false,
   },
 
-  project = {
-    is_default = true,
-    is_main = false,
-    is_php_yii = false,
-    is_php_wordpress = false,
-  },
-
-  tasks = {
-    enabled = false,
-  },
-
-  skip_lsp = false,
-  skip_none_ls = false,
-  has_nerd_font = true,
-
   languages = {
     lua = {
       enabled = true,
@@ -50,11 +35,12 @@ return {
     php = {
       enabled = true,
       xdebug = true,
+      phpcs = true,
       intelephense = false,
       phpactor = true,
-      phpstan = false,
-      phpcs = false,
-      phpmd = false,
+      phpstan = true,
+      php_codesniffer = true,
+      phpinsights = true,
     },
   },
 
@@ -64,13 +50,6 @@ return {
 
   dap = {
     skip = false,
-  },
-
-  linters = {
-    enable_phpstan = false,
-    enable_phpcs = false,
-    enable_phpmd = false,
-    enable_golangci_lint = false,
   },
 
   fonts = {

@@ -7,7 +7,10 @@ return {
 
   enabled = vim.g.opsconfig.plugins.todo_comments_nvim,
 
-  event = { 'BufReadPre', 'BufNewFile' },
+  event = {
+    'BufReadPre',
+    'BufNewFile',
+  },
 
   dependencies = {
     -- NOTE:  Biblioteca auxiliar com funções utilitárias para desenvolvimento em Lua no Neovim.
@@ -27,25 +30,65 @@ return {
     todo_comments.setup({
       signs = true,
       sign_priority = 8,
+      merge_keywords = true,
+
       keywords = {
         FIX = {
           icon = ' ',
           color = 'error',
           alt = { 'FIXME', 'BUG', 'FIXIT', 'ISSUE' },
         },
-        TODO = { icon = ' ', color = 'info' },
-        HACK = { icon = ' ', color = 'warning' },
-        WARN = { icon = ' ', color = 'warning', alt = { 'WARNING', 'XXX' } },
-        PERF = { icon = ' ', alt = { 'OPTIM', 'PERFORMANCE', 'OPTIMIZE' } },
-        NOTE = { icon = ' ', color = 'hint', alt = { 'INFO' } },
-        TEST = { icon = ' ', color = 'test', alt = { 'TESTING', 'PASSED', 'FAILED' } },
-        HELP = { icon = ' ', color = 'info' },
+
+        TODO = {
+          icon = ' ',
+          color = 'info',
+        },
+
+        SECTION = {
+          icon = '󰆦 ',
+          color = 'section',
+          alt = { 'GROUP' },
+        },
+
+        HACK = {
+          icon = ' ',
+          color = 'warning',
+        },
+
+        WARN = {
+          icon = ' ',
+          color = 'warning',
+          alt = { 'WARNING' },
+        },
+
+        PERF = {
+          icon = ' ',
+          alt = { 'PERFORMANCE', 'OPTIMIZE' },
+        },
+
+        NOTE = {
+          icon = ' ',
+          color = 'hint',
+          alt = { 'INFO' },
+        },
+
+        TEST = {
+          icon = ' ',
+          color = 'test',
+          alt = { 'TESTING', 'PASSED', 'FAILED' },
+        },
+
+        HELP = {
+          icon = ' ',
+          color = 'info',
+        },
       },
+
       gui_style = {
         fg = 'NONE',
         bg = 'BOLD',
       },
-      merge_keywords = true, -- when true, custom keywords will be merged with the defaults
+
       -- highlighting of the line containing the todo comment
       -- * before: highlights before the keyword (typically comment characters)
       -- * keyword: highlights of the keyword
@@ -62,26 +105,46 @@ return {
         max_line_len = 400, -- ignore lines longer than this
         exclude = {}, -- list of file types to exclude highlighting
       },
+
       -- list of named colors where we try to extract the guifg from the
       -- list of highlight groups or use the hex color if hl not found as a fallback
       colors = {
-        error = { 'DiagnosticError', 'ErrorMsg', '#DC2626' },
-        warning = { 'DiagnosticWarn', 'WarningMsg', '#FBBF24' },
-        info = { 'DiagnosticInfo', '#2563EB' },
-        hint = { 'DiagnosticHint', '#10B981' },
-        default = { 'Identifier', '#7C3AED' },
-        test = { 'Identifier', '#FF00FF' },
-      },
-      search = {
-        command = 'rg',
-        args = {
-          '--color=never',
-          '--no-heading',
-          '--with-filename',
-          '--line-number',
-          '--column',
+        error = {
+          'DiagnosticError',
+          'ErrorMsg',
+          '#DC2626',
         },
-        pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+
+        warning = {
+          'DiagnosticWarn',
+          'WarningMsg',
+          '#FBBF24',
+        },
+
+        info = {
+          'DiagnosticInfo',
+          '#2563EB',
+        },
+
+        hint = {
+          'DiagnosticHint',
+          '#10B981',
+        },
+
+        default = {
+          'Identifier',
+          '#7C3AED',
+        },
+
+        test = {
+          'Identifier',
+          '#FF00FF',
+        },
+
+        section = {
+          'Identifier',
+          '#5f0dbd',
+        },
       },
     })
 

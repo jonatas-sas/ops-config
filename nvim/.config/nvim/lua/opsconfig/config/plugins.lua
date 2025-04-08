@@ -691,20 +691,6 @@ return {
 
   -- Tasks {{{
 
-  -- NOTE:  Sistema de wiki pessoal no Neovim.
-  --  Suporte a links, tabelas, diário e múltiplos formatos de markdown.
-  --  Facilita a organização de notas, documentos e planejamento de projetos.
-  --  Altamente configurável, com opções de sincronização e exportação.
-  --  Repositório: https://github.com/vimwiki/vimwiki
-  vimwiki = false,
-
-  -- NOTE:  Integra o Taskwarrior ao VimWiki no Neovim.
-  --  Permite gerenciar tarefas diretamente dentro de páginas do VimWiki.
-  --  Facilita o acompanhamento de prazos, prioridades e projetos.
-  --  Configurável, com suporte a filtros, comandos personalizados e sincronização.
-  --  Repositório: https://github.com/tbabej/taskwiki
-  taskwiki = false,
-
   -- NOTE:   Gerenciador de tarefas assíncronas para Neovim.
   --   Executa, monitora e gerencia comandos e processos dentro do editor.
   --   Integra-se com plugins como nvim-dap e telescope.nvim.
@@ -722,17 +708,6 @@ return {
   --  Configuração flexível com atalhos personalizáveis.
   --  Repositório: https://github.com/akinsho/toggleterm.nvim
   toggleterm_nvim = true,
-
-  -- }}}
-
-  -- Translations {{{
-
-  -- NOTE: Plugin para tradução direta no Neovim.
-  -- Permite traduzir textos utilizando comandos ou APIs externas, como Google Translate, translate-shell e DeepL.
-  -- Oferece múltiplas formas de exibir os resultados: janela flutuante, divisão de janela, inserção no buffer atual ou substituição do texto original.
-  -- Altamente configurável, permitindo adicionar funções personalizadas para tradução.
-  -- Repositório: https://github.com/uga-rosa/translate.nvim
-  translate_nvim = false,
 
   -- }}}
 }

@@ -167,6 +167,7 @@ return {
 
             diagnostics = {
               enable = true,
+              providers = {},
             },
 
             inlay_hints = {
@@ -240,7 +241,7 @@ return {
               includePaths = { 'vendor' },
             },
             format = {
-              enable = true,
+              enable = false,
             },
             files = {
               maxSize = 5000000,
@@ -359,7 +360,8 @@ return {
 
     local diagnostic_config = {
       virtual_text = true,
-      underline = false,
+      signs = true,
+      underline = true,
       update_in_insert = false,
       severity_sort = true,
     }
