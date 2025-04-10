@@ -167,7 +167,6 @@ return {
 
             diagnostics = {
               enable = true,
-              providers = {},
             },
 
             inlay_hints = {
@@ -237,12 +236,15 @@ return {
               'phpunit',
               'composer',
             },
+
             environment = {
               includePaths = { 'vendor' },
             },
+
             format = {
               enable = false,
             },
+
             files = {
               maxSize = 5000000,
               exclude = {
@@ -253,15 +255,18 @@ return {
                 '**/runtime/**',
               },
             },
+
             diagnostics = {
               enable = true,
             },
+
             completion = {
               fullyQualifyGlobalConstants = true,
               insertUseDeclaration = true,
               triggerParameterHints = true,
               maxItems = 100,
             },
+
             indexing = {
               exclude = {
                 '**/node_modules/**',
@@ -274,41 +279,9 @@ return {
           },
         },
 
-        on_attach = function(client, bufnr)
-          if client.server_capabilities.codeLensProvider then
-            vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.codelens.refresh()
-              end,
-            })
-          end
-        end,
-
         flags = flags,
 
         capabilities = capabilities,
-      })
-
-      vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold' }, {
-        pattern = '*.php',
-        callback = function()
-          vim.lsp.codelens.refresh()
-        end,
-      })
-
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        pattern = '*.php',
-        callback = function()
-          vim.lsp.buf.format()
-        end,
-      })
-
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        pattern = { '*.ts', '*.js', '*.tsx', '*.jsx' },
-        callback = function()
-          vim.lsp.buf.format({ async = true })
-        end,
       })
     end
 
@@ -330,7 +303,31 @@ return {
 
     lspconfig.pyright.setup(config)
 
-    lspconfig.eslint.setup(config)
+    lspconfig.eslint.setup({
+      flags = flags,
+      capabilities = capabilities,
+      root_dir = require('lspconfig.util').root_pattern(
+        'eslint.config.mjs',
+        'eslint.config.js',
+        'package.json',
+        '.git'
+      ),
+      settings = {
+        experimental = {
+          enableCodeLens = true,
+          useFlatConfig = true,
+        },
+        codeAction = {
+          disableRuleComment = {
+            enable = true,
+            location = 'line',
+          },
+          showDocumentation = {
+            enable = true,
+          },
+        },
+      },
+    })
 
     lspconfig.tsp_server.setup({
       flags = flags,
@@ -409,7 +406,6 @@ return {
         --    See `:help CursorHold` for information about when this is executed
         --
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
-
         if client then
           if client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             local highlight_augroup = vim.api.nvim_create_augroup('opsconfig-lsp-highlight', { clear = false })
@@ -445,9 +441,11 @@ return {
               max_width = 80,
               max_height = 20,
             })
+
             if winnr then
               vim.api.nvim_win_set_option(winnr, 'winhighlight', 'Normal:NormalFloat,FloatBorder:FloatBorder')
             end
+
             return bufnr, winnr
           end
 

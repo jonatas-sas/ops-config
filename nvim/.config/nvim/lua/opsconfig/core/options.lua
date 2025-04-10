@@ -27,7 +27,11 @@ vim.opt.laststatus = 3
 vim.opt.clipboard = 'unnamedplus'
 
 -- Complete
-vim.opt.completeopt = { 'noinsert', 'menuone', 'noselect' }
+vim.opt.completeopt = {
+  'noinsert',
+  'menuone',
+  'noselect',
+}
 
 -- tabs & indentation
 vim.opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
@@ -52,7 +56,7 @@ vim.opt.breakindent = true
 vim.opt.undofile = true
 
 -- Decrease update time
-vim.opt.updatetime = 250
+vim.opt.updatetime = 1000
 
 -- Decrease mapped sequence wait time
 vim.o.timeout = true
@@ -78,7 +82,7 @@ vim.opt.backspace = 'indent,eol,start' -- allow backspace on indent, end of line
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
-vim.opt.list = false
+vim.opt.list = true
 vim.opt.listchars = {
   tab = '▸ ', -- Representação de tabulação
   trail = '·', -- Espaços em branco no final da linha

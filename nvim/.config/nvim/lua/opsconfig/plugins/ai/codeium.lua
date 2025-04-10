@@ -3,10 +3,10 @@ return {
   --  Sugestões em tempo real para diversas linguagens de programação.
   --  Acelera o desenvolvimento com previsões contextuais e inteligentes.
   --  Configurável, com suporte a atalhos e preferências personalizadas.
-  --  Repositório: https://github.com/Exafunction/codeium.vim
-  'Exafunction/codeium.vim',
+  --  Repositório: https://github.com/Exafunction/windsurf.vim
+  'Exafunction/windsurf.vim',
 
-  enabled = vim.g.opsconfig.plugins.codeium_vim and vim.g.opsconfig.plugins.plenary_nvim and vim.g.opsconfig.plugins.nvim_cmp,
+  enabled = vim.g.opsconfig.plugins.windsurf_vim and vim.g.opsconfig.plugins.plenary_nvim and vim.g.opsconfig.plugins.nvim_cmp,
 
   dependencies = {
     -- NOTE:  Biblioteca auxiliar com funções utilitárias para desenvolvimento em Lua no Neovim.
@@ -94,4 +94,21 @@ return {
       },
     },
   },
+
+  config = function()
+    vim.g.codeium_filetypes = {
+      yaml = false,
+      json = false,
+      toml = false,
+      markdown = false,
+      help = false,
+      nerdtree = false,
+      NvimTree = false,
+      telescope = false,
+      TelescopePrompt = false,
+      fzf = false,
+      gitcommit = true,
+      gitrebase = true,
+    }
+  end,
 }

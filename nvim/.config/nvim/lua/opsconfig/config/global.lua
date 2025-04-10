@@ -36,11 +36,10 @@ return {
       enabled = true,
       xdebug = true,
       phpcs = true,
-      intelephense = false,
-      phpactor = true,
+      intelephense = true,
+      phpactor = false,
       phpstan = true,
       php_codesniffer = true,
-      phpinsights = true,
     },
   },
 

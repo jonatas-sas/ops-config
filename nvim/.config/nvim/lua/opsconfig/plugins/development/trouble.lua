@@ -59,7 +59,7 @@ return {
       -- Original Keybindings
       {
         '<leader>xx',
-        trouble.toggle,
+        '<cmd>Trouble diagnostics toggle<cr>',
         desc = 'Toggle Trouble',
         icon = { color = 'yellow', icon = '󰅃' },
         mode = 'n',

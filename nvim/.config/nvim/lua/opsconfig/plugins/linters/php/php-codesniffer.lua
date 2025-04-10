@@ -4,7 +4,6 @@ return {
   stdin = false,
   append_filename = true,
   args = {
-    '--standard=PSR12',
     '--report=json',
   },
   ignore_exitcode = true,
