@@ -120,8 +120,8 @@ if [[ -n ${OPSCONFIG_PYTHON_LIB_PATH} ]]; then
   fi
 fi
 
-if [[ -f "${HOME}/.config/opsconfig/lib/python/bin/python3/activate" ]]; then
-  source "${HOME}/.config/opsconfig/lib/python/bin/python3/activate"
+if [[ -f "${HOME}/.config/opsconfig/lib/python/bin/activate" ]]; then
+  source "${HOME}/.config/opsconfig/lib/python/bin/activate"
 fi
 
 #######################################################################################################################

@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-source "${HOME}/.bash_env"
+if [[ -f "${HOME}/.bash_env" ]]; then
+  source "${HOME}/.bash_env"
+fi
+
+if [[ -f "${HOME}/.bash_env_local" ]]; then
+  source "${HOME}/.bash_env_local"
+fi
 
 case $- in
   *i*) ;;
@@ -65,4 +71,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-source "${HOME}/.bash_custom"
+if [[ -f "${HOME}/.bash_custom" ]]; then
+  source "${HOME}/.bash_custom"
+fi

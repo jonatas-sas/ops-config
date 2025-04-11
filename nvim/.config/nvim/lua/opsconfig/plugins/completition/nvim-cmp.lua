@@ -186,7 +186,7 @@ return {
     table.insert(sources, { name = 'nvim_lsp' })
     table.insert(sources, { name = 'buffer' })
     table.insert(sources, { name = 'path' })
-    table.insert(sources, { name = 'cmdline' })
+    -- table.insert(sources, { name = 'cmdline' })
 
     if vim.g.opsconfig.plugins.copilot_cmp then
       table.insert(sources, { name = 'copilot' })
