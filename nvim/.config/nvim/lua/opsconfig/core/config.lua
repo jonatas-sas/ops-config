@@ -19,7 +19,7 @@ local opsconfig_type = os.getenv('OPSCONFIG_TYPE') or 'dev'
 local servers_config = {}
 
 if opsconfig_type == 'servers' then
-  config.global.is_dev = true
+  config.global.is_dev = false
   config.global.is_servers = true
 
   servers_config = require('opsconfig.config.servers')
