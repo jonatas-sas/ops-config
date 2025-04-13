@@ -1,3 +1,7 @@
+local config = vim.g.opsconfig
+local plugins = config.plugins
+local global = config.global
+
 return {
   -- NOTE:  Gerencia a instalação de LSPs, DAPs, linters e formatters no Neovim.
   --  Fornece uma interface simples para instalar e atualizar ferramentas externas.
@@ -9,116 +13,56 @@ return {
     and vim.g.opsconfig.plugins.nvim_lspconfig
     and vim.g.opsconfig.plugins.mason_lspconfig_nvim,
 
-  -- Dependencies {{{
-
   dependencies = {
-    -- NOTE:  Coleção de configurações prontas para servidores LSP no Neovim.
-    --  Facilita a configuração e gerenciamento de LSPs com opções personalizáveis.
-    --  Integra-se com mason.nvim para instalação automática de servidores.
-    --  Repositório: https://github.com/neovim/nvim-lspconfig
     {
       'neovim/nvim-lspconfig',
       enabled = true,
     },
-
-    -- NOTE:  Integra mason.nvim com lspconfig para configuração automática de LSPs.
-    --  Facilita a instalação e ativação de servidores LSP compatíveis.
-    --  Garante compatibilidade entre mason.nvim e nvim-lspconfig.
-    --  Repositório: https://github.com/williamboman/mason-lspconfig.nvim
     {
       'williamboman/mason-lspconfig.nvim',
       enabled = true,
     },
-
-    -- NOTE:   Ferramenta flexível para integrar linters e formatters no Neovim.
-    --   Substitui o null-ls, focando em uma abordagem minimalista e extensível.
-    --   Suporte a diversas fontes, incluindo formatação, diagnósticos e ações de código.
-    --   Totalmente configurável via Lua, sem dependência de LSP externo.
-    --   Repositório: https://github.com/nvimtools/none-ls.nvim
     {
       'nvimtools/none-ls.nvim',
       enabled = true,
     },
-
-    -- NOTE:   Integração entre Mason e none-ls para gerenciamento de linters e formatters.
-    --   Facilita a instalação e configuração de ferramentas externas para Neovim.
-    --   Compatível com o sistema de fontes do none-ls, automatizando dependências.
-    --   Permite configuração declarativa via Lua, simplificando o setup.
-    --   Repositório: https://github.com/jay-babu/mason-null-ls.nvim
     {
       'jay-babu/mason-null-ls.nvim',
       enabled = true,
     },
-
-    -- NOTE:   Integração entre Mason e nvim-dap para instalação de depuradores.
-    --   Gerencia automaticamente adaptadores de depuração para diversas linguagens.
-    --   Facilita a configuração do nvim-dap com suporte a backends populares.
-    --   Permite instalação declarativa e atualização simplificada dos depuradores.
-    --   Repositório: https://github.com/jay-babu/mason-nvim-dap.nvim
     {
       'jay-babu/mason-nvim-dap.nvim',
       enabled = vim.g.opsconfig.plugins.nvim_dap,
     },
   },
 
-  -- }}}
-
   config = function()
     local mason = require('mason')
 
     mason.setup()
 
-    -- Language Servers (LSP) {{{
+    -- SECTION: Available LSP, Linters and Formatters
 
-    local mason_lspconfig = require('mason-lspconfig')
-
-    local lsp = {
+    local available_lsp_servers = {
       'bashls',
       'jsonls',
-      'eslint',
       'yamlls',
+      'eslint',
     }
-
-    if vim.g.opsconfig.global.is_dev then
-      table.insert(lsp, 'lua_ls')
-      table.insert(lsp, 'cssls')
-      table.insert(lsp, 'html')
-      table.insert(lsp, 'pyright')
-      table.insert(lsp, 'tsp_server')
-      table.insert(lsp, 'intelephense')
-      table.insert(lsp, 'phpactor')
-    end
-
-    if vim.g.opsconfig.global.skip_lsp then
-      lsp = {}
-    end
-
-    mason_lspconfig.setup({
-      ensure_installed = lsp,
-      automatic_installation = true,
-    })
-
-    -- }}}
-
-    -- Formatters & Linters {{{
-
-    local mason_null_ls = require('mason-null-ls')
-
-    local formatters = {
-      -- Linters
+    local available_dap_servers = {}
+    local available_linters = {
       'golangci-lint',
       'markdownlint',
       'eslint_d',
       'phpstan',
       'phpcs',
       'phpinsights',
-
-      -- Formatters
+    }
+    local available_formatters = {
       'stylua',
       'gofmt',
       'goimports',
       'prettier',
-      'yamlfmt',
       'shfmt',
       'systemd_analyze',
       'php_cs_fixer',
@@ -126,47 +70,84 @@ return {
       'jq',
     }
 
-    if vim.g.opsconfig.global.is_dev then
-      -- Linters
-      table.insert(formatters, 'golangci-lint')
-      table.insert(formatters, 'phpstan')
-      table.insert(formatters, 'phpcs')
-      table.insert(formatters, 'phpmd')
+    local available_dev_lsp_servers = {
+      'lua_ls',
+      'cssls',
+      'html',
+      'pyright',
+      'tsp_server',
+      'intelephense',
+      'phpactor',
+    }
+    local available_dev_dap_servers = {
+      'php',
+      'delve',
+    }
+    local available_dev_linters = {}
+    local available_dev_formatters = {}
 
-      -- Formatters
-      table.insert(formatters, 'stylua')
-      table.insert(formatters, 'gofmt')
-      table.insert(formatters, 'goimports')
-      table.insert(formatters, 'php_cs_fixer')
-      table.insert(formatters, 'taplo')
+    local available_srv_lsp_servers = {}
+    local available_srv_dap_servers = {}
+    local available_srv_linters = {}
+    local available_srv_formatters = {}
+
+    -- SECTION: Language Servers (LSP)
+
+    if global.is_dev then
+      vim.list_extend(available_lsp_servers, available_dev_lsp_servers)
+      vim.list_extend(available_dap_servers, available_dev_dap_servers)
+      vim.list_extend(available_linters, available_dev_linters)
+      vim.list_extend(available_formatters, available_dev_formatters)
     end
 
-    if vim.g.opsconfig.global.skip_none_ls then
-      formatters = {}
+    if global.is_servers then
+      vim.list_extend(available_lsp_servers, available_srv_lsp_servers)
+      vim.list_extend(available_dap_servers, available_srv_dap_servers)
+      vim.list_extend(available_linters, available_srv_linters)
+      vim.list_extend(available_formatters, available_srv_formatters)
     end
 
-    mason_null_ls.setup({
-      ensure_installed = formatters,
-      automatic_installation = true,
-    })
+    -- SECTION: LSP
 
-    -- }}}
+    if not global.lsp.skip then
+      local mason_lspconfig = require('mason-lspconfig')
 
-    -- DAP {{{
-
-    if vim.g.opsconfig.global.is_dev and vim.g.opsconfig.plugins.nvim_dap then
-      local mason_dap = require('mason-nvim-dap')
-      local dap = {
-        'php',
-        'delve',
-      }
-
-      mason_dap.setup({
-        ensure_installed = dap,
-        automatic_installation = true,
+      mason_lspconfig.setup({
+        ensure_installed = available_lsp_servers,
+        automatic_installation = global.lsp.auto_install,
       })
     end
 
-    -- }}}
+    -- SECTION: Formatters & Linters (none-ls)
+
+    local available_none_ls = {}
+
+    if not global.formatters.skip then
+      vim.list_extend(available_none_ls, available_formatters)
+    end
+
+    if not global.linters.skip then
+      vim.list_extend(available_none_ls, available_linters)
+    end
+
+    if #available_none_ls > 0 then
+      local mason_null_ls = require('mason-null-ls')
+
+      mason_null_ls.setup({
+        ensure_installed = available_none_ls,
+        automatic_installation = global.formatters.auto_install and global.linters.auto_install,
+      })
+    end
+
+    -- SECTION: DAP
+
+    if not global.dap.skip and plugins.nvim_dap then
+      local mason_dap = require('mason-nvim-dap')
+
+      mason_dap.setup({
+        ensure_installed = available_dap_servers,
+        automatic_installation = global.dap.auto_install,
+      })
+    end
   end,
 }

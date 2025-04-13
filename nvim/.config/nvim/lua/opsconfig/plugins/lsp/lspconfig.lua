@@ -11,34 +11,20 @@ return {
     and vim.g.opsconfig.plugins.nvim_ufo,
 
   dependencies = {
-    -- NOTE:  Gerencia a instalação de LSPs, DAPs, linters e formatters no Neovim.
-    --  Fornece uma interface simples para instalar e atualizar ferramentas externas.
-    --  Integra-se com lspconfig e null-ls para configuração automática.
-    --  Repositório: https://github.com/williamboman/mason.nvim
     {
       'williamboman/mason.nvim',
       enabled = true,
     },
-
-    -- NOTE:  Integra mason.nvim com lspconfig para configuração automática de LSPs.
-    --  Facilita a instalação e ativação de servidores LSP compatíveis.
-    --  Garante compatibilidade entre mason.nvim e nvim-lspconfig.
-    --  Repositório: https://github.com/williamboman/mason-lspconfig.nvim
     {
       'williamboman/mason-lspconfig.nvim',
       enabled = true,
     },
-
-    -- NOTE:  Plugin avançado de folding para Neovim.
-    --  Suporte a LSP, Treesitter e indentação para um folding mais preciso.
-    --  Permite abrir e fechar folds de forma eficiente com atalhos personalizados.
-    --  Integração com Lualine e pré-visualização de código dobrado.
-    --  Repositório: https://github.com/kevinhwang91/nvim-ufo
     {
       'kevinhwang91/nvim-ufo',
       enabled = true,
     },
   },
+
   config = function()
     local lspconfig = require('lspconfig')
 

@@ -13,13 +13,10 @@ return {
   },
 
   dependencies = {
-    -- NOTE:  Biblioteca auxiliar com funções utilitárias para desenvolvimento em Lua no Neovim.
-    --  Fornece manipulação de arquivos, async, paths, jobs e mais.
-    --  Dependência essencial para diversos plugins, como Telescope e nvim-lint.
-    --  Facilita desenvolvimento de plugins com API unificada e eficiente.
-    --  Repositório: https://github.com/nvim-lua/plenary.nvim
-    'nvim-lua/plenary.nvim',
-    enabled = true,
+    {
+      'nvim-lua/plenary.nvim',
+      enabled = true,
+    },
   },
 
   config = function()
@@ -48,6 +45,12 @@ return {
           icon = '󰆦 ',
           color = 'section',
           alt = { 'GROUP' },
+        },
+
+        SUBSECTION = {
+          icon = '󰆦 ',
+          color = 'subsection',
+          alt = { 'SUBGROUP' },
         },
 
         HACK = {
@@ -143,7 +146,12 @@ return {
 
         section = {
           'Identifier',
-          '#5f0dbd',
+          '#281b70',
+        },
+
+        subsection = {
+          'Identifier',
+          '#6f5fc9',
         },
       },
     })

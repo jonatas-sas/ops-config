@@ -20,7 +20,7 @@ return {
 
   chatgpt_nvim = false,
   copilot_lua = false,
-  windsurf_vim = false,
+  windsurf_vim = true,
 
   -- SECTION: Tests
 

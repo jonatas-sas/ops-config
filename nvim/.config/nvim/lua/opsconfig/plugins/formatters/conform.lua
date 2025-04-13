@@ -16,17 +16,13 @@ return {
   config = function()
     local conform = require('conform')
 
-    -- Setup {{{
+    -- SECTION: Setup
 
     local home_path = os.getenv('HOME')
     local config_path = home_path .. '/.opsconfig/applications/config'
-    local format_opts = {
-      lsp_fallback = true,
-      async = false,
-      timeout_ms = 1000,
-    }
+    local format_opts = { lsp_fallback = true, async = false, timeout_ms = 1000 }
 
-    -- Formatters {{{
+    -- SUBSECTION: Formatters
 
     local formatters = {}
 
@@ -88,9 +84,7 @@ return {
       stdin = false,
     }
 
-    -- }}}
-
-    -- Formatters by File Type {{{
+    -- SUBSECTION: Formatters by File Type
 
     local formatters_by_ft = {}
 
@@ -114,15 +108,12 @@ return {
 
     formatters_by_ft.nginx = { 'nginxfmt' }
     formatters_by_ft.json = { 'prettier' }
-    formatters_by_ft.yaml = { 'yamlfmt' }
     formatters_by_ft.markdown = { 'prettier' }
     formatters_by_ft.graphql = { 'prettier' }
     formatters_by_ft.sh = { 'shfmt' }
     formatters_by_ft.bash = { 'shfmt' }
     formatters_by_ft.zsh = { 'shfmt' }
     formatters_by_ft.systemd = { 'systemd_analyze' }
-
-    -- }}}
 
     conform.setup({
       log_level = vim.log.levels.DEBUG,
@@ -135,7 +126,7 @@ return {
       end,
     })
 
-    -- }}}
+    -- SECTION: Keymaps
 
     vim.keymap.set({ 'n', 'v' }, '<leader>ff', function()
       conform.format(format_opts)

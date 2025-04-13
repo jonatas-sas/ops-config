@@ -36,8 +36,8 @@ return {
       enabled = true,
       xdebug = true,
       phpcs = true,
-      intelephense = true,
-      phpactor = false,
+      intelephense = false,
+      phpactor = true,
       phpstan = true,
       php_codesniffer = true,
     },
@@ -45,10 +45,22 @@ return {
 
   lsp = {
     skip = false,
+    auto_install = true,
+  },
+
+  formatters = {
+    skip = false,
+    auto_install = true,
+  },
+
+  linters = {
+    skip = false,
+    auto_install = true,
   },
 
   dap = {
     skip = false,
+    auto_install = true,
   },
 
   fonts = {
