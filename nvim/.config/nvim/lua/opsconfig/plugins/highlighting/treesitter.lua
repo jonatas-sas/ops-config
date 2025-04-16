@@ -1,9 +1,9 @@
 return {
-  -- NOTE:  Fornece parsing avançado de código-fonte usando árvores sintáticas (Tree-sitter).
-  --  Melhora realce de sintaxe, folds, indentação e análise estrutural do código.
-  --  Suporte a múltiplas linguagens com instalação e atualização automática de parsers.
-  --  Extensível, permitindo desenvolvimento de funcionalidades baseadas em árvore sintática.
-  --  Repositório: https://github.com/nvim-treesitter/nvim-treesitter
+  -- NOTE:  Provides advanced source code parsing using syntax trees (Tree-sitter).
+  --  Enhances syntax highlighting, folding, indentation, and structural code analysis.
+  --  Supports multiple languages with automatic parser installation and updates.
+  --  Extensible, allowing development of features based on syntax trees.
+  --  Repository: https://github.com/nvim-treesitter/nvim-treesitter
   'nvim-treesitter/nvim-treesitter',
 
   enabled = vim.g.opsconfig.plugins.nvim_treesitter,
@@ -13,11 +13,11 @@ return {
   build = ':TSUpdate',
 
   dependencies = {
-    -- NOTE:  Adiciona e fecha automaticamente tags HTML, JSX, Vue e similares no Neovim.
-    --  Baseado no Tree-sitter para análise precisa da estrutura do código.
-    --  Atualiza automaticamente as tags ao editar nomes ou estruturas aninhadas.
-    --  Compatível com nvim-treesitter e fácil de configurar.
-    --  Repositório: https://github.com/windwp/nvim-ts-autotag
+    -- NOTE:  Automatically adds and closes HTML, JSX, Vue, and similar tags in Neovim.
+    --  Based on Tree-sitter for accurate code structure analysis.
+    --  Automatically updates tags when editing names or nested structures.
+    --  Compatible with nvim-treesitter and easy to configure.
+    --  Repository: https://github.com/windwp/nvim-ts-autotag
     {
       'windwp/nvim-ts-autotag',
       enabled = true,
@@ -90,5 +90,9 @@ return {
         },
       },
     })
+
+    vim.treesitter.language.register('php', 'phtml')
+    vim.treesitter.language.register('php', 'phpconfig')
+    vim.treesitter.language.register('php', 'yiimigrations')
   end,
 }

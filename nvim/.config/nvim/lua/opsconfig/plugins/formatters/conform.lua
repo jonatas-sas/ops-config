@@ -1,9 +1,9 @@
 return {
-  -- NOTE:  Formatação assíncrona e configurável para múltiplas linguagens no Neovim.
-  --  Suporte a diversos formatters com fallback automático.
-  --  Integração com autocmds para formatação ao salvar arquivos.
-  --  Leve, sem dependências externas e fácil de configurar.
-  --  Repositório: https://github.com/stevearc/conform.nvim
+  -- NOTE:  Asynchronous and configurable formatting for multiple languages in Neovim.
+  --  Supports multiple formatters with automatic fallback.
+  --  Integrates with autocmds to format files on save.
+  --  Lightweight, no external dependencies, and easy to set up.
+  --  Repository: https://github.com/stevearc/conform.nvim
   'stevearc/conform.nvim',
 
   enabled = vim.g.opsconfig.plugins.conform_nvim,
@@ -37,6 +37,30 @@ return {
             '--using-cache=no',
             '--allow-risky=yes',
             '--verbose',
+            '$FILENAME',
+          },
+          stdin = false,
+        }
+
+        formatters['php-cs-fixer-config'] = {
+          inherit = false,
+          command = 'php-cs-fixer',
+          args = {
+            'fix',
+            '--rules=array_indentation,align_multiline_comment,braces',
+            '--using-cache=no',
+            '--quiet',
+            '$FILENAME',
+          },
+          stdin = false,
+        }
+
+        formatters['php-template'] = {
+          inherit = false,
+          command = 'prettier',
+          args = {
+            '--parser=html',
+            '--plugin=prettier-plugin-php',
             '$FILENAME',
           },
           stdin = false,
@@ -103,6 +127,10 @@ return {
 
       if vim.g.opsconfig.global.languages.php.phpcs then
         formatters_by_ft.php = { 'phpcs' }
+        formatters_by_ft.phphtml = { 'php-template' } -- compatível com *.php em views
+        formatters_by_ft.phtml = { 'php-template' } -- compatível com *.phtml templates
+        formatters_by_ft.phpconfig = { 'php-cs-fixer-config' }
+        formatters_by_ft.pconf = { 'php-cs-fixer-config' } -- config extra em *.pconf
       end
     end
 

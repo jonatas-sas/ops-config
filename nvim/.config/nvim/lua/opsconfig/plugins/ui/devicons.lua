@@ -1,22 +1,38 @@
+local plugins = vim.g.opsconfig.plugins
+local global = vim.g.opsconfig.global
+
 return {
-  -- NOTE:  Ícones para arquivos e diretórios no Neovim.
-  --  Integra-se com plugins como nvim-tree, telescope e lualine.
-  --  Suporte a múltiplos temas e personalização de ícones.
-  --  Requer uma fonte Nerd Font para exibição correta.
-  --  Repositório: https://github.com/nvim-tree/nvim-web-devicons
-  -- 󰛖 Fontes: https://www.nerdfonts.com/cheat-sheet
+  -- NOTE:  Icons for files and directories in Neovim.
+  --  Integrates with plugins like nvim-tree, telescope, and lualine.
+  --  Supports multiple themes and icon customization.
+  --  Requires a Nerd Font for proper display.
+  -- 󰛖 Fonts: https://www.nerdfonts.com/cheat-sheet
+  --  Repository: https://github.com/nvim-tree/nvim-web-devicons
   'nvim-tree/nvim-web-devicons',
 
-  enabled = vim.g.opsconfig.plugins.nvim_web_devicons and vim.g.have_nerd_font,
+  enabled = plugins.nvim_web_devicons and global.fonts.nerd_font_available,
 
   config = function()
     require('nvim-web-devicons').setup({
       override = {
+        phtml = {
+          icon = '',
+          color = '#f16529',
+          name = 'PHTML',
+        },
+
+        phpconfig = {
+          icon = '',
+          color = '#4F5D95',
+          name = 'PHPConfig',
+        },
+
         nginx = {
           icon = '',
           color = '#009639',
           name = 'Nginx',
         },
+
         ['*.nginx'] = {
           icon = '',
           color = '#009639',

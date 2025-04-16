@@ -3,10 +3,10 @@ local plugins = config.plugins
 local global = config.global
 
 return {
-  -- NOTE:  Gerencia a instalação de LSPs, DAPs, linters e formatters no Neovim.
-  --  Fornece uma interface simples para instalar e atualizar ferramentas externas.
-  --  Integra-se com lspconfig e null-ls para configuração automática.
-  --  Repositório: https://github.com/williamboman/mason.nvim
+  -- NOTE:  Manages the installation of LSPs, DAPs, linters, and formatters in Neovim.
+  --  Provides a simple interface to install and update external tools.
+  --  Integrates with lspconfig and null-ls for automatic configuration.
+  --  Repository: https://github.com/williamboman/mason.nvim
   'williamboman/mason.nvim',
 
   enabled = vim.g.opsconfig.plugins.mason_nvim
