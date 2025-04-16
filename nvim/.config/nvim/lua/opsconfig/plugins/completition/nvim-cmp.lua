@@ -136,9 +136,7 @@ return {
           nvim_lsp = '[LSP]',
           luasnip = '[Snip]',
           path = '[Path]',
-          codium = '[Codeium]',
           copilot = '[Copilot]',
-          cmdline = '[CMD]',
           nvim_lua = '[NeoVim]',
         },
         symbol_map = {
@@ -167,6 +165,7 @@ return {
           Event = '',
           Operator = '',
           TypeParameter = '',
+          Copilot = '',
         },
         ellipsis_char = '...',
         show_labelDetails = true,
@@ -186,14 +185,9 @@ return {
     table.insert(sources, { name = 'nvim_lsp' })
     table.insert(sources, { name = 'buffer' })
     table.insert(sources, { name = 'path' })
-    -- table.insert(sources, { name = 'cmdline' })
 
     if vim.g.opsconfig.plugins.copilot_cmp then
       table.insert(sources, { name = 'copilot' })
-    end
-
-    if vim.g.opsconfig.plugins.codeium_vim then
-      table.insert(sources, { name = 'codeium' })
     end
 
     table.insert(sources, { name = 'nvim_lua' })

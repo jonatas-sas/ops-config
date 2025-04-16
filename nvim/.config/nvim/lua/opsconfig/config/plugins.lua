@@ -1,4 +1,10 @@
 return {
+  -- SECTION: AI
+
+  copilot_lua = true,
+  copilot_lualine = true,
+  copilot_cmp = true,
+
   -- SECTION: Buffers
 
   auto_save_nvim = true,
@@ -16,12 +22,6 @@ return {
   lazy_nvim = true,
   mason_nvim = true,
 
-  -- SECTION: AI
-
-  chatgpt_nvim = false,
-  copilot_lua = false,
-  windsurf_vim = true,
-
   -- SECTION: Tests
 
   vim_test = false,
@@ -35,7 +35,6 @@ return {
   dressing_nvim = true,
   indent_blankline_nvim = true,
   lualine_nvim = true,
-  copilot_lualine = false,
   noice_nvim = true,
   nui_nvim = true,
   nvim_notify = true,
@@ -80,7 +79,6 @@ return {
   cmp_path = true,
   cmp_luasnip = true,
   lspkind_nvim = true,
-  copilot_cmp = false,
 
   -- SECTION: Data Bases
 

@@ -1,12 +1,14 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
-  -- NOTE:  Configuração avançada do GitHub Copilot para Neovim.
-  --  Fornece controle granular sobre comportamento e atalhos do Copilot.
-  --  Permite ativar/desativar sugestões por buffer ou modo de inserção.
-  --  Integrável com plugins como nvim-cmp para uma experiência personalizada.
-  --  Repositório: https://github.com/zbirenbaum/copilot.lua
+  -- NOTE:  Advanced GitHub Copilot configuration for Neovim.
+  --  Provides granular control over Copilot's behavior and keybindings.
+  --  Allows enabling/disabling suggestions per buffer or insert mode.
+  --  Integrates with plugins like nvim-cmp for a customized experience.
+  --  Repository: https://github.com/zbirenbaum/copilot.lua
   'zbirenbaum/copilot.lua',
 
-  enabled = false,
+  enabled = plugins.copilot_lua and plugins.copilot_lualine and plugins.copilot_cmp,
 
   lazy = false,
 
@@ -14,34 +16,15 @@ return {
 
   event = 'InsertEnter',
 
-  -- Dependencies {{{
-
   dependencies = {
-    -- NOTE:  Integra o GitHub Copilot ao nvim-cmp.
-    --  Permite usar sugestões do Copilot como fonte de autocomplete.
-    --  Melhora a experiência de código com previsões mais naturais e fluídas.
-    --  Totalmente configurável, com suporte a prioridades e ajustes finos.
-    --  Repositório: https://github.com/zbirenbaum/copilot-cmp
-    {
-      'zbirenbaum/copilot-cmp',
-      enabled = vim.g.opsconfig.plugins.copilot_cmp,
-    },
-
-    -- NOTE:  Exibe o status do GitHub Copilot na Lualine.
-    --  Indica se o Copilot está ativo e funcionando no Neovim.
-    --  Ajuda a visualizar o estado da IA sem sair do fluxo de trabalho.
-    --  Configurável, permitindo ajustar a exibição conforme a necessidade.
-    --  Repositório: https://github.com/AndreM222/copilot-lualine
-    {
-      'AndreM222/copilot-lualine',
-      enabled = vim.g.opsconfig.plugins.copilot_lualine,
-    },
+    { 'zbirenbaum/copilot-cmp', enabled = true },
+    { 'AndreM222/copilot-lualine', enabled = true },
   },
 
-  -- }}}
-
   config = function()
-    require('copilot').setup({
+    local copilot = require('copilot')
+
+    copilot.setup({
       suggestion = {
         enabled = true,
         auto_trigger = true,
@@ -54,7 +37,9 @@ return {
         },
       },
 
-      panel = { enabled = true },
+      panel = {
+        enabled = true,
+      },
 
       filetypes = {
         yaml = false,
