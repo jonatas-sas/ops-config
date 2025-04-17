@@ -1,6 +1,7 @@
 return {
   -- SECTION: AI
 
+  avante_nvim = true, -- ../plugins/ai/avante.lua
   copilot_lua = true,
   copilot_lualine = true,
   copilot_cmp = true,
@@ -12,6 +13,11 @@ return {
   -- SECTION: Clipboard
 
   nvim_osc52 = true,
+
+  -- SECTION: Comments
+
+  comment_nvim = true,
+  todo_comments_nvim = true,
 
   -- SECTION: Markers
 
@@ -103,9 +109,7 @@ return {
   -- SECTION: Text Editing
 
   nvim_toggler = true,
-  comment_nvim = true,
   nvim_ts_context_commentstring = false,
-  todo_comments_nvim = true,
   mini_align = true,
 
   -- SECTION: Markdown

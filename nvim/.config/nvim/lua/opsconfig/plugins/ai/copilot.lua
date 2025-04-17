@@ -8,7 +8,7 @@ return {
   --  Repository: https://github.com/zbirenbaum/copilot.lua
   'zbirenbaum/copilot.lua',
 
-  enabled = plugins.copilot_lua and plugins.copilot_lualine and plugins.copilot_cmp,
+  enabled = plugins.copilot_lua and plugins.copilot_lualine,
 
   lazy = false,
 
@@ -17,7 +17,7 @@ return {
   event = 'InsertEnter',
 
   dependencies = {
-    { 'zbirenbaum/copilot-cmp', enabled = true },
+    { 'zbirenbaum/copilot-cmp', enabled = plugins.copilot_cmp },
     { 'AndreM222/copilot-lualine', enabled = true },
   },
 

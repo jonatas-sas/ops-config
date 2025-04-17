@@ -145,13 +145,11 @@ return {
         },
 
         section = {
-          'Identifier',
-          '#281b70',
+          '#a674fc',
         },
 
         subsection = {
-          'Identifier',
-          '#6f5fc9',
+          '#db9eff',
         },
       },
     })

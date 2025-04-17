@@ -1,14 +1,12 @@
 return {
-  -- NOTE:  Salvamento automático de arquivos no Neovim.
-  --  Detecta mudanças e salva buffers automaticamente em segundo plano.
-  --  Evita perda de progresso e melhora o fluxo de trabalho contínuo.
-  --  Altamente configurável, com suporte a condições, eventos e exceções.
-  --  Repositório: https://github.com/okuuva/auto-save.nvim
+  -- NOTE:  Enables automatic saving in Neovim.
+  --  Automatically saves the buffer when certain events occur (e.g., InsertLeave, TextChanged).
+  --  Prevents data loss and improves productivity by reducing the need for manual saves.
+  --  Fully customizable, supports conditions, exclusions, debounce delay, and custom triggers.
+  --  Repository: https://github.com/okuuva/auto-save.nvim
   'okuuva/auto-save.nvim',
 
   enabled = vim.g.opsconfig.plugins.auto_save_nvim and vim.g.opsconfig.plugins.which_key_nvim,
-
-  -- Dependencies {{{
 
   dependencies = {
     -- NOTE:  Mostra dicas de atalhos no Neovim em tempo real.
@@ -21,8 +19,6 @@ return {
       enabled = true,
     },
   },
-
-  -- }}}
 
   cmd = 'ASToggle',
 

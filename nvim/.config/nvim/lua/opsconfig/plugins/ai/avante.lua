@@ -1,3 +1,5 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
   -- NOTE:  AI-powered command palette and interface for Neovim.
   --  Uses local LLMs via Ollama to enhance interaction with Neovim.
@@ -12,16 +14,16 @@ return {
 
   build = 'make',
 
+  enabled = plugins.avante_nvim,
+
   opts = {
     provider = 'claude',
     claude = {
       endpoint = 'https://api.anthropic.com',
-      model = 'claude-3-5-sonnet-20241022',
+      model = 'claude-3-haiku-20240307',
       temperature = 0,
-      max_tokens = 4096,
-      timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-      max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-      --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+      timeout = 30000,
+      max_tokens = 1024,
     },
   },
 }
