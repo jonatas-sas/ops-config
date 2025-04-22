@@ -31,8 +31,9 @@ return {
   -- SECTION: Tests
 
   vim_test = false,
-  neotest = false,
-  neotest_go = false,
+  neotest = true,
+  neotest_go = true,
+  neotest_php = true,
 
   -- SECTION: UI
 

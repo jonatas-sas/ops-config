@@ -1,41 +1,20 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
-  -- NOTE:   Framework de testes modular para Neovim.
-  --   Suporte a múltiplas linguagens e frameworks de teste.
-  --   Integra-se com Treesitter, LSP e interfaces personalizadas.
-  --   Permite execução assíncrona e exibição detalhada de resultados.
-  --   Repositório: https://github.com/nvim-neotest/neotest
+  -- NOTE:   Modular test framework for Neovim.
+  --   Supports multiple languages and test frameworks.
+  --   Integrates with Treesitter, LSP, and custom interfaces.
+  --   Enables asynchronous execution and detailed result display.
+  --   Repository: https://github.com/nvim-neotest/neotest
   'nvim-neotest/neotest',
 
-  enabled = vim.g.opsconfig.plugins.neotest and vim.g.opsconfig.plugins.plenary and vim.g.opsconfig.plugins.treesitter,
+  enabled = plugins.neotest and plugins.plenary and plugins.treesitter and plugins.neotest_go and plugins.neotest_php,
 
   dependencies = {
-    {
-      -- NOTE:   Adaptador do Neotest para testes em Go.
-      --   Permite executar, depurar e visualizar testes de Go diretamente no Neovim.
-      --   Integra-se com `go test` e suporta execução assíncrona.
-      --   Compatível com `neotest`, oferecendo feedback detalhado sobre testes.
-      --   Repositório: https://github.com/nvim-neotest/neotest-go
-      'nvim-neotest/neotest-go',
-      enabled = vim.g.opsconfig.plugins.neotest_go,
-    },
-    {
-      -- NOTE:  Biblioteca auxiliar com funções utilitárias para desenvolvimento em Lua no Neovim.
-      --  Fornece manipulação de arquivos, async, paths, jobs e mais.
-      --  Dependência essencial para diversos plugins, como Telescope e nvim-lint.
-      --  Facilita desenvolvimento de plugins com API unificada e eficiente.
-      --  Repositório: https://github.com/nvim-lua/plenary.nvim
-      'nvim-lua/plenary.nvim',
-      enabled = true,
-    },
-    {
-      -- NOTE:  Fornece parsing avançado de código-fonte usando árvores sintáticas (Tree-sitter).
-      --  Melhora realce de sintaxe, folds, indentação e análise estrutural do código.
-      --  Suporte a múltiplas linguagens com instalação e atualização automática de parsers.
-      --  Extensível, permitindo desenvolvimento de funcionalidades baseadas em árvore sintática.
-      --  Repositório: https://github.com/nvim-treesitter/nvim-treesitter
-      'nvim-treesitter/nvim-treesitter',
-      enabled = true,
-    },
+    { 'nvim-neotest/neotest-go', enabled = true },
+    { 'olimorris/neotest-phpunit', enabled = true },
+    { 'nvim-lua/plenary.nvim', enabled = true },
+    { 'nvim-treesitter/nvim-treesitter', enabled = true },
   },
 
   config = function()
@@ -49,15 +28,43 @@ return {
           },
           args = { '-count=1', '-timeout=60s' },
         }),
+        require('neotest-phpunit'),
       },
     })
 
+    -- Run nearest test
     vim.keymap.set('n', '<leader>rt', function()
       neotest.run.run()
     end, { desc = '[R]un Nearest [T]est' })
 
+    -- Run current file tests
     vim.keymap.set('n', '<leader>rf', function()
       neotest.run.run(vim.fn.expand('%'))
     end, { desc = '[R]un [F]ile Tests' })
+
+    -- Stop test run
+    vim.keymap.set('n', '<leader>rs', function()
+      neotest.run.stop()
+    end, { desc = '[R]un: [S]top Test' })
+
+    -- Toggle summary panel
+    vim.keymap.set('n', '<leader>ro', function()
+      neotest.summary.toggle()
+    end, { desc = '[R]esult: Toggle [O]verview (Summary)' })
+
+    -- Open output (last run)
+    vim.keymap.set('n', '<leader>rO', function()
+      neotest.output.open({ enter = true })
+    end, { desc = '[R]esult: Open [O]utput' })
+
+    -- Toggle output panel (persistent)
+    vim.keymap.set('n', '<leader>rp', function()
+      neotest.output_panel.toggle()
+    end, { desc = '[R]esult: Toggle [P]anel' })
+
+    -- Watch file for changes and re-run
+    vim.keymap.set('n', '<leader>rw', function()
+      neotest.watch.watch()
+    end, { desc = '[R]un: [W]atch Test File' })
   end,
 }
