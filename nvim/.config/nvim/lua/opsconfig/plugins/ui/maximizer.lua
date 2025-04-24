@@ -19,7 +19,7 @@ return {
       enabled = true,
     },
   },
- 
+
   config = function()
     vim.g.maximizer_set_default_mapping = 0
     vim.g.maximizer_set_default_keybindings = 0

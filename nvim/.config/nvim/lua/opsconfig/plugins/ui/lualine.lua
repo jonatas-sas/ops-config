@@ -1,86 +1,50 @@
 return {
-  -- NOTE: 墳 Barra de status altamente customizável para Neovim.
-  --  Suporte a separadores, temas e integração com LSP, buffers e git.
-  --  Leve e otimizada para desempenho sem comprometer a estética.
-  --  Fácil de configurar e compatível com nvim-web-devicons.
-  --  Repositório: https://github.com/nvim-lualine/lualine.nvim
+  -- NOTE:  Statusline plugin written in Lua for Neovim.
+  --  Fast, minimal, and highly customizable with a wide range of components.
+  --  Enhances visibility of mode, file info, diagnostics, and plugin states.
+  --  Supports themes, extensions, and custom sections with easy configuration.
+  --  Repository: https://github.com/nvim-lualine/lualine.nvim
   'nvim-lualine/lualine.nvim',
 
   enabled = vim.g.opsconfig.plugins.lualine_nvim
     and vim.g.opsconfig.plugins.noice_nvim
     and vim.g.opsconfig.plugins.nvim_web_devicons,
 
-  -- Dependencies {{{
-
   dependencies = {
-    -- NOTE:  Ícones para arquivos e diretórios no Neovim.
-    --  Integra-se com plugins como nvim-tree, telescope e lualine.
-    --  Suporte a múltiplos temas e personalização de ícones.
-    --  Requer uma fonte Nerd Font para exibição correta.
-    --  Repositório: https://github.com/nvim-tree/nvim-web-devicons
     {
       'nvim-tree/nvim-web-devicons',
       enabled = true,
     },
-
-    -- NOTE:  Tema moderno e vibrante para Neovim com suporte a LSP e Treesitter.
-    --  Oferece variações como Night, Storm, Day e Moon.
-    --  Integra-se com diversos plugins para uma experiência visual coesa.
-    --  Personalizável via configurações para cores e transparência.
-    --  Repositório: https://github.com/folke/tokyonight.nvim
     {
       'folke/tokyonight.nvim',
       enabled = vim.g.opsconfig.plugins.tokyonight_nvim,
     },
-
-    -- NOTE:   Tema elegante e altamente personalizável para Neovim.
-    --   Fornece paleta suave e consistente para diferentes ambientes.
-    --   Suporte nativo para LSP, Treesitter, Telescope e mais.
-    --   Variantes de cores configuráveis para diferentes estilos visuais.
-    --   Repositório: https://github.com/catppuccin/nvim
     {
       'catppuccin/nvim',
       enabled = vim.g.opsconfig.plugins.catppuccin_nvim,
     },
-
-    -- NOTE:  Exibe o status do GitHub Copilot na Lualine.
-    --  Indica se o Copilot está ativo e funcionando no Neovim.
-    --  Ajuda a visualizar o estado da IA sem sair do fluxo de trabalho.
-    --  Configurável, permitindo ajustar a exibição conforme a necessidade.
-    --  Repositório: https://github.com/AndreM222/copilot-lualine
     {
       'AndreM222/copilot-lualine',
       enabled = vim.g.opsconfig.plugins.copilot_lualine,
     },
-
-    -- NOTE:  Salvamento automático de arquivos no Neovim.
-    --  Detecta mudanças e salva buffers automaticamente em segundo plano.
-    --  Evita perda de progresso e melhora o fluxo de trabalho contínuo.
-    --  Altamente configurável, com suporte a condições, eventos e exceções.
-    --  Repositório: https://github.com/okuuva/auto-save.nvim
     {
       'okuuva/auto-save.nvim',
       enabled = vim.g.opsconfig.plugins.auto_save_nvim,
     },
   },
 
-  -- }}}
-
   config = function()
     local lualine = require('lualine')
     local lazy_status = require('lazy.status')
     local setup = {}
     local plugins_updates_color = '#ff9e64'
-
-    -- Tokio Night Theme {{{
+    --local use = require('opsconfig.plugins.ui.lualine.helper').use
 
     if vim.g.opsconfig.plugins.tokyonight_nvim then
       setup.options = {
         theme = require('opsconfig.plugins.ui.lualine.themes.tokyonight'),
       }
     end
-
-    -- }}}
 
     if vim.g.opsconfig.plugins.catppuccin_nvim then
       plugins_updates_color = '#fab387'
@@ -177,13 +141,6 @@ return {
               return require('nvim-web-devicons').get_icon_by_filetype(ftype, { default = true })
             end
           end,
-        },
-        {
-          function()
-            return _G.autosave_statusline()
-          end,
-          icon = '󱂬',
-          color = { fg = '#98be65' }, -- verde
         },
       },
       lualine_y = { 'progress' },
