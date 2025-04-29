@@ -46,6 +46,10 @@ return {
         enable = true,
       },
 
+      injection = {
+        enable = true,
+      },
+
       sync_install = false,
 
       auto_install = true,
@@ -78,6 +82,7 @@ return {
         'regex',
         'ini',
         'php',
+        'gotmpl',
       },
 
       incremental_selection = {

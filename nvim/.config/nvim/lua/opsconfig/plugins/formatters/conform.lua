@@ -124,6 +124,7 @@ return {
       formatters_by_ft.python = { 'isort', 'black' }
       formatters_by_ft.toml = { 'taplo' }
       formatters_by_ft.kdl = { 'kdlfmt' }
+      formatters_by_ft.gotmpl = { 'prettier' }
 
       if vim.g.opsconfig.global.languages.php.phpcs then
         formatters_by_ft.php = { 'phpcs' }
