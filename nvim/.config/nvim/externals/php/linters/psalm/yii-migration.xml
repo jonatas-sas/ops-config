@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:noNamespaceSchemaLocation="https://getpsalm.org/schema/config.xsd"
+>
+    <!-- Psalm Laravel Migration Ruleset -->
+    <!-- Custom settings to support Laravel anonymous class-based migrations. -->
+
+    <projectFiles>
+        <directory>database/migrations</directory>
+    </projectFiles>
+
+    <ignoreFiles><directory>vendor</directory></ignoreFiles>
+    <ignoreFiles><directory>storage</directory></ignoreFiles>
+    <ignoreFiles><directory>node_modules</directory></ignoreFiles>
+</psalm>

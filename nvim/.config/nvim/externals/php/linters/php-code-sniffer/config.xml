@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="PHP Config Files">
+    <description>Relaxed ruleset for PHP configuration files, allowing inline arrays and minimal PHPDoc enforcement.</description>
+
+    <file>./</file>
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>node_modules/*</exclude-pattern>
+
+    <rule ref="PSR12"/>
+    <exclude name="Squiz.Commenting.FileComment"/>
+    <exclude name="Generic.Commenting.DocComment"/>
+    <exclude name="Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned"/>
+</ruleset>
+

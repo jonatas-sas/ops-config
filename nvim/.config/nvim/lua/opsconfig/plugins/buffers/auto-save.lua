@@ -1,3 +1,5 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
   -- NOTE:  Enables automatic saving in Neovim.
   --  Automatically saves the buffer when certain events occur (e.g., InsertLeave, TextChanged).
@@ -6,18 +8,10 @@ return {
   --  Repository: https://github.com/okuuva/auto-save.nvim
   'okuuva/auto-save.nvim',
 
-  enabled = vim.g.opsconfig.plugins.auto_save_nvim and vim.g.opsconfig.plugins.which_key_nvim,
+  enabled = plugins.auto_save_nvim and plugins.which_key_nvim,
 
   dependencies = {
-    -- NOTE:  Mostra dicas de atalhos no Neovim em tempo real.
-    --  Exibe combinações de teclas disponíveis ao pressionar um prefixo.
-    --  Ajuda a memorizar atalhos e melhorar a produtividade.
-    --  Totalmente configurável, com suporte a grupos e descrições personalizadas.
-    --  Repositório: https://github.com/folke/which-key.nvim
-    {
-      'folke/which-key.nvim',
-      enabled = true,
-    },
+    { 'folke/which-key.nvim', enabled = true },
   },
 
   cmd = 'ASToggle',

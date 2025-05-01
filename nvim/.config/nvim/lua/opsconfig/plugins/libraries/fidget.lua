@@ -1,14 +1,14 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
-  -- NOTE:  Plugin para exibição de status assíncrono no Neovim.
-  --  Mostra indicadores de carregamento para LSP e tarefas assíncronas.
-  --  Fornece notificações visuais e discretas na interface do editor.
-  --  Altamente configurável, com suporte a diferentes estilos de animação.
-  --  Repositório: https://github.com/j-hui/fidget.nvim
+  -- NOTE:  Plugin for displaying asynchronous status in Neovim.
+  --  Shows loading indicators for LSP and other async tasks.
+  --  Provides subtle visual notifications within the editor UI.
+  --  Highly configurable with support for different animation styles.
+  --  Repository: https://github.com/j-hui/fidget.nvim
   'j-hui/fidget.nvim',
 
-  enabled = vim.g.opsconfig.plugins.fidget_nvim,
-
-  -- Config {{{
+  enabled = plugins.fidget_nvim,
 
   config = function()
     require('fidget').setup({
@@ -110,6 +110,4 @@ return {
       },
     })
   end,
-
-  -- }}}
 }

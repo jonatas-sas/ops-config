@@ -1,10 +1,12 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
-  -- NOTE:  Biblioteca auxiliar com funções utilitárias para desenvolvimento em Lua no Neovim.
-  --  Fornece manipulação de arquivos, async, paths, jobs e mais.
-  --  Dependência essencial para diversos plugins, como Telescope e nvim-lint.
-  --  Facilita desenvolvimento de plugins com API unificada e eficiente.
-  --  Repositório: https://github.com/nvim-lua/plenary.nvim
+  -- NOTE:  Utility library for Lua development in Neovim.
+  --  Provides helpers for file I/O, async, paths, jobs, and more.
+  --  Core dependency for many plugins like Telescope and nvim-lint.
+  --  Simplifies plugin development with a unified and efficient API.
+  --  Repository: https://github.com/nvim-lua/plenary.nvim
   'nvim-lua/plenary.nvim',
 
-  enabled = vim.g.opsconfig.plugins.plenary_nvim,
+  enabled = plugins.plenary_nvim,
 }

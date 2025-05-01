@@ -1,23 +1,15 @@
 return {
-  -- NOTE:  Fornece text-objects avançados baseados em Tree-sitter no Neovim.
-  --  Permite seleção, movimentação e manipulação precisa de blocos de código.
-  --  Suporte a linguagens múltiplas e integração com motions personalizados.
-  --  Extensível e compatível com nvim-treesitter para melhor precisão.
-  --  Repositório: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  -- NOTE:  Provides advanced text-objects powered by Tree-sitter in Neovim.
+  --  Enables precise selection, movement, and manipulation of code blocks.
+  --  Supports multiple languages and integrates with custom motions.
+  --  Extensible and fully compatible with nvim-treesitter for better accuracy.
+  --  Repository: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   'nvim-treesitter/nvim-treesitter-textobjects',
 
   enabled = vim.g.opsconfig.plugins.nvim_treesitter_textobjects and vim.g.opsconfig.plugins.nvim_treesitter,
 
   dependencies = {
-    -- NOTE:  Fornece parsing avançado de código-fonte usando árvores sintáticas (Tree-sitter).
-    --  Melhora realce de sintaxe, folds, indentação e análise estrutural do código.
-    --  Suporte a múltiplas linguagens com instalação e atualização automática de parsers.
-    --  Extensível, permitindo desenvolvimento de funcionalidades baseadas em árvore sintática.
-    --  Repositório: https://github.com/nvim-treesitter/nvim-treesitter
-    {
-      'nvim-treesitter/nvim-treesitter',
-      enabled = true,
-    },
+    { 'nvim-treesitter/nvim-treesitter', enabled = true },
   },
 
   lazy = true,

@@ -20,10 +20,6 @@ vim.keymap.set('n', '<leader>lm', ':Mason<CR>', { desc = '[L]azy [M]ason Plugin 
 -- Markers
 vim.keymap.set('n', '<leader>cm', ':delmarks a-zA-Z0-9<cr>', { desc = '[C]lear [M]arkers' })
 
--- Increment and Decrement numbers
-vim.keymap.set('n', '<leader>+', '<C-a>', { desc = 'Increment number' }) -- increment
-vim.keymap.set('n', '<leader>-', '<C-x>', { desc = 'Decrement number' }) -- decrement
-
 -- window management
 vim.keymap.set('n', '<leader>wv', '<C-w>v', { desc = 'Split [W]indow [V]ertically' }) -- split window vertically
 vim.keymap.set('n', '<leader>wh', '<C-w>s', { desc = 'Split [W]indow [H]orizontally' }) -- split window horizontally

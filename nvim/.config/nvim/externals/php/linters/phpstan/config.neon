@@ -1,0 +1,8 @@
+parameters:
+  level: 3
+  paths:
+    - config
+  excludePaths:
+    - vendor
+    - storage
+    - node_modules

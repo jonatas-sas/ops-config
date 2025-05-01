@@ -1,12 +1,14 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
-  -- NOTE:  Plugin para comentar e descomentar linhas ou blocos no Neovim de forma fácil.
-  --  Suporte a múltiplas linguagens com detecção automática de sintaxe.
-  --  Integra-se com motions e operadores do Neovim para maior flexibilidade.
-  --  Configuração simples e suporte a atalhos personalizados.
-  --  Repositório: https://github.com/numToStr/Comment.nvim
+  -- NOTE:  Easy commenting plugin for Neovim supporting line and block comments.
+  --  Supports multiple languages with automatic syntax detection.
+  --  Integrates with Neovim motions and operators for flexible usage.
+  --  Simple setup with customizable keybindings and options.
+  --  Repository: https://github.com/numToStr/Comment.nvim
   'numToStr/Comment.nvim',
 
-  enabled = vim.g.opsconfig.plugins.comment_nvim,
+  enabled = plugins.comment_nvim and plugins.nvim_ts_context_commentstring,
 
   event = {
     'BufReadPre',
@@ -14,25 +16,7 @@ return {
   },
 
   dependencies = {
-    -- NOTE:  Define automaticamente o tipo de comentário correto com base no contexto do Tree-sitter.
-    --  Funciona em arquivos com múltiplas linguagens, como HTML, Vue e JavaScript.
-    --  Integra-se com plugins como Comment.nvim para uma experiência aprimorada.
-    --  Configuração simples e compatível com nvim-treesitter.
-    --  Repositório: https://github.com/JoosepAlviste/nvim-ts-context-commentstring
-    {
-      'JoosepAlviste/nvim-ts-context-commentstring',
-      enabled = vim.g.opsconfig.plugins.nvim_ts_context_commentstring,
-    },
-
-    -- NOTE:  Fornece parsing avançado de código-fonte usando árvores sintáticas (Tree-sitter).
-    --  Melhora realce de sintaxe, folds, indentação e análise estrutural do código.
-    --  Suporte a múltiplas linguagens com instalação e atualização automática de parsers.
-    --  Extensível, permitindo desenvolvimento de funcionalidades baseadas em árvore sintática.
-    --  Repositório: https://github.com/nvim-treesitter/nvim-treesitter
-    {
-      'nvim-treesitter/nvim-treesitter',
-      enabled = vim.g.opsconfig.plugins.nvim_treesitter,
-    },
+    { 'JoosepAlviste/nvim-ts-context-commentstring', enabled = true },
   },
 
   config = function()
@@ -67,11 +51,9 @@ return {
       post_hook = nil,
     }
 
-    if vim.g.opsconfig.plugins.nvim_ts_context_commentstring and vim.g.opsconfig.plugins.nvim_treesitter then
-      local ts_context_commentstring = require('ts_context_commentstring.integrations.comment_nvim')
+    local ts_context_commentstring = require('ts_context_commentstring.integrations.comment_nvim')
 
-      setup.pre_hook = ts_context_commentstring.create_pre_hook()
-    end
+    setup.pre_hook = ts_context_commentstring.create_pre_hook()
 
     comment.setup(setup)
   end,

@@ -9,18 +9,18 @@ MAGENTA='\[\e[35m\]'
 CYAN='\[\e[36m\]'
 GRAY='\[\e[90m\]'
 
-# Ícones Nerd Font
-ICON_SERVER="󰢹"
-ICON_BRANCH=""
-ICON_MODIFIED=""
-ICON_UNTRACKED=""
-ICON_DELETED=""
-ICON_RENAMED="󰑕"
-ICON_CONFLICT=""
-ICON_AHEAD=""
-ICON_VENV=""
-ICON_ARROW_DOWN=""
-ICON_PROMPT=""
+# Ícones
+ICON_SERVER="[S]"
+ICON_BRANCH="git:"
+ICON_MODIFIED="*"
+ICON_UNTRACKED="?"
+ICON_DELETED="D"
+ICON_RENAMED="->"
+ICON_CONFLICT="!!"
+ICON_AHEAD="^"
+ICON_VENV="(venv)"
+ICON_ARROW_DOWN="v"
+ICON_PROMPT=">"
 
 # Atualiza o PS1 dinamicamente
 __update_ps1_components() {

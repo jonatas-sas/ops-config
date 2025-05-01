@@ -14,26 +14,11 @@ return {
     and vim.g.opsconfig.plugins.mason_lspconfig_nvim,
 
   dependencies = {
-    {
-      'neovim/nvim-lspconfig',
-      enabled = true,
-    },
-    {
-      'williamboman/mason-lspconfig.nvim',
-      enabled = true,
-    },
-    {
-      'nvimtools/none-ls.nvim',
-      enabled = true,
-    },
-    {
-      'jay-babu/mason-null-ls.nvim',
-      enabled = true,
-    },
-    {
-      'jay-babu/mason-nvim-dap.nvim',
-      enabled = vim.g.opsconfig.plugins.nvim_dap,
-    },
+    { 'neovim/nvim-lspconfig', enabled = true },
+    { 'williamboman/mason-lspconfig.nvim', enabled = true },
+    { 'nvimtools/none-ls.nvim', enabled = true },
+    { 'jay-babu/mason-null-ls.nvim', enabled = true },
+    { 'jay-babu/mason-nvim-dap.nvim', enabled = vim.g.opsconfig.plugins.nvim_dap },
   },
 
   config = function()

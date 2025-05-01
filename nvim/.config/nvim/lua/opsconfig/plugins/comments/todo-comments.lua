@@ -1,11 +1,13 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
-  -- NOTE:  Realça e gerencia comentários como TODO, FIX, HACK e outros no código.
-  --  Integra-se com Telescope para busca e navegação rápida.
-  --  Suporte a destaque visual e personalização de palavras-chave.
-  --  Repositório: https://github.com/folke/todo-comments.nvim
+  -- NOTE:  Highlights and manages code comments like TODO, FIX, HACK, and more.
+  --  Integrates with Telescope for fast searching and navigation.
+  --  Supports visual highlights and customizable keywords.
+  --  Repository: https://github.com/folke/todo-comments.nvim
   'folke/todo-comments.nvim',
 
-  enabled = vim.g.opsconfig.plugins.todo_comments_nvim,
+  enabled = plugins.todo_comments_nvim and plugins.plenary_nvim,
 
   event = {
     'BufReadPre',
@@ -13,10 +15,7 @@ return {
   },
 
   dependencies = {
-    {
-      'nvim-lua/plenary.nvim',
-      enabled = true,
-    },
+    { 'nvim-lua/plenary.nvim', enabled = true },
   },
 
   config = function()
@@ -72,7 +71,7 @@ return {
         NOTE = {
           icon = ' ',
           color = 'hint',
-          alt = { 'INFO' },
+          alt = { 'INFO', 'NOTE', 'SEE' },
         },
 
         TEST = {

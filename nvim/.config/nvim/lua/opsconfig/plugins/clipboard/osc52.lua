@@ -1,14 +1,16 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
-  -- NOTE:  Copia conteúdo do Neovim para o clipboard via protocolo OSC52.
-  --  Suporte a terminais remotos (SSH, tmux) sem depender do sistema operacional.
-  --  Ideal para ambientes headless, WSL e servidores remotos.
-  --  Configurável, com suporte a seleção automática e integração com yanks.
-  --  Repositório: https://github.com/ojroques/nvim-osc52
+  -- NOTE:  Copies Neovim content to the system clipboard using the OSC52 protocol.
+  --  Works seamlessly in remote terminals (SSH, tmux) without OS-level dependencies.
+  --  Ideal for headless environments, WSL, and remote servers.
+  --  Configurable with support for auto-selection and yank integration.
+  --  Repository: https://github.com/ojroques/nvim-osc52
   'ojroques/nvim-osc52',
 
   event = 'VeryLazy',
 
-  enabled = vim.g.opsconfig.plugins.osc52,
+  enabled = plugins.osc52,
 
   config = function()
     local osc52 = require('osc52')

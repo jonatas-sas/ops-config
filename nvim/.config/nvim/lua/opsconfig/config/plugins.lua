@@ -2,9 +2,9 @@ return {
   -- SECTION: AI
 
   avante_nvim = true, -- ../plugins/ai/avante.lua
-  copilot_lua = true,
-  copilot_lualine = true,
-  copilot_cmp = true,
+  copilot_lua = true, -- ../plugins/ai/copilot.lua
+  copilot_lualine = true, -- ../plugins/ai/copilot-lualine.lua
+  copilot_cmp = true, -- ../plugins/ai/copilot-cmp.lua
 
   -- SECTION: Buffers
 
@@ -18,6 +18,7 @@ return {
 
   comment_nvim = true,
   todo_comments_nvim = true,
+  nvim_ts_context_commentstring = true,
 
   -- SECTION: Markers
 
@@ -110,12 +111,7 @@ return {
   -- SECTION: Text Editing
 
   nvim_toggler = true,
-  nvim_ts_context_commentstring = false,
   mini_align = true,
-
-  -- SECTION: Markdown
-
-  render_markdown_nvim = true,
 
   -- SECTION: Motions
 
@@ -135,22 +131,34 @@ return {
 
   conform_nvim = true,
 
-  -- SECTION: Fuzzy Finders (Telescope)
+  -- SECTION: Frameworks
+
+  vim_hugo = true,
+  vim_hugo_helper = true,
+
+  -- SECTION: File Types (FT)
+
+  render_markdown_nvim = true,
+
+  -- SECTION: Telescope
 
   telescope_nvim = true,
   telescope_fzf_native_nvim = true,
   telescope_ui_select_nvim = true,
   telescope_luasnip_nvim = true,
   telescope_dap_nvim = true,
+  telescope_file_browser_nvim = true,
+  telescope_frecency_nvim = true,
 
   -- SECTION: GIT
 
   lazygit_nvim = true,
   gitsigns_nvim = true,
 
-  -- SECTION: Highlighting
+  -- SECTION: Treesitter
 
   nvim_treesitter = true,
+  nvim_ts_autotag = true,
 
   -- SECTION: Libraries
 
@@ -158,6 +166,7 @@ return {
   nvim_config_local = false,
   promise_async = true,
   nvim_nio = true,
+  fidget_nvim = true,
 
   -- SECTION: Linters
 
@@ -167,7 +176,6 @@ return {
 
   nvim_lspconfig = true,
   mason_lspconfig_nvim = true,
-  fidget_nvim = true,
 
   -- SECTION: Performance
 

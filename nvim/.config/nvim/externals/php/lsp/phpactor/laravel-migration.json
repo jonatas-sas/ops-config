@@ -1,0 +1,9 @@
+{
+  "parameters": {
+    "language_level": "8.0",
+    "code_transform.import_names": false,
+    "code_transform.sort_imports": false,
+    "completion.trim_leading_dollar": false,
+    "indexer.exclude_patterns": ["/vendor/", "/storage/", "/node_modules/"]
+  }
+}

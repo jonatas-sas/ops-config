@@ -11,18 +11,9 @@ return {
     and vim.g.opsconfig.plugins.nvim_ufo,
 
   dependencies = {
-    {
-      'williamboman/mason.nvim',
-      enabled = true,
-    },
-    {
-      'williamboman/mason-lspconfig.nvim',
-      enabled = true,
-    },
-    {
-      'kevinhwang91/nvim-ufo',
-      enabled = true,
-    },
+    { 'williamboman/mason.nvim', enabled = true },
+    { 'williamboman/mason-lspconfig.nvim', enabled = true },
+    { 'kevinhwang91/nvim-ufo', enabled = true },
   },
 
   config = function()

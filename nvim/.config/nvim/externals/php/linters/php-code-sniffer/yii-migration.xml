@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="Yii Migration Files">
+    <description>Custom ruleset for Yii-style migration scripts, focusing on readability and preserving function structure.</description>
+
+    <file>./</file>
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>node_modules/*</exclude-pattern>
+
+    <rule ref="PSR12"/>
+    <exclude name="Generic.Commenting.DocComment"/>
+    <exclude name="Squiz.Commenting.FunctionComment"/>
+    <exclude name="Generic.Files.LineLength"/>
+    <exclude name="Squiz.WhiteSpace.SemicolonSpacing"/>
+</ruleset>
+

@@ -1,3 +1,0 @@
-return {
-  'phelipetls/vim-hugo',
-}

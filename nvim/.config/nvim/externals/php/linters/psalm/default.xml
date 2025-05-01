@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:noNamespaceSchemaLocation="https://getpsalm.org/schema/config.xsd"
+>
+    <!-- Psalm Default Ruleset -->
+    <!-- Strict static analysis for application-level PHP code. -->
+
+    <projectFiles>
+        <directory>src</directory>
+        <directory>app</directory>
+    </projectFiles>
+
+    <ignoreFiles><directory>vendor</directory></ignoreFiles>
+    <ignoreFiles><directory>storage</directory></ignoreFiles>
+    <ignoreFiles><directory>node_modules</directory></ignoreFiles>
+</psalm>
