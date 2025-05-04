@@ -1,3 +1,5 @@
+local plugins = vim.g.opsconfig.plugins
+
 return {
   -- NOTE:  Gerenciador de arquivos em árvore para Neovim.
   --  Suporte a ícones, atalhos e integração com git.
@@ -6,47 +8,17 @@ return {
   --  Repositório: https://github.com/nvim-tree/nvim-tree.lua
   'nvim-tree/nvim-tree.lua',
 
-  enabled = vim.g.opsconfig.plugins.nvim_tree_lua
-    and vim.g.opsconfig.plugins.nvim_web_devicons
-    and vim.g.opsconfig.plugins.which_key_nvim,
+  enabled = plugins.nvim_tree_lua and plugins.nvim_web_devicons,
 
   dependencies = {
-    -- NOTE:  Plugin para carregar configurações locais no Neovim.
-    --  Permite executar arquivos `.nvim.lua`, `.nvimrc.lua` e similares em diretórios específicos.
-    --  Suporte a listas de permissões e confirmações para segurança.
-    --  Útil para projetos que exigem configurações específicas sem poluir a config global.
-    --  Repositório: https://github.com/klen/nvim-config-local
-    {
-      'klen/nvim-config-local',
-      enabled = vim.g.opsconfig.plugins.nvim_config_local,
-    },
-
-    -- NOTE:  Ícones para arquivos e diretórios no Neovim.
-    --  Integra-se com plugins como nvim-tree, telescope e lualine.
-    --  Suporte a múltiplos temas e personalização de ícones.
-    --  Requer uma fonte Nerd Font para exibição correta.
-    --  Repositório: https://github.com/nvim-tree/nvim-web-devicons
-    {
-      'nvim-tree/nvim-web-devicons',
-      enabled = true,
-    },
-
-    -- NOTE:  Mostra dicas de atalhos no Neovim em tempo real.
-    --  Exibe combinações de teclas disponíveis ao pressionar um prefixo.
-    --  Ajuda a memorizar atalhos e melhorar a produtividade.
-    --  Totalmente configurável, com suporte a grupos e descrições personalizadas.
-    --  Repositório: https://github.com/folke/which-key.nvim
-    {
-      'folke/which-key.nvim',
-      enabled = true,
-    },
+    { 'klen/nvim-config-local', enabled = plugins.nvim_config_local },
+    { 'nvim-tree/nvim-web-devicons', enabled = true },
   },
 
   config = function()
     local nvimtree = require('nvim-tree')
 
-    -- Setup {{{
-
+    -- SECTION: Setup
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
 
@@ -150,51 +122,9 @@ return {
       end,
     })
 
-    -- }}}
+    
+    -- SECTION: Keymaps
 
-    require('nvim-web-devicons').set_icon({
-      vifmrc = {
-        icon = '', -- Ícone personalizado
-        color = '#FFA500',
-        cterm_color = '214',
-        name = 'Vifmrc',
-      },
-    })
-
-    -- Keymaps {{{
-
-    local wk = require('which-key')
-
-    wk.add({
-      {
-        '<leader>ee',
-        '<cmd>NvimTreeToggle<CR>',
-        desc = 'Toggle File [E]xplor[e]r',
-        icon = { color = 'yellow', icon = '' },
-        mode = 'n',
-        noremap = true,
-        silent = true,
-      },
-      {
-        '<leader>er',
-        '<cmd>NvimTreeRefresh<CR>',
-        desc = 'File [E]xplorer: [R]efresh',
-        icon = { color = 'blue', icon = '' },
-        mode = 'n',
-        noremap = true,
-        silent = true,
-      },
-      {
-        '<leader>ec',
-        '<cmd>NvimTreeCollapse<CR>',
-        desc = 'File [E]xplorer: [C]ollapse',
-        icon = { color = 'orange', icon = '󰜺' },
-        mode = 'n',
-        noremap = true,
-        silent = true,
-      },
-    })
-
-    -- }}}
+    -- Keymaps Config: ../../core/keymaps.lua
   end,
 }

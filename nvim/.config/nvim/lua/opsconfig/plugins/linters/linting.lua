@@ -3,11 +3,11 @@ local plugins = config.plugins
 local global = config.global
 
 return {
-  -- NOTE:  Executa linters assíncronos no Neovim sem necessidade de LSP.
-  --  Suporte a múltiplos linters e configuração por arquivo ou global.
-  --  Integra-se com autocmds para linting automático ao salvar arquivos.
-  --  Extensível e compatível com diversas linguagens.
-  --  Repositório: https://github.com/mfussenegger/nvim-lint
+  -- NOTE:  Runs asynchronous linters in Neovim without requiring LSP.
+  --  Supports multiple linters with file-based or global configuration.
+  --  Integrates with autocmds for automatic linting on save.
+  --  Extensible and compatible with various programming languages.
+  --  Repository: https://github.com/mfussenegger/nvim-lint
   'mfussenegger/nvim-lint',
 
   enabled = plugins.nvim_lint,
@@ -20,7 +20,6 @@ return {
   config = function()
     local is_dev = global.is_dev
 
-    -- NOTE: Linters are only enabled in development mode
     if is_dev then
       local lint = require('lint')
 

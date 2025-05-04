@@ -14,18 +14,9 @@ return {
     and plugins.telescope_nvim,
 
   dependencies = {
-    {
-      'nvim-tree/nvim-web-devicons',
-      enabled = true,
-    },
-    {
-      'folke/todo-comments.nvim',
-      enabled = true,
-    },
-    {
-      'nvim-telescope/telescope.nvim',
-      enabled = true,
-    },
+    { 'nvim-tree/nvim-web-devicons', enabled = true },
+    { 'folke/todo-comments.nvim', enabled = true },
+    { 'nvim-telescope/telescope.nvim', enabled = true },
   },
 
   cmd = 'Trouble',

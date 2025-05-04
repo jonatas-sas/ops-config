@@ -15,6 +15,12 @@ return {
   config = function()
     require('nvim-web-devicons').setup({
       override = {
+        vifmrc = {
+          icon = '',
+          color = '#FFA500',
+          cterm_color = '214',
+          name = 'Vifmrc',
+        },
         phtml = {
           icon = '',
           color = '#f16529',

@@ -19,9 +19,8 @@ return {
   },
 
   config = function()
+    -- SECTION: Setup
     local todo_comments = require('todo-comments')
-
-    local keymap = vim.keymap
 
     todo_comments.setup({
       signs = true,
@@ -153,12 +152,8 @@ return {
       },
     })
 
-    keymap.set('n', ']t', function()
-      todo_comments.jump_next()
-    end, { desc = 'Next todo comment' })
-
-    keymap.set('n', '[t', function()
-      todo_comments.jump_prev()
-    end, { desc = 'Previous todo comment' })
+    -- SECTION: Keymaps
+    --
+    -- Keymaps Config: ../../core/keymaps.lua
   end,
 }

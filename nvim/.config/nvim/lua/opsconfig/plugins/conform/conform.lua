@@ -22,14 +22,14 @@ return {
     -- SECTION: Setup
 
     local format_opts = { lsp_fallback = true, async = false, timeout_ms = 1000 }
-
     local bin = require('opsconfig.plugins.conform.formatters.bin')
+    local is_dev = global.is_dev
 
     -- SUBSECTION: Formatters
 
     local formatters = {}
 
-    if global.is_dev then
+    if is_dev then
       if global.languages.php.phpcs then
         formatters.phpcs = bin.phpcs('default')
         formatters.phpcs_config = bin.phpcs('config')
@@ -47,7 +47,7 @@ return {
 
     local formatters_by_ft = {}
 
-    if global.is_dev then
+    if is_dev then
       formatters_by_ft.lua = { 'stylua' }
       formatters_by_ft.go = { 'gofmt', 'goimports' }
       formatters_by_ft.javascript = { 'prettier' }
@@ -90,8 +90,6 @@ return {
 
     -- SECTION: Keymaps
 
-    vim.keymap.set({ 'n', 'v' }, '<leader>ff', function()
-      conform.format(format_opts)
-    end, { desc = '[F]ormat [F]ile or Range' })
+    -- Keymaps Config: ../../core/keymaps.lua
   end,
 }

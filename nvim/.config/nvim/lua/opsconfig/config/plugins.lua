@@ -1,10 +1,11 @@
 return {
   -- SECTION: AI
 
-  avante_nvim = true, -- ../plugins/ai/avante.lua
-  copilot_lua = true, -- ../plugins/ai/copilot.lua
-  copilot_lualine = true, -- ../plugins/ai/copilot-lualine.lua
-  copilot_cmp = true, -- ../plugins/ai/copilot-cmp.lua
+  windsurf_vim = true, -- ../plugins/ai/windsurf.lua
+  avante_nvim = false, -- ../plugins/ai/avante.lua
+  copilot_lua = false, -- ../plugins/ai/copilot.lua
+  copilot_lualine = false, -- ../plugins/ai/copilot-lualine.lua
+  copilot_cmp = false, -- ../plugins/ai/copilot-cmp.lua
 
   -- SECTION: Buffers
 
@@ -105,7 +106,6 @@ return {
 
   -- SECTION: Development
 
-  lazydev_nvim = true,
   trouble_nvim = true,
 
   -- SECTION: Text Editing
@@ -139,6 +139,7 @@ return {
   -- SECTION: File Types (FT)
 
   render_markdown_nvim = true,
+  lazydev_nvim = true,
 
   -- SECTION: Telescope
 
@@ -163,7 +164,7 @@ return {
   -- SECTION: Libraries
 
   plenary_nvim = true,
-  nvim_config_local = false,
+  nvim_config_local = true,
   promise_async = true,
   nvim_nio = true,
   fidget_nvim = true,
