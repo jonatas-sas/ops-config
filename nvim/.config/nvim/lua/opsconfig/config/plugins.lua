@@ -64,8 +64,8 @@ return {
 
   -- SECTION: File Explorers
 
-  nvim_tree_lua = true,
-  oil_nvim = false,
+  nvim_tree_lua = false,
+  oil_nvim = true,
 
   -- SECTION: Themes
 
@@ -118,6 +118,7 @@ return {
   nvim_autopairs = true,
   substitute_nvim = false,
   nvim_surround = true,
+  flash_nvim = true,
 
   -- SECTION: Text Objects
 
@@ -160,14 +161,16 @@ return {
 
   nvim_treesitter = true,
   nvim_ts_autotag = true,
+  nvim_treesitter_context = true,
 
   -- SECTION: Libraries
 
   plenary_nvim = true,
-  nvim_config_local = true,
+  nvim_config_local = false,
   promise_async = true,
   nvim_nio = true,
   fidget_nvim = true,
+  fzf_lua = true,
 
   -- SECTION: Linters
 
@@ -198,4 +201,8 @@ return {
   -- SECTION: Terminal
 
   toggleterm_nvim = true,
+
+  -- SECTION: Quickfix
+
+  quicker_nvim = true,
 }

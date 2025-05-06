@@ -7,7 +7,7 @@ return {
   --  Repository: https://github.com/folke/todo-comments.nvim
   'folke/todo-comments.nvim',
 
-  enabled = plugins.todo_comments_nvim and plugins.plenary_nvim,
+  enabled = plugins.todo_comments_nvim and plugins.plenary_nvim and plugins.telescope_nvim,
 
   event = {
     'BufReadPre',
@@ -16,6 +16,7 @@ return {
 
   dependencies = {
     { 'nvim-lua/plenary.nvim', enabled = true },
+    { 'nvim-telescope/telescope.nvim', enabled = true },
   },
 
   config = function()
@@ -153,7 +154,6 @@ return {
     })
 
     -- SECTION: Keymaps
-    --
     -- Keymaps Config: ../../core/keymaps.lua
   end,
 }

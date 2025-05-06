@@ -53,4 +53,25 @@ M.lsp.restart = function()
   end, 100)
 end
 
+-- SECTION: Plugins
+-- SUBSECTION: Conform
+M.conform = {}
+
+M.conform.format = function(options)
+  options = options or {}
+
+  require('conform').format(options)
+end
+
+-- SUBSECTION: Oil
+M.oil = {}
+
+M.oil.open = function()
+  require('oil').open_float(vim.fn.expand('%:p:h'))
+end
+
+M.oil.open_root = function()
+  require('oil').open_float(vim.fn.getcwd())
+end
+
 return M

@@ -1,154 +1,766 @@
---[[
-General Keymaps for Neovim
+-- Keymaps
 
-This file defines essential and ergonomic key mappings to improve workflow and navigation.
-Keymaps are grouped by functionality and follow traditional Vim behaviors, with enhancements
-for modern plugin usage and faster file navigation.
---]]
-
+local plugins = vim.g.opsconfig.plugins
 local helpers = require('opsconfig.helpers.keymaps')
-local map = helpers.map
 
--- SECTION: Global Keymaps
+---@class KeymapDef
+---@field modes string|string[] Modes in which the keymap applies ('n', 'i', 'v', etc.)
+---@field lhs string Left-hand side (the keybind)
+---@field rhs string|function Right-hand side (the command or function to execute)
+---@field desc string Description of the keymap
+---@field opts table Optional keymap options (like { silent = true })
+---@field enabled boolean Whether the keymap is active
 
--- SUBSECTION: Insert Mode Exits
-map('i', 'jk', '<ESC>', 'Exit insert mode with jk')
-map('i', 'jj', '<ESC>', 'Exit insert mode with jj')
-map('i', 'kk', '<ESC>', 'Exit insert mode with kk')
-map('i', ':w', '<ESC>:w<CR>', 'Exit insert and save')
-map('i', ':W', '<ESC>:w<CR>', 'Exit insert and save')
+---Returns a list of global keymaps.
+---@return KeymapDef[]
+local keymaps = function()
+  return {
+    -- SECTION: Global Keymaps
+    -- SUBSECTION: Insert Mode Exits
+    {
+      modes = 'i',
+      lhs = 'jk',
+      rhs = '<ESC>',
+      desc = 'Exit insert mode with jk',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'i',
+      lhs = 'jj',
+      rhs = '<ESC>',
+      desc = 'Exit insert mode with jj',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'i',
+      lhs = 'kk',
+      rhs = '<ESC>',
+      desc = 'Exit insert mode with kk',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'i',
+      lhs = ':w',
+      rhs = '<ESC>:w<CR>',
+      desc = 'Exit insert and save',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'i',
+      lhs = ':W',
+      rhs = '<ESC>:w<CR>',
+      desc = 'Exit insert and save',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Buffer Management
-map('n', '<leader>bo', ':%bd|e#|bd#<CR>', 'Close all Buffers except Current')
-map('n', '<leader>bb', ':ls<CR>', 'List all buffers')
-map('n', '<leader>bd', ':bd<CR>', 'Delete current buffer')
-map('n', '<leader>bn', ':bnext<CR>', 'Next buffer')
-map('n', '<leader>bp', ':bprevious<CR>', 'Previous buffer')
-map('n', '<TAB>', ':bnext<CR>', 'Next buffer (tab)')
-map('n', '<S-TAB>', ':bprevious<CR>', 'Previous buffer (shift-tab)')
-map('n', '<leader>bO', helpers.buffers.close_others, 'Close all other buffers (safe)')
+    -- SUBSECTION: Buffer Management
+    {
+      modes = 'n',
+      lhs = '<leader>bo',
+      rhs = ':%bd|e#|bd#<CR>',
+      desc = 'Close all Buffers except Current',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>bb',
+      rhs = ':ls<CR>',
+      desc = 'List all Buffers',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>bd',
+      rhs = ':bd<CR>',
+      desc = 'Delete Current Buffer',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>bn',
+      rhs = ':bnext<CR>',
+      desc = 'Next Buffer',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>bp',
+      rhs = ':bprevious<CR>',
+      desc = 'Previous Buffer',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<TAB>',
+      rhs = ':bnext<CR>',
+      desc = 'Next Buffer (tab)',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<S-TAB>',
+      rhs = ':bprevious<CR>',
+      desc = 'Previous Buffer (shift-tab)',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>bO',
+      rhs = helpers.buffers.close_others,
+      desc = 'Close all Other Buffers (safe)',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Search and Reload
-map('n', '<leader>nh', ':nohl<CR>', '[nh] Clear Search Highlights')
-map('n', '<leader>rl', ':source %<CR>', '[R]eload [L]ua File')
+    -- SUBSECTION: Search and Reload
+    {
+      modes = 'n',
+      lhs = '<leader>nh',
+      rhs = ':nohl<CR>',
+      desc = 'Clear Search Highlights',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>rl',
+      rhs = ':source %<CR>',
+      desc = 'Reload Lua File',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Plugin Managers
-map('n', '<leader>lz', ':Lazy<CR>', '[L]a[z]y Plugin Manager')
-map('n', '<leader>lm', ':Mason<CR>', '[L]azy [M]ason Plugin Manager')
+    -- SUBSECTION: Plugin Managers
+    {
+      modes = 'n',
+      lhs = '<leader>lz',
+      rhs = ':Lazy<CR>',
+      desc = 'Lazy Plugin Manager',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lm',
+      rhs = ':Mason<CR>',
+      desc = 'Mason Plugin Manager',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Marks
-map('n', '<leader>cm', ':delmarks a-zA-Z0-9<CR>', '[C]lear [M]arkers')
-map('n', '<leader>ma', ':marks<CR>', 'List all marks')
-map('n', '\'m', '`m', 'Go to mark m')
+    -- SUBSECTION: Marks
+    {
+      modes = 'n',
+      lhs = '<leader>cm',
+      rhs = ':delmarks a-zA-Z0-9<CR>',
+      desc = 'Clear Markers',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>ma',
+      rhs = ':marks<CR>',
+      desc = 'List all Marks',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Window Management
-map('n', '<leader>wv', '<C-w>v', 'Split [W]indow [V]ertically')
-map('n', '<leader>wh', '<C-w>s', 'Split [W]indow [H]orizontally')
-map('n', '<leader>we', '<C-w>=', 'Make [W]indow Splits [E]qual Size')
-map('n', '<leader>wx', '<cmd>close<CR>', 'Close current split')
-map('n', '<C-Up>', ':resize +2<CR>', 'Increase window height')
-map('n', '<C-Down>', ':resize -2<CR>', 'Decrease window height')
-map('n', '<C-Left>', ':vertical resize -2<CR>', 'Decrease window width')
-map('n', '<C-Right>', ':vertical resize +2<CR>', 'Increase window width')
+    -- SUBSECTION: Window Management
+    {
+      modes = 'n',
+      lhs = '<leader>wv',
+      rhs = '<C-w>v',
+      desc = 'Split Window Vertically',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>wh',
+      rhs = '<C-w>s',
+      desc = 'Split Window Horizontally',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>we',
+      rhs = '<C-w>=',
+      desc = 'Make Window Splits Equal Size',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>wx',
+      rhs = '<cmd>close<CR>',
+      desc = 'Close Current Split',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<C-Up>',
+      rhs = ':resize +2<CR>',
+      desc = 'Increase Window Height',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<C-Down>',
+      rhs = ':resize -2<CR>',
+      desc = 'Decrease Window Height',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<C-Left>',
+      rhs = ':vertical resize -2<CR>',
+      desc = 'Decrease Window Width',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<C-Right>',
+      rhs = ':vertical resize +2<CR>',
+      desc = 'Increase Window Width',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Tab Management
-map('n', '<leader>to', '<cmd>tabnew<CR>', 'Open new tab')
-map('n', '<leader>tx', '<cmd>tabclose<CR>', 'Close current tab')
-map('n', '<leader>tn', '<cmd>tabn<CR>', 'Go to next tab')
-map('n', '<leader>tp', '<cmd>tabp<CR>', 'Go to previous tab')
-map('n', '<leader>tf', '<cmd>tabnew %<CR>', 'Open current buffer in new tab')
+    -- SUBSECTION: Tab Management
+    {
+      modes = 'n',
+      lhs = '<leader>to',
+      rhs = '<cmd>tabnew<CR>',
+      desc = 'Open New Tab',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>tx',
+      rhs = '<cmd>tabclose<CR>',
+      desc = 'Close Current Tab',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>tn',
+      rhs = '<cmd>tabn<CR>',
+      desc = 'Go to Next Tab',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>tp',
+      rhs = '<cmd>tabp<CR>',
+      desc = 'Go to Previous Tab',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>tf',
+      rhs = '<cmd>tabnew %<CR>',
+      desc = 'Open Current Buffer in New Tab',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Arrow Key Disabling
-map({ 'n', 'v' }, '<left>', '<cmd>echo \'Use h instead\'<CR>', 'Disable left arrow')
-map({ 'n', 'v' }, '<right>', '<cmd>echo \'Use l instead\'<CR>', 'Disable right arrow')
-map({ 'n', 'v' }, '<up>', '<cmd>echo \'Use k instead\'<CR>', 'Disable up arrow')
-map({ 'n', 'v' }, '<down>', '<cmd>echo \'Use j instead\'<CR>', 'Disable down arrow')
+    -- SUBSECTION: Arrow Key Disabling
+    {
+      modes = { 'n', 'v' },
+      lhs = '<left>',
+      rhs = '<cmd>echo \'Use h instead\'<CR>',
+      desc = 'Disable left arrow',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = { 'n', 'v' },
+      lhs = '<right>',
+      rhs = '<cmd>echo \'Use l instead\'<CR>',
+      desc = 'Disable right arrow',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = { 'n', 'v' },
+      lhs = '<up>',
+      rhs = '<cmd>echo \'Use k instead\'<CR>',
+      desc = 'Disable up arrow',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = { 'n', 'v' },
+      lhs = '<down>',
+      rhs = '<cmd>echo \'Use j instead\'<CR>',
+      desc = 'Disable down arrow',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Line Movement
-map('n', '<A-j>', ':m .+1<CR>==', 'Move line down')
-map('n', '<A-k>', ':m .-2<CR>==', 'Move line up')
+    -- SUBSECTION: Line Movement
+    {
+      modes = 'n',
+      lhs = '<C-A-j>',
+      rhs = ':m .+1<CR>==',
+      desc = 'Move line down',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<C-A-k>',
+      rhs = ':m .-2<CR>==',
+      desc = 'Move line up',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Navigation
-map('n', 'H', '^', 'Go to beginning of line')
-map('n', 'L', 'g_', 'Go to end of visual line')
-map('n', '<C-j>', '10j', 'Move 10 lines down')
-map('n', '<C-k>', '10k', 'Move 10 lines up')
-map('n', 'W', '5w', 'Jump 5 words forward')
-map('n', 'B', '5b', 'Jump 5 words backward')
-map('n', '<leader>j', '}', 'Next paragraph')
-map('n', '<leader>k', '{', 'Previous paragraph')
-map('n', ']b', ']}', 'Next block')
-map('n', '[b', '[{', 'Previous block')
-map('n', '<C-d>', '<C-d>zz', 'Scroll down and center')
-map('n', '<C-u>', '<C-u>zz', 'Scroll up and center')
-map('n', 'n', 'nzzzv', 'Next search result and center')
-map('n', 'N', 'Nzzzv', 'Prev search result and center')
+    -- SUBSECTION: Navigation
+    {
+      modes = 'n',
+      lhs = 'H',
+      rhs = '^',
+      desc = 'Go to beginning of line',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = 'L',
+      rhs = 'g_',
+      desc = 'Go to end of visual line',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = ']b',
+      rhs = ']}',
+      desc = 'Next block',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '[b',
+      rhs = '[{',
+      desc = 'Previous block',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<C-d>',
+      rhs = '<C-d>zz',
+      desc = 'Scroll down and center',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<C-u>',
+      rhs = '<C-u>zz',
+      desc = 'Scroll up and center',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = 'n',
+      rhs = 'nzzzv',
+      desc = 'Next search result and center',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = 'N',
+      rhs = 'Nzzzv',
+      desc = 'Prev search result and center',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Quickfix and Location List
-map('n', '<leader>qo', ':copen<CR>', 'Open quickfix list')
-map('n', '<leader>qc', ':cclose<CR>', 'Close quickfix list')
-map('n', '<leader>qn', ':cnext<CR>', 'Next item in quickfix')
-map('n', '<leader>qp', ':cprev<CR>', 'Previous item in quickfix')
-map('n', '<leader>lo', ':lopen<CR>', 'Open location list')
-map('n', '<leader>lc', ':lclose<CR>', 'Close location list')
-map('n', '<leader>ln', ':lnext<CR>', 'Next item in location list')
-map('n', '<leader>lp', ':lprev<CR>', 'Previous item in location list')
+    -- SUBSECTION: Quickfix and Location List
+    {
+      modes = 'n',
+      lhs = '<leader>qo',
+      rhs = ':copen<CR>',
+      desc = 'Open quickfix list',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>qc',
+      rhs = ':cclose<CR>',
+      desc = 'Close quickfix list',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>qn',
+      rhs = ':cnext<CR>',
+      desc = 'Next item in quickfix',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>qp',
+      rhs = ':cprev<CR>',
+      desc = 'Previous item in quickfix',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lo',
+      rhs = ':lopen<CR>',
+      desc = 'Open location list',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lc',
+      rhs = ':lclose<CR>',
+      desc = 'Close location list',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>ln',
+      rhs = ':lnext<CR>',
+      desc = 'Next item in location list',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lp',
+      rhs = ':lprev<CR>',
+      desc = 'Previous item in location list',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Registers
-map('n', '<leader>reg', ':registers<CR>', 'Show registers (clipboard, etc.)')
+    -- SUBSECTION: Lua Execution
+    {
+      modes = 'n',
+      lhs = '<leader>lx',
+      rhs = ':lua <C-r>=getline(\'.\')<CR><CR>',
+      desc = 'Execute current line as Lua',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'v',
+      lhs = '<leader>lx',
+      rhs = ':<C-u>lua loadstring(table.concat(vim.fn.getline(\'.\', \'.\'), \'\\n\'))()<CR>',
+      desc = 'Execute selection as Lua',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Lua Execution
-map('n', '<leader>lx', ':lua <C-r>=getline(\'.\')<CR><CR>', 'Execute current line as Lua')
-map(
-  'v',
-  '<leader>lx',
-  ':<C-u>lua loadstring(table.concat(vim.fn.getline(\'.\', \'.\'), \'\n\'))()<CR>',
-  'Execute selection as Lua'
-)
+    -- SUBSECTION: Line Insertion Without Insert Mode
+    {
+      modes = 'n',
+      lhs = 'go',
+      rhs = 'o<Esc>k',
+      desc = 'Add new line below without entering insert mode',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = 'gO',
+      rhs = 'O<Esc>j',
+      desc = 'Add new line above without entering insert mode',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: Line Insertion Without Insert Mode
-map('n', 'go', 'o<Esc>k', 'Add new line below without entering insert mode')
-map('n', 'gO', 'O<Esc>j', 'Add new line above without entering insert mode')
+    -- SUBSECTION: LSP
+    {
+      modes = 'n',
+      lhs = 'gd',
+      rhs = vim.lsp.buf.definition,
+      desc = 'Go to Definition',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = 'gD',
+      rhs = vim.lsp.buf.declaration,
+      desc = 'Go to Declaration',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = 'gr',
+      rhs = vim.lsp.buf.references,
+      desc = 'Find References',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = 'gI',
+      rhs = vim.lsp.buf.implementation,
+      desc = 'Go to Implementation',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lD',
+      rhs = vim.lsp.buf.type_definition,
+      desc = 'Type Definition',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>le',
+      rhs = vim.diagnostic.open_float,
+      desc = 'Show Error',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lrn',
+      rhs = vim.lsp.buf.rename,
+      desc = 'Rename Symbol',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lca',
+      rhs = vim.lsp.buf.code_action,
+      desc = 'Code Action',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lws',
+      rhs = vim.lsp.buf.workspace_symbol,
+      desc = 'Workspace Symbols',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lds',
+      rhs = vim.lsp.buf.document_symbol,
+      desc = 'Document Symbols',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lF',
+      rhs = helpers.lsp.format_code,
+      desc = 'Format Code',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lcl',
+      rhs = vim.lsp.codelens.run,
+      desc = 'Run CodeLens',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lcL',
+      rhs = vim.lsp.codelens.refresh,
+      desc = 'Refresh CodeLens',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lih',
+      rhs = helpers.lsp.toggle_inlay_hints,
+      desc = 'Toggle Inlay Hints',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lR',
+      rhs = helpers.lsp.restart,
+      desc = 'Restart LSP and reattach to all buffers',
+      opts = {},
+      enabled = true,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>lif',
+      rhs = '<cmd>LspInfo<CR>',
+      desc = 'Show LSP info',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: LSP
-map('n', 'gd', vim.lsp.buf.definition, 'Go to Definition')
-map('n', 'gD', vim.lsp.buf.declaration, 'Go to Declaration')
-map('n', 'gr', vim.lsp.buf.references, 'Find References')
-map('n', 'gI', vim.lsp.buf.implementation, 'Go to Implementation')
-map('n', '<leader>lD', vim.lsp.buf.type_definition, 'Type Definition')
-map('n', '<leader>le', vim.diagnostic.open_float, 'Show Error')
-map('n', '<leader>lrn', vim.lsp.buf.rename, 'Rename Symbol')
-map('n', '<leader>lca', vim.lsp.buf.code_action, 'Code Action')
-map('n', '<leader>lws', vim.lsp.buf.workspace_symbol, 'Workspace Symbols')
-map('n', '<leader>lds', vim.lsp.buf.document_symbol, 'Document Symbols')
-map('n', '<leader>lF', helpers.lsp.format_code, 'Format Code')
-map('n', '<leader>lcl', vim.lsp.codelens.run, 'Run CodeLens')
-map('n', '<leader>lcL', vim.lsp.codelens.refresh, 'Refresh CodeLens')
-map('n', '<leader>lih', helpers.lsp.toggle_inlay_hints, 'Toggle Inlay Hints')
-map('n', '<leader>lR', helpers.lsp.restart, 'Restart LSP and reattach to all buffers')
-map('n', '<leader>li', ':LspInfo<CR>', 'Show LSP info')
+    -- SECTION: Plugins
 
--- SECTION: Plugins
+    -- SUBSECTION: AutoSave
+    -- Plugin Configuration File: ../plugins/buffers/auto-save.lua
+    {
+      modes = 'n',
+      lhs = '<leader>ua',
+      rhs = '<cmd>AutoSaveToggleNotify<CR>',
+      desc = 'Toggle AutoSave',
+      opts = {},
+      enabled = true,
+    },
 
--- SUBSECTION: AutoSave ../plugins/buffers/auto-save.lua
-map('n', '<leader>ua', '<cmd>AutoSaveToggleNotify<CR>', 'Toggle AutoSave [ua]')
+    -- SUBSECTION: NvimTree
+    -- Plugin Configuration File: ../plugins/file-explorer/nvim-tree.lua
+    -- INFO: On Atach Maps:
+    -- vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent, opts('Up'))
+    -- vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
+    {
+      modes = 'n',
+      lhs = '<leader>ee',
+      rhs = '<cmd>NvimTreeToggle<CR>',
+      desc = 'Toggle File Explorer',
+      opts = {},
+      enabled = plugins.nvim_tree,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>er',
+      rhs = '<cmd>NvimTreeRefresh<CR>',
+      desc = 'File Explorer: Refresh',
+      opts = {},
+      enabled = plugins.nvim_tree,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>ec',
+      rhs = '<cmd>NvimTreeCollapse<CR>',
+      desc = 'File Explorer: Collapse',
+      opts = {},
+      enabled = plugins.nvim_tree,
+    },
 
--- SUBSECTION: NvimTree
-map('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', 'Toggle File [E]xplor[e]r')
-map('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', 'File [E]xplorer: [R]efresh')
-map('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', 'File [E]xplorer: [C]ollapse')
+    -- SUBSECTION: Oil
+    -- Plugin Configuration File: ../plugins/file-explorer/oil.lua
+    {
+      modes = 'n',
+      lhs = '<leader>ee',
+      rhs = helpers.oil.open,
+      desc = 'File Explorer',
+      opts = {},
+      enabled = plugins.oil_nvim,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>eE',
+      rhs = helpers.oil.open_root,
+      desc = 'Root File Explorer',
+      opts = {},
+      enabled = plugins.oil_nvim,
+    },
 
--- SUBSECTION: Conform
+    -- SUBSECTION: Conform
+    -- Plugin Configuration File: ../plugins/conform/conform.lua
+    {
+      modes = { 'n', 'v' },
+      lhs = '<leader>ff',
+      rhs = helpers.conform.format,
+      desc = 'Format File or Range',
+      opts = {},
+      enabled = plugins.conform_nvim,
+    },
 
--- map({ 'n', 'v' }, '<leader>ff', function()
---   conform.format(format_opts)
--- end, '[F]ormat [F]ile or Range')
+    -- SUBSECTION: ToDo Comments
+    -- Plugin Configuration File: ../plugins/comments/todo-comments.lua
+    {
+      modes = 'n',
+      lhs = ']t',
+      rhs = require('todo-comments').jump_next,
+      desc = 'Next todo comment',
+      opts = {},
+      enabled = plugins.todo_comments_nvim,
+    },
+    {
+      modes = 'n',
+      lhs = '[t',
+      rhs = require('todo-comments').jump_prev,
+      desc = 'Previous todo comment',
+      opts = {},
+      enabled = plugins.todo_comments_nvim,
+    },
 
--- SUBSECTION: ToDo Comments
--- map('n', ']t', function()
---   todo_comments.jump_next()
--- end, 'Next todo comment')
+    -- SUBSECTION: Telescope
+    -- Plugin Configuration File: ../plugins/telescope/telescope.lua
+    -- {
+    --   modes = 'n',
+    --   lhs = '<leader>sf',
+    --   rhs = function() end,
+    --   desc = 'Find Files',
+    --   opts = {},
+    --   enabled = plugins.telescope_nvim,
+    -- },
+    -- {
+    --   modes = 'n',
+    --   lhs = '<leader>fg',
+    --   rhs = helpers.telescope.live_grep,
+    --   desc = 'Live Grep',
+    --   opts = {},
+    --   enabled = plugins.telescope_nvim,
+    -- },
+  }
+end
 
--- map('n', '[t', function()
---   todo_comments.jump_prev()
--- end, 'Previous todo comment')
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'LazyDone',
+  callback = function()
+    for _, keymap in ipairs(keymaps()) do
+      local opts = { noremap = true, silent = true }
+      local desc = keymap.desc .. ' [' .. string.gsub(keymap.lhs, '<leader>', 'SPC ') .. ']'
+
+      opts = vim.tbl_extend('force', opts, { desc = desc })
+
+      if keymap.enabled then
+        vim.keymap.set(keymap.modes, keymap.lhs, keymap.rhs, opts)
+      end
+    end
+  end,
+})

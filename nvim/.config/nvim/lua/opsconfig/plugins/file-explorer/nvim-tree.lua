@@ -1,11 +1,12 @@
 local plugins = vim.g.opsconfig.plugins
+local global = vim.g.opsconfig.global
 
 return {
-  -- NOTE:  Gerenciador de arquivos em árvore para Neovim.
-  --  Suporte a ícones, atalhos e integração com git.
-  --  Permite navegação rápida e manipulação de arquivos diretamente no editor.
-  --  Leve, altamente configurável e substitui o netrw.
-  --  Repositório: https://github.com/nvim-tree/nvim-tree.lua
+  -- NOTE:  Tree-style file explorer for Neovim.
+  --  Supports icons, keybindings, and git integration.
+  --  Enables fast file navigation and manipulation directly within the editor.
+  --  Lightweight, highly configurable, and designed to replace netrw.
+  --  Repository: https://github.com/nvim-tree/nvim-tree.lua
   'nvim-tree/nvim-tree.lua',
 
   enabled = plugins.nvim_tree_lua and plugins.nvim_web_devicons,
@@ -89,17 +90,17 @@ return {
 
       actions = {
         open_file = {
-          quit_on_open = false,
+          quit_on_open = true,
           window_picker = {
-            enable = false,
+            enable = true,
           },
         },
       },
 
       filters = {
-        custom = vim.g.opsconfig.global.files.tree_ignore_patterns,
-        dotfiles = vim.g.opsconfig.global.files.dotfiles,
-        git_ignored = not vim.g.opsconfig.global.files.git_no_ignore,
+        custom = global.files.tree_ignore_patterns,
+        dotfiles = global.files.dotfiles,
+        git_ignored = not global.files.git_no_ignore,
       },
 
       git = {
@@ -122,9 +123,7 @@ return {
       end,
     })
 
-    
     -- SECTION: Keymaps
-
     -- Keymaps Config: ../../core/keymaps.lua
   end,
 }

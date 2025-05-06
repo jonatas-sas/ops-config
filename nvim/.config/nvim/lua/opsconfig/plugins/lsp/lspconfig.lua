@@ -126,10 +126,6 @@ return {
 
         settings = {
           phpactor = {
-            completion = {
-              enable = true,
-            },
-
             indexing = {
               exclude = {
                 'node_modules',
@@ -139,7 +135,13 @@ return {
                 'tests',
                 'tmp',
                 'temp',
+                'assets',
+                'storage',
               },
+            },
+
+            completion = {
+              enable = true,
             },
 
             diagnostics = {
@@ -147,13 +149,13 @@ return {
             },
 
             inlay_hints = {
-              enable = true,
+              enable = false,
             },
 
             lsp = {
               enabled = true,
               completion = true,
-              code_lens = true,
+              code_lens = false,
               hover = true,
               rename = true,
               folding = true,
