@@ -9,7 +9,8 @@ vim.api.nvim_create_autocmd({
   callback = function(args)
     local php = require('opsconfig.modules.languages.php.filetypes')
     local path = args.file
-    local valid = php.is_php_template(path)
+    local filename = vim.fn.fnamemodify(path, ':t')
+    local valid = php.is_php_template(path, filename)
 
     if valid then
       vim.bo.filetype = ft
@@ -21,7 +22,6 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = ft,
   desc = 'Configure options for PHP Template files',
   callback = function()
-    vim.b.hi = 'PHP Config'
-    print('PHP Template file detected')
+    print('PHP Template File Detected')
   end,
 })

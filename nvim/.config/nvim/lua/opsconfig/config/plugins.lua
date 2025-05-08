@@ -33,9 +33,9 @@ return {
   -- SECTION: Tests
 
   vim_test = false,
-  neotest = true,
-  neotest_go = true,
-  neotest_php = true,
+  neotest = false,
+  neotest_go = false,
+  neotest_php = false,
 
   -- SECTION: UI
 
@@ -64,8 +64,8 @@ return {
 
   -- SECTION: File Explorers
 
-  nvim_tree_lua = false,
-  oil_nvim = true,
+  nvim_tree_lua = true,
+  oil_nvim = false,
 
   -- SECTION: Themes
 
@@ -95,14 +95,14 @@ return {
 
   -- SECTION: Debug (DAP)
 
-  nvim_dap = true,
-  nvim_dap_ui = true,
-  nvim_dap_virtual_text = true,
-  mason_nvim_dap_nvim = true,
+  nvim_dap = false,
+  nvim_dap_ui = false,
+  nvim_dap_virtual_text = false,
+  mason_nvim_dap_nvim = false,
 
   -- SECTION: Languages
 
-  nvim_dap_go = true,
+  nvim_dap_go = false,
 
   -- SECTION: Development
 
@@ -118,7 +118,7 @@ return {
   nvim_autopairs = true,
   substitute_nvim = false,
   nvim_surround = true,
-  flash_nvim = true,
+  flash_nvim = false,
 
   -- SECTION: Text Objects
 
@@ -148,7 +148,7 @@ return {
   telescope_fzf_native_nvim = true,
   telescope_ui_select_nvim = true,
   telescope_luasnip_nvim = true,
-  telescope_dap_nvim = true,
+  telescope_dap_nvim = false,
   telescope_file_browser_nvim = true,
   telescope_frecency_nvim = true,
 

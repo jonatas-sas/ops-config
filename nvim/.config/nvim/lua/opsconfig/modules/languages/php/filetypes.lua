@@ -26,7 +26,15 @@ local M = {}
 --- @param path string: Absolute path to the PHP file
 --- @return boolean: True if any forbidden structure (namespace, class, etc.) is found
 function M.has_forbidden_constructs(path)
-  local patterns = { '^namespace ', 'class ', 'function ', 'trait ', 'interface ' }
+  local patterns = {
+    '^namespace ',
+    'class ',
+    'public function ',
+    'protected function ',
+    'trait ',
+    'interface ',
+  }
+
   for _, pat in ipairs(patterns) do
     local result = vim.fn.system({ 'rg', pat, path })
     if result ~= '' then
@@ -41,6 +49,7 @@ end
 --- @return boolean: True if file has top-level return
 function M.has_top_level_return(path)
   local result = vim.fn.system({ 'rg', '^return ', path })
+
   return result ~= ''
 end
 
@@ -50,6 +59,7 @@ end
 --- @return boolean: True if HTML or short echo tags are found
 function M.has_template_indicators(path)
   local result = vim.fn.system({ 'rg', '<?=|<\\?php echo|<html|<body|<!DOCTYPE', path })
+
   return result ~= ''
 end
 
@@ -59,6 +69,7 @@ end
 --- @return boolean: True if file appears to be a Yii migration class
 function M.is_yii_migration(path)
   local result = vim.fn.system({ 'rg', 'extends\\s+Migration', path })
+
   return result:match('yii') ~= nil or result:match('Migration') ~= nil
 end
 
@@ -68,6 +79,7 @@ end
 --- @return boolean: True if file appears to be a Laravel migration
 function M.is_laravel_migration(path)
   local result = vim.fn.system({ 'rg', 'Illuminate\\\\Database\\\\Migrations', path })
+
   return result ~= ''
 end
 
@@ -76,29 +88,43 @@ end
 --- File name or path must suggest configuration.
 --- @param path string
 --- @param filename string
+---
 --- @return boolean: True if file satisfies rules for config file
 function M.is_php_config(path, filename)
   if M.has_forbidden_constructs(path) then
     return false
   end
 
-  if not M.has_top_level_return(path) then
-    return false
+  if M.has_top_level_return(path) then
+    return true
   end
 
   local is_config_named = filename == 'config.php' or filename:match('params%.php$')
-  local is_config_path = path:match('[^%w]config[^%w]')
+  local is_config_path = false
 
-  print('is_config_named', is_config_named)
+  for segment in path:gmatch('[^/]+') do
+    if segment == 'config' then
+      is_config_path = true
+
+      break
+    end
+  end
+
   return is_config_named or is_config_path
 end
 
 --- Determines if the file is a PHP+HTML template.
 --- It must not have forbidden structures and must show clear visual output markers.
 --- @param path string
+--- @param filename string
+---
 --- @return boolean: True if file appears to be a PHP+HTML template
-function M.is_php_template(path)
+function M.is_php_template(path, filename)
   if M.has_forbidden_constructs(path) then
+    return false
+  end
+
+  if M.isconfig(path, filename) then
     return false
   end
 

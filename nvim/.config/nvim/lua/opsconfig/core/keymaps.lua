@@ -660,7 +660,7 @@ local keymaps = function()
       rhs = '<cmd>NvimTreeToggle<CR>',
       desc = 'Toggle File Explorer',
       opts = {},
-      enabled = plugins.nvim_tree,
+      enabled = plugins.nvim_tree_lua,
     },
     {
       modes = 'n',
@@ -668,7 +668,7 @@ local keymaps = function()
       rhs = '<cmd>NvimTreeRefresh<CR>',
       desc = 'File Explorer: Refresh',
       opts = {},
-      enabled = plugins.nvim_tree,
+      enabled = plugins.nvim_tree_lua,
     },
     {
       modes = 'n',
@@ -676,24 +676,24 @@ local keymaps = function()
       rhs = '<cmd>NvimTreeCollapse<CR>',
       desc = 'File Explorer: Collapse',
       opts = {},
-      enabled = plugins.nvim_tree,
+      enabled = plugins.nvim_tree_lua,
     },
 
     -- SUBSECTION: Oil
     -- Plugin Configuration File: ../plugins/file-explorer/oil.lua
     {
       modes = 'n',
-      lhs = '<leader>ee',
+      lhs = '<leader>ex',
       rhs = helpers.oil.open,
-      desc = 'File Explorer',
+      desc = 'Oil File Explorer',
       opts = {},
       enabled = plugins.oil_nvim,
     },
     {
       modes = 'n',
-      lhs = '<leader>eE',
+      lhs = '<leader>eX',
       rhs = helpers.oil.open_root,
-      desc = 'Root File Explorer',
+      desc = 'Oil Root File Explorer',
       opts = {},
       enabled = plugins.oil_nvim,
     },
@@ -726,6 +726,57 @@ local keymaps = function()
       desc = 'Previous todo comment',
       opts = {},
       enabled = plugins.todo_comments_nvim,
+    },
+
+    -- SUBSECTION: Trouble
+    -- Plugin Configuration File: ../plugins/development/trouble.lua
+    {
+      modes = 'n',
+      lhs = '<leader>xx',
+      rhs = '<cmd>Trouble diagnostics toggle<cr>',
+      desc = 'Diagnostics (Trouble)',
+      opts = {},
+      enabled = plugins.trouble_nvim,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>xX',
+      rhs = '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
+      desc = 'Buffer Diagnostics (Trouble)',
+      opts = {},
+      enabled = plugins.trouble_nvim,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>cs',
+      rhs = '<cmd>Trouble symbols toggle focus=false<cr>',
+      desc = 'Symbols (Trouble)',
+      opts = {},
+      enabled = plugins.trouble_nvim,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>cl',
+      rhs = '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
+      desc = 'LSP Definitions / references / ... (Trouble)',
+      opts = {},
+      enabled = plugins.trouble_nvim,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>xL',
+      rhs = '<cmd>Trouble loclist toggle<cr>',
+      desc = 'Location List (Trouble)',
+      opts = {},
+      enabled = plugins.trouble_nvim,
+    },
+    {
+      modes = 'n',
+      lhs = '<leader>xQ',
+      rhs = '<cmd>Trouble qflist toggle<cr>',
+      desc = 'Quickfix List (Trouble)',
+      opts = {},
+      enabled = plugins.trouble_nvim,
     },
 
     -- SUBSECTION: Telescope
