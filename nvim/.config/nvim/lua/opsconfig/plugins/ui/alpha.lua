@@ -20,7 +20,6 @@ return {
   config = function()
     local alpha = require('alpha')
     local dashboard = require('alpha.themes.dashboard')
-    local helpers = require('opsconfig.helpers.keymaps')
 
     dashboard.section.header.val = {
       '                                                     ',
