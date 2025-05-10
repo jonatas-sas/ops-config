@@ -12,8 +12,7 @@ return {
   enabled = plugins.conform_nvim,
 
   event = {
-    'BufReadPre',
-    'BufNewFile',
+    'BufWritePre',
   },
 
   config = function()
@@ -63,8 +62,8 @@ return {
 
       if global.languages.php.phpcs then
         formatters_by_ft['php'] = { 'phpcs' }
-        formatters_by_ft['php.template'] = { 'phpcs_template' }
         formatters_by_ft['php.config'] = { 'phpcs_config' }
+        formatters_by_ft['php.template'] = { 'phpcs_template' }
       end
     end
 

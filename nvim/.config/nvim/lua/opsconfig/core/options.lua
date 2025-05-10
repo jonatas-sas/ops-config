@@ -2,6 +2,7 @@ vim.cmd('let g:netrw_liststyle = 3')
 
 vim.loader.enable()
 
+vim.lsp.set_log_level('debug')
 -- Set <space> as the leader key
 -- See `:help mapleader`
 vim.g.mapleader = ' '
