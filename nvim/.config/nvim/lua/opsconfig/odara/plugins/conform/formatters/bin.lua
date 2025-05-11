@@ -3,7 +3,7 @@ local M = {}
 local config_path = vim.fn.stdpath('config') .. '/externals'
 
 M.phpcs = function(config)
-  local phpcs_path = config_path .. '/php/formatters/php-cs-fixer/' .. config .. '.php'
+  local phpcs_path = config_path .. '/php/formatters/php-cs-fixer/default.php'
 
   return {
     inherit = false,

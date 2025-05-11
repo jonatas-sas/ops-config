@@ -62,8 +62,9 @@ return {
 
       if global.languages.php.phpcs then
         formatters_by_ft['php'] = { 'phpcs' }
-        formatters_by_ft['php.config'] = { 'phpcs_config' }
-        formatters_by_ft['php.template'] = { 'phpcs_template' }
+        formatters_by_ft['php.config'] = { 'phpcs' }
+        formatters_by_ft['php.template'] = { 'blade_formatter' }
+        formatters_by_ft['php.yii.migration'] = { 'phpcs' }
       end
     end
 

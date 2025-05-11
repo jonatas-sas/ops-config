@@ -31,15 +31,8 @@ return {
     lspconfig.marksman.setup(require('opsconfig.plugins.lsp.servers.marksman').config(capabilities, flags))
     lspconfig.pyright.setup(require('opsconfig.plugins.lsp.servers.pyright').config(capabilities, flags))
     lspconfig.eslint.setup(require('opsconfig.plugins.lsp.servers.eslint').config(capabilities, flags))
-    lspconfig.tsp_server.setup(require('opsconfig.plugins.lsp.servers.tsp_server').config(capabilities, flags))
-
-    if global.languages.php.phpactor then
-      lspconfig.phpactor.setup(require('opsconfig.plugins.lsp.servers.phpactor').config(capabilities, flags))
-    end
-
-    if global.languages.php.intelephense then
-      lspconfig.intelephense.setup(require('opsconfig.plugins.lsp.servers.intelephense').config(capabilities, flags))
-    end
+    lspconfig.phpactor.setup(require('opsconfig.plugins.lsp.servers.phpactor').config(capabilities, flags))
+    lspconfig.intelephense.setup(require('opsconfig.plugins.lsp.servers.intelephense').config(capabilities, flags))
 
     -- Diagnostic Config {{{
 

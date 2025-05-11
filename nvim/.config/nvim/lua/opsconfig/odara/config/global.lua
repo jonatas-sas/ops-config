@@ -1,3 +1,5 @@
+local defaults = require('opsconfig.config.defaults')
+
 return {
   is_dev = true,
   is_servers = false,
@@ -7,9 +9,9 @@ return {
     git_no_ignore = false,
     git_no_ignore_parent = false,
     follow_symlinks = true,
-    vimgrep_arguments = require('opsconfig.config.defaults.vimgrep-arguments'),
-    ignore_patterns = require('opsconfig.config.defaults.ignore-patters-files'),
-    tree_ignore_patterns = require('opsconfig.config.defaults.ignore-patters-tree'),
+    vimgrep_arguments = defaults.vimgrep_arguments,
+    ignore_patterns = defaults.ignore_patters_files,
+    tree_ignore_patterns = defaults.ignore_patters_tree,
   },
 
   remote_server = {
