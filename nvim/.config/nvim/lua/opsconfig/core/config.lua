@@ -11,8 +11,8 @@ if vim.fn.filereadable(config_file) == 1 then
 end
 
 local config = {
-	global = require("odara.config.global"),
-	plugins = require("odara.config.plugins"),
+	global = require("opsconfig.config.global"),
+	plugins = require("opsconfig.config.plugins"),
 }
 
 local servers_config = {}
