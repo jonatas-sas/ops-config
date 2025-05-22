@@ -22,21 +22,10 @@ return {
 
 		local format_opts = { lsp_fallback = true, async = false, timeout_ms = 1000 }
 		local bin = require("opsconfig.plugins.conform.formatters.bin")
-		local is_dev = global.is_dev
 
 		-- SUBSECTION: Formatters
 
 		local formatters = {}
-
-		if is_dev then
-			if global.languages.php.phpcs then
-				formatters.phpcs = bin.phpcs("default")
-				formatters.phpcs_config = bin.phpcs("config")
-				formatters.phpcs_template = bin.phpcs("template")
-			end
-
-			formatters.kdlfmt = bin.kdlfmt()
-		end
 
 		formatters.shfmt = bin.shfmt()
 		formatters.systemd_analyze = bin.systemd_analyze()

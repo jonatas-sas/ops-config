@@ -279,11 +279,14 @@ msg git "Configuring OpsConfig repository..."
 
 [[ -d "$HOME/.opsconfig" ]] && rm -rf "$HOME/.opsconfig"
 
-git clone https://github.com/jonatas-sas/ops-config.git "$HOME/.opsconfig"
+git clone https://github.com/jonatas-sas/ops-config.git "${HOME}/.opsconfig"
 
 msg git "Applying stow to OpsConfig repository..."
 
 cd "${HOME}/.opsconfig" || exit
+
+touch "${HOME}/.opsconfig/bash/.bash_env_local"
+touch "${HOME}/.config/opsconfig/.php"
 
 stow bash
 stow nvim

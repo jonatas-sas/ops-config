@@ -24,70 +24,68 @@ alias q='exit'
 #######################################################################################################################
 ## Update & Upgrade
 #######################################################################################################################
-if [[ -n $OPSCONFIG_TYPE && $OPSCONFIG_TYPE == "servers" ]]; then
-  echo_log() {
-    echo -e "\033[1;34m[INFO]\033[0m $1"
-  }
+echo_log() {
+  echo -e "\033[1;34m[INFO]\033[0m $1"
+}
 
-  update_system() {
-    if [[ -f "${HOME}/.config/opsconfig/before_install" ]]; then
-      echo_log "Rodando o script before_install"
-      source "${HOME}/.config/opsconfig/before_install"
-    fi
+update_system() {
+  if [[ -f "${HOME}/.config/opsconfig/before_install" ]]; then
+    echo_log "Rodando o script before_install"
+    source "${HOME}/.config/opsconfig/before_install"
+  fi
 
-    echo_log "Removendo pacotes desnecessários..."
-    sudo apt autoremove -y
+  echo_log "Removendo pacotes desnecessários..."
+  sudo apt autoremove -y
 
-    echo_log "Atualizando lista de pacotes..."
-    sudo apt-get update -y
+  echo_log "Atualizando lista de pacotes..."
+  sudo apt-get update -y
 
-    echo_log "Atualizando pacotes instalados..."
-    sudo apt-get upgrade -y
+  echo_log "Atualizando pacotes instalados..."
+  sudo apt-get upgrade -y
 
-    echo_log "Atualizando distribuição do sistema..."
-    sudo apt-get dist-upgrade -y
+  echo_log "Atualizando distribuição do sistema..."
+  sudo apt-get dist-upgrade -y
 
-    echo_log "Verificando versão do PHP..."
+  echo_log "Verificando versão do PHP..."
 
-    PHP_VERSION_CONFIG_PATH="${HOME}/.config/opsconfig/.php"
+  PHP_VERSION_CONFIG_PATH="${HOME}/.config/opsconfig/.php"
 
-    if [[ -f $PHP_VERSION_CONFIG_PATH ]]; then
-      PHP_VERSION=$(cat "${PHP_VERSION_CONFIG_PATH}" | tr -d ' ')
+  if [[ -f $PHP_VERSION_CONFIG_PATH ]]; then
+    PHP_VERSION=$(cat "${PHP_VERSION_CONFIG_PATH}" | tr -d ' ')
 
-      if [[ -n $PHP_VERSION ]]; then
-        PHP_BIN="/usr/bin/$PHP_VERSION"
+    if [[ -n $PHP_VERSION ]]; then
+      PHP_BIN="/usr/bin/$PHP_VERSION"
 
-        if [[ -x $PHP_BIN ]]; then
-          echo_log "Atualizando link simbólico para PHP ($PHP_VERSION)..."
+      if [[ -x $PHP_BIN ]]; then
+        echo_log "Atualizando link simbólico para PHP ($PHP_VERSION)..."
 
-          sudo ln -sfn "$PHP_BIN" /etc/alternatives/php
+        sudo ln -sfn "$PHP_BIN" /etc/alternatives/php
 
-          php -v
-        else
-          echo_log "Erro: O binário $PHP_BIN não existe ou não é executável."
-        fi
+        php -v
       else
-        echo_log "Erro: Nenhuma versão válida encontrada no arquivo ${PHP_VERSION_CONFIG_PATH}."
+        echo_log "Erro: O binário $PHP_BIN não existe ou não é executável."
       fi
     else
-      echo_log "Arquivo ${PHP_VERSION_CONFIG_PATH} não encontrado, nenhuma ação necessária para PHP."
+      echo_log "Erro: Nenhuma versão válida encontrada no arquivo ${PHP_VERSION_CONFIG_PATH}."
     fi
+  else
+    echo_log "Arquivo ${PHP_VERSION_CONFIG_PATH} não encontrado, nenhuma ação necessária para PHP."
+  fi
 
-    if [[ -f "${HOME}/.bashrc" ]]; then
-      source "${HOME}/.bashrc"
-    fi
+  if [[ -f "${HOME}/.bashrc" ]]; then
+    source "${HOME}/.bashrc"
+  fi
 
-    if [[ -f "${HOME}/.config/opsconfig/after_install" ]]; then
-      echo_log "Rodando o script after_install"
-      source "${HOME}/.config/opsconfig/after_install"
-    fi
+  if [[ -f "${HOME}/.config/opsconfig/after_install" ]]; then
+    echo_log "Rodando o script after_install"
+    source "${HOME}/.config/opsconfig/after_install"
+  fi
 
-    echo_log "Atualização concluída com sucesso!"
-  }
+  echo_log "Atualização concluída com sucesso!"
+}
 
-  alias updagrade="update_system"
-  alias u="update_system"
-fi
+alias updagrade="update_system"
+alias u="update_system"
 
 #######################################################################################################################
 ## FileSystem
@@ -167,13 +165,6 @@ function check_dir_change() {
 export NVM_DIR="${HOME}/.nvm"
 [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"                   # This loads nvm
 [ -s "${NVM_DIR}/bash_completion" ] && \. "${NVM_DIR}/bash_completion" # This loads nvm bash_completion
-
-#######################################################################################################################
-## HomeBrew
-#######################################################################################################################
-if command -v /home/linuxbrew/.linuxbrew/bin/brew &>/dev/null; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
 
 #######################################################################################################################
 ## FZF

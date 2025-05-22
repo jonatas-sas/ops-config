@@ -8,8 +8,6 @@ return {
   --  Repository: https://github.com/MeanderingProgrammer/render-markdown.nvim
   'MeanderingProgrammer/render-markdown.nvim',
 
-  enabled = plugins.render_markdown_nvim and plugins.nvim_treesitter and plugins.nvim_web_devicons,
-
   ft = {
     'markdown',
     'md',
