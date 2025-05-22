@@ -1,1 +1,0 @@
-require('opsconfig.behaviors.wezterm')

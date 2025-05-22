@@ -1,9 +1,0 @@
-parameters:
-  level: 0
-  paths:
-    - resources/views
-    - templates
-  excludePaths:
-    - vendor
-    - storage
-    - node_modules

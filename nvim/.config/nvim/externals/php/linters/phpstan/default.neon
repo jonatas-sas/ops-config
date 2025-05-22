@@ -1,9 +1,0 @@
-parameters:
-  level: 7
-  paths:
-    - src
-    - app
-  excludePaths:
-    - vendor
-    - storage
-    - node_modules

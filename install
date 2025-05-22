@@ -279,7 +279,7 @@ msg git "Configuring OpsConfig repository..."
 
 [[ -d "$HOME/.opsconfig" ]] && rm -rf "$HOME/.opsconfig"
 
-git clone https://github.com/jonatas-sas/OpsConfig.git "$HOME/.opsconfig"
+git clone https://github.com/jonatas-sas/ops-config.git "$HOME/.opsconfig"
 
 msg git "Applying stow to OpsConfig repository..."
 
