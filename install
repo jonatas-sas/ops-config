@@ -110,47 +110,40 @@ else
   cd ~/.fzf && git pull && ./install --all
 fi
 
-update_python() {
-  msg refresh "Starting Neovim Python environment setup..."
+FORCE_PYTHON_SETUP=false
+[[ $1 == "--force" ]] && FORCE_PYTHON_SETUP=true
 
-  # Define the directory where the Python environment will be installed
+update_python() {
+  msg refresh "Checking Neovim Python environment..."
+
   local npython_dir="${NPYTHON_DIR}"
   local python_bin="$npython_dir/bin/python3"
 
-  if command -v deactivate &>/dev/null; then
-    deactivate
+  if [[ -d ${npython_dir} && ${FORCE_PYTHON_SETUP} != true ]]; then
+    msg info "Python environment already exists at ${npython_dir}, skipping setup."
+    return 0
   fi
 
+  msg warning "Setting up Python environment..."
   rm -rf "${npython_dir}" && mkdir -p "${npython_dir}"
 
-  # Check if Python3 is installed
   if ! command -v python3 &>/dev/null; then
-    msg error "Python3 not found. Please install Python3 before proceeding."
-
+    msg error "Python3 not found. Install Python3 before proceeding."
     return 1
   fi
 
-  msg info "Creating Python environment at $npython_dir..."
-
   python3 -m venv "$npython_dir"
-
   source "$npython_dir/bin/activate"
 
-  msg info "Installing Neovim dependencies..."
+  msg info "Installing Neovim Python packages..."
   pip install --upgrade pip
   pip install neovim tasklib pynvim requests flask black numpy pandas nginxfmt
   deactivate
-  msg success "Python environment created at $npython_dir"
 
-  # Display final instructions
-  msg info "To verify the installation, run the following commands in Neovim:"
-  msg info "    :echo system('which python3')"
-  msg info "    :echo system('python3 -m pip list')"
-
-  msg success "Neovim Python environment setup completed successfully! 🚀"
+  msg success "Python environment set up at ${npython_dir}"
 }
 
-update_python
+update_python "$@"
 
 update_node() {
   msg search "Checking the latest NVM version..."
@@ -284,9 +277,6 @@ git clone https://github.com/jonatas-sas/ops-config.git "${HOME}/.opsconfig"
 msg git "Applying stow to OpsConfig repository..."
 
 cd "${HOME}/.opsconfig" || exit
-
-touch "${HOME}/.config/opsconfig/.bash_env_local"
-touch "${HOME}/.config/opsconfig/.php"
 
 BASH_ENV_LOCAL="${HOME}/.config/opsconfig/.bash_env_local"
 PHP_VERSION_FILE="${HOME}/.config/opsconfig/.php"
