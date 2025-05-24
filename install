@@ -284,15 +284,15 @@ PHP_VERSION_FILE="${HOME}/.config/opsconfig/.php"
 if [[ ! -f ${BASH_ENV_LOCAL} ]]; then
   server_name=$(whiptail --inputbox "Digite o nome do servidor:" 8 50 --title "Configuração" 3>&1 1>&2 2>&3)
   echo "SERVER_NAME=\"${server_name}\"" >"${BASH_ENV_LOCAL}"
-  msg success "Saved SERVER_NAME to .bash_env_local"
+  msg success "Saved ${server_name} to .bash_env_local"
 else
   msg info ".bash_env_local already exists, skipping creation."
 fi
 
 if [[ ! -f ${PHP_VERSION_FILE} ]]; then
   php_version=$(whiptail --inputbox "Enter the default PHP CLI version (e.g., 8.1):" 8 50 --title "Configuração" 3>&1 1>&2 2>&3)
-  echo "PHP_CLI_VERSION=\"${php_version}\"" >"${PHP_VERSION_FILE}"
-  msg success "Saved PHP CLI version to .php"
+  echo "${php_version}" >"${PHP_VERSION_FILE}"
+  msg success "Saved PHP CLI (${php_version}) version to .php"
 else
   msg info ".php already exists, skipping creation."
 fi
