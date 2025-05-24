@@ -57,7 +57,7 @@ update_system() {
     PHP_VERSION=$(cat "${PHP_VERSION_CONFIG_PATH}" | tr -d ' ')
 
     if [[ -n $PHP_VERSION ]]; then
-      PHP_BIN="/usr/bin/$PHP_VERSION"
+      PHP_BIN="/usr/bin/php$PHP_VERSION"
 
       if [[ -x $PHP_BIN ]]; then
         echo_log "Atualizando link simbólico para PHP ($PHP_VERSION)..."
