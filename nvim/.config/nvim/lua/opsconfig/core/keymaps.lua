@@ -115,7 +115,15 @@ local keymaps = function()
     {
       modes = 'n',
       lhs = '<leader>bO',
-      rhs = helpers.buffers.close_others,
+      rhs = function()
+        local current = vim.api.nvim_get_current_buf()
+
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          if buf ~= current and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == '' then
+            vim.cmd('bd ' .. buf)
+          end
+        end
+      end,
       desc = 'Close all Other Buffers (safe)',
       opts = {},
       enabled = true,
@@ -587,7 +595,9 @@ local keymaps = function()
     {
       modes = 'n',
       lhs = '<leader>lF',
-      rhs = helpers.lsp.format_code,
+      rhs = function()
+        vim.lsp.buf.format({ async = true })
+      end,
       desc = 'Format Code',
       opts = {},
       enabled = true,
@@ -610,16 +620,26 @@ local keymaps = function()
     },
     {
       modes = 'n',
-      lhs = '<leader>lih',
-      rhs = helpers.lsp.toggle_inlay_hints,
-      desc = 'Toggle Inlay Hints',
-      opts = {},
-      enabled = true,
-    },
-    {
-      modes = 'n',
       lhs = '<leader>lR',
-      rhs = helpers.lsp.restart,
+      rhs = function()
+        for _, client in pairs(vim.lsp.get_active_clients()) do
+          client.stop()
+        end
+
+        vim.defer_fn(function()
+          local configs = require('lspconfig.configs')
+
+          for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].buftype == '' then
+              for _, config in pairs(configs) do
+                if config.manager then
+                  config.manager.try_add(bufnr)
+                end
+              end
+            end
+          end
+        end, 100)
+      end,
       desc = 'Restart LSP and reattach to all buffers',
       opts = {},
       enabled = true,
