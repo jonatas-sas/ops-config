@@ -4,8 +4,8 @@ if [[ -f "${HOME}/.bash_env" ]]; then
   source "${HOME}/.bash_env"
 fi
 
-if [[ -f "${HOME}/.bash_env_local" ]]; then
-  source "${HOME}/.bash_env_local"
+if [[ -f "${HOME}/.config/opsconfig/.bash_env_local" ]]; then
+  source "${HOME}/.config/opsconfig/.bash_env_local"
 fi
 
 case $- in
