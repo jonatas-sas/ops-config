@@ -282,7 +282,7 @@ BASH_ENV_LOCAL="${HOME}/.config/opsconfig/.bash_env_local"
 PHP_VERSION_FILE="${HOME}/.config/opsconfig/.php"
 
 if [[ ! -f ${BASH_ENV_LOCAL} ]]; then
-  read -rp "$(echo -e "${CYAN}${INFO_ICON}Enter the server name: ${RESET}")" server_name
+  read -r -p "$(echo -e "${CYAN}${INFO_ICON}Enter the server name: ${RESET}")" server_name </dev/tty
   echo "SERVER_NAME=\"${server_name}\"" >"${BASH_ENV_LOCAL}"
   msg success "Saved SERVER_NAME to .bash_env_local"
 else
@@ -290,7 +290,7 @@ else
 fi
 
 if [[ ! -f ${PHP_VERSION_FILE} ]]; then
-  read -rp "$(echo -e "${CYAN}${INFO_ICON}Enter the default PHP CLI version (e.g., 8.1): ${RESET}")" php_version
+  read -rp "$(echo -e "${CYAN}${INFO_ICON}Enter the default PHP CLI version (e.g., 8.1): ${RESET}")" php_version </dev/tty
   echo "PHP_CLI_VERSION=\"${php_version}\"" >"${PHP_VERSION_FILE}"
   msg success "Saved PHP CLI version to .php"
 else
