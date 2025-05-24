@@ -23,4 +23,4 @@ local lazy_options = {
   },
 }
 
-require('lazy').setup(require('opsconfig.plugins'), lazy_options)
+require('lazy').setup(require('opsconfig.core.plugins'), lazy_options)
