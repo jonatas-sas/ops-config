@@ -1,8 +1,5 @@
 -- Keymaps
 
-local plugins = vim.g.opsconfig.plugins
-local helpers = require('opsconfig.helpers.keymaps')
-
 ---@class KeymapDef
 ---@field modes string|string[] Modes in which the keymap applies ('n', 'i', 'v', etc.)
 ---@field lhs string Left-hand side (the keybind)
@@ -660,7 +657,7 @@ local keymaps = function()
       rhs = '<cmd>NvimTreeToggle<CR>',
       desc = 'Toggle File Explorer',
       opts = {},
-      enabled = plugins.nvim_tree_lua,
+      enabled = true,
     },
     {
       modes = 'n',
@@ -668,7 +665,7 @@ local keymaps = function()
       rhs = '<cmd>NvimTreeRefresh<CR>',
       desc = 'File Explorer: Refresh',
       opts = {},
-      enabled = plugins.nvim_tree_lua,
+      enabled = true,
     },
     {
       modes = 'n',
@@ -676,26 +673,7 @@ local keymaps = function()
       rhs = '<cmd>NvimTreeCollapse<CR>',
       desc = 'File Explorer: Collapse',
       opts = {},
-      enabled = plugins.nvim_tree_lua,
-    },
-
-    -- SUBSECTION: Oil
-    -- Plugin Configuration File: ../plugins/file-explorer/oil.lua
-    {
-      modes = 'n',
-      lhs = '<leader>ex',
-      rhs = helpers.oil.open,
-      desc = 'Oil File Explorer',
-      opts = {},
-      enabled = plugins.oil_nvim,
-    },
-    {
-      modes = 'n',
-      lhs = '<leader>eX',
-      rhs = helpers.oil.open_root,
-      desc = 'Oil Root File Explorer',
-      opts = {},
-      enabled = plugins.oil_nvim,
+      enabled = true,
     },
 
     -- SUBSECTION: Conform
@@ -703,10 +681,12 @@ local keymaps = function()
     {
       modes = { 'n', 'v' },
       lhs = '<leader>ff',
-      rhs = helpers.conform.format,
+      rhs = function()
+        vim.lsp.buf.format({ async = true })
+      end,
       desc = 'Format File or Range',
       opts = {},
-      enabled = plugins.conform_nvim,
+      enabled = true,
     },
 
     -- SUBSECTION: Trouble
@@ -717,7 +697,7 @@ local keymaps = function()
       rhs = '<cmd>Trouble diagnostics toggle<cr>',
       desc = 'Diagnostics (Trouble)',
       opts = {},
-      enabled = plugins.trouble_nvim,
+      enabled = true,
     },
     {
       modes = 'n',
@@ -725,7 +705,7 @@ local keymaps = function()
       rhs = '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
       desc = 'Buffer Diagnostics (Trouble)',
       opts = {},
-      enabled = plugins.trouble_nvim,
+      enabled = true,
     },
     {
       modes = 'n',
@@ -733,7 +713,7 @@ local keymaps = function()
       rhs = '<cmd>Trouble symbols toggle focus=false<cr>',
       desc = 'Symbols (Trouble)',
       opts = {},
-      enabled = plugins.trouble_nvim,
+      enabled = true,
     },
     {
       modes = 'n',
@@ -741,7 +721,7 @@ local keymaps = function()
       rhs = '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
       desc = 'LSP Definitions / references / ... (Trouble)',
       opts = {},
-      enabled = plugins.trouble_nvim,
+      enabled = true,
     },
     {
       modes = 'n',
@@ -749,7 +729,7 @@ local keymaps = function()
       rhs = '<cmd>Trouble loclist toggle<cr>',
       desc = 'Location List (Trouble)',
       opts = {},
-      enabled = plugins.trouble_nvim,
+      enabled = true,
     },
     {
       modes = 'n',
@@ -757,7 +737,7 @@ local keymaps = function()
       rhs = '<cmd>Trouble qflist toggle<cr>',
       desc = 'Quickfix List (Trouble)',
       opts = {},
-      enabled = plugins.trouble_nvim,
+      enabled = true,
     },
 
     -- SUBSECTION: Telescope
@@ -768,7 +748,7 @@ local keymaps = function()
     --   rhs = function() end,
     --   desc = 'Find Files',
     --   opts = {},
-    --   enabled = plugins.telescope_nvim,
+    --   enabled = true,
     -- },
     -- {
     --   modes = 'n',
@@ -776,7 +756,7 @@ local keymaps = function()
     --   rhs = helpers.telescope.live_grep,
     --   desc = 'Live Grep',
     --   opts = {},
-    --   enabled = plugins.telescope_nvim,
+    --   enabled = true,
     -- },
   }
 end

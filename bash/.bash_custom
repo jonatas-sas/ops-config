@@ -29,6 +29,8 @@ echo_log() {
 }
 
 update_system() {
+  echo_log "Iniciando atualização do sistema..."
+
   if [[ -f "${HOME}/.config/opsconfig/before_install" ]]; then
     echo_log "Rodando o script before_install"
     source "${HOME}/.config/opsconfig/before_install"
@@ -37,51 +39,70 @@ update_system() {
   echo_log "Atualizando o OpsConfig..."
   curl -fsSL https://raw.githubusercontent.com/jsas4coding/ops-config/main/install | bash
 
-  echo_log "Removendo pacotes desnecessários..."
-  sudo apt autoremove -y
+  if [[ $EUID -ne 0 ]]; then
+    echo_log "Usuário sem privilégios de root. Encerrando após atualização do OpsConfig."
+  else
+    echo_log "Removendo pacotes desnecessários..."
+    sudo apt autoremove -y
 
-  echo_log "Atualizando lista de pacotes..."
-  sudo apt-get update -y
+    echo_log "Atualizando lista de pacotes..."
+    sudo apt-get update -y
 
-  echo_log "Atualizando pacotes instalados..."
-  sudo apt-get upgrade -y
+    echo_log "Atualizando pacotes instalados..."
+    sudo apt-get upgrade -y
 
-  echo_log "Atualizando distribuição do sistema..."
-  sudo apt-get dist-upgrade -y
+    echo_log "Atualizando distribuição do sistema..."
+    sudo apt-get dist-upgrade -y
 
-  echo_log "Verificando versão do PHP..."
+    echo_log "Atualizando Composer..."
+    if command -v composer &>/dev/null; then
+      sudo composer self-update
+    else
+      EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)"
+      php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
 
-  PHP_VERSION_CONFIG_PATH="${HOME}/.config/opsconfig/.php"
+      if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
+        echo_log "Erro: Checksum inválido do instalador do Composer"
+        rm composer-setup.php
+        return 1
+      fi
 
-  if [[ -f $PHP_VERSION_CONFIG_PATH ]]; then
-    PHP_VERSION=$(cat "${PHP_VERSION_CONFIG_PATH}" | tr -d ' ')
+      sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+      rm composer-setup.php
+    fi
 
-    if [[ -n $PHP_VERSION ]]; then
-      PHP_BIN="/usr/bin/php$PHP_VERSION"
+    echo_log "Verificando versão do PHP..."
+    PHP_VERSION_CONFIG_PATH="${HOME}/.config/opsconfig/.php"
 
-      if [[ -x $PHP_BIN ]]; then
-        echo_log "Atualizando link simbólico para PHP ($PHP_VERSION)..."
+    if [[ -f $PHP_VERSION_CONFIG_PATH ]]; then
+      PHP_VERSION=$(cat "${PHP_VERSION_CONFIG_PATH}" | tr -d ' ')
 
-        sudo ln -sfn "$PHP_BIN" /etc/alternatives/php
+      if [[ -n $PHP_VERSION ]]; then
+        PHP_BIN="/usr/bin/php$PHP_VERSION"
 
-        php -v
+        if [[ -x $PHP_BIN ]]; then
+          echo_log "Atualizando link simbólico para PHP ($PHP_VERSION)..."
+          sudo ln -sfn "$PHP_BIN" /etc/alternatives/php
+          php -v
+        else
+          echo_log "Erro: O binário $PHP_BIN não existe ou não é executável."
+        fi
       else
-        echo_log "Erro: O binário $PHP_BIN não existe ou não é executável."
+        echo_log "Erro: Nenhuma versão válida encontrada no arquivo ${PHP_VERSION_CONFIG_PATH}."
       fi
     else
-      echo_log "Erro: Nenhuma versão válida encontrada no arquivo ${PHP_VERSION_CONFIG_PATH}."
+      echo_log "Arquivo ${PHP_VERSION_CONFIG_PATH} não encontrado, nenhuma ação necessária para PHP."
     fi
-  else
-    echo_log "Arquivo ${PHP_VERSION_CONFIG_PATH} não encontrado, nenhuma ação necessária para PHP."
-  fi
-
-  if [[ -f "${HOME}/.bashrc" ]]; then
-    source "${HOME}/.bashrc"
   fi
 
   if [[ -f "${HOME}/.config/opsconfig/after_install" ]]; then
     echo_log "Rodando o script after_install"
     source "${HOME}/.config/opsconfig/after_install"
+  fi
+
+  if [[ -f "${HOME}/.bashrc" ]]; then
+    source "${HOME}/.bashrc"
   fi
 
   echo_log "Atualização concluída com sucesso!"
