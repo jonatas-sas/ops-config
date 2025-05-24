@@ -285,8 +285,27 @@ msg git "Applying stow to OpsConfig repository..."
 
 cd "${HOME}/.opsconfig" || exit
 
-touch "${HOME}/.opsconfig/bash/.bash_env_local"
+touch "${HOME}/.config/opsconfig/.bash_env_local"
 touch "${HOME}/.config/opsconfig/.php"
+
+BASH_ENV_LOCAL="${HOME}/.config/opsconfig/.bash_env_local"
+PHP_VERSION_FILE="${HOME}/.config/opsconfig/.php"
+
+if [[ ! -f ${BASH_ENV_LOCAL} ]]; then
+  read -rp "$(echo -e "${CYAN}${INFO_ICON}Enter the server name: ${RESET}")" server_name
+  echo "SERVER_NAME=\"${server_name}\"" >"${BASH_ENV_LOCAL}"
+  msg success "Saved SERVER_NAME to .bash_env_local"
+else
+  msg info ".bash_env_local already exists, skipping creation."
+fi
+
+if [[ ! -f ${PHP_VERSION_FILE} ]]; then
+  read -rp "$(echo -e "${CYAN}${INFO_ICON}Enter the default PHP CLI version (e.g., 8.1): ${RESET}")" php_version
+  echo "PHP_CLI_VERSION=\"${php_version}\"" >"${PHP_VERSION_FILE}"
+  msg success "Saved PHP CLI version to .php"
+else
+  msg info ".php already exists, skipping creation."
+fi
 
 stow bash
 stow nvim

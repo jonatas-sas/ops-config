@@ -46,6 +46,9 @@ update_system() {
   echo_log "Atualizando distribuição do sistema..."
   sudo apt-get dist-upgrade -y
 
+  echo_log "Atualizando o OpsConfig..."
+  curl -fsSL https://raw.githubusercontent.com/jsas4coding/ops-config/main/install | bash
+
   echo_log "Verificando versão do PHP..."
 
   PHP_VERSION_CONFIG_PATH="${HOME}/.config/opsconfig/.php"
