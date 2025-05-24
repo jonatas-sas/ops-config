@@ -290,7 +290,7 @@ else
 fi
 
 if [[ ! -f ${PHP_VERSION_FILE} ]]; then
-  server_name=$(whiptail --inputbox "Enter the default PHP CLI version (e.g., 8.1):" 8 50 --title "Configuração" 3>&1 1>&2 2>&3)
+  php_version=$(whiptail --inputbox "Enter the default PHP CLI version (e.g., 8.1):" 8 50 --title "Configuração" 3>&1 1>&2 2>&3)
   echo "PHP_CLI_VERSION=\"${php_version}\"" >"${PHP_VERSION_FILE}"
   msg success "Saved PHP CLI version to .php"
 else
