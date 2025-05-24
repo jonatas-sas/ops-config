@@ -1,1 +1,1 @@
-require("opsconfig.behaviors.wezterm")
+require('opsconfig.behaviors.wezterm')

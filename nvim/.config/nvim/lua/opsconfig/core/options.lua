@@ -1,22 +1,22 @@
-vim.cmd("let g:netrw_liststyle = 3")
+vim.cmd('let g:netrw_liststyle = 3')
 
 vim.loader.enable()
 
-vim.lsp.set_log_level("debug")
+vim.lsp.set_log_level('debug')
 -- Set <space> as the leader key
 -- See `:help mapleader`
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = vim.g.opsconfig.global.fonts.nerd_font_available
+vim.g.have_nerd_font = false
 
 -- line numbers
 vim.opt.relativenumber = true -- show relative line numbers
 vim.opt.number = true -- shows absolute line number on cursor line (when relative number is on)
 
 -- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = "a"
+vim.opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
@@ -25,13 +25,13 @@ vim.opt.showmode = false
 vim.opt.laststatus = 3
 
 -- Clipboard
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = 'unnamedplus'
 
 -- Complete
 vim.opt.completeopt = {
-	"noinsert",
-	"menuone",
-	"noselect",
+  'noinsert',
+  'menuone',
+  'noselect',
 }
 
 -- tabs & indentation
@@ -65,7 +65,7 @@ vim.opt.timeoutlen = 1000
 vim.o.ttimeoutlen = 10
 
 -- Preview substitutions live, as you type!
-vim.opt.inccommand = "split"
+vim.opt.inccommand = 'split'
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
@@ -74,26 +74,26 @@ vim.opt.scrolloff = 10
 -- turn on termguicolors for nightfly colorscheme to work
 -- (have to use iterm2 or any other true color terminal)
 vim.opt.termguicolors = true
-vim.opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-vim.opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+vim.opt.background = 'dark' -- colorschemes that can be light or dark will be made dark
+vim.opt.signcolumn = 'yes' -- show sign column so that text doesn't shift
 
 -- backspace
-vim.opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+vim.opt.backspace = 'indent,eol,start' -- allow backspace on indent, end of line or insert mode start position
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = {
-	tab = "▸ ", -- Representação de tabulação
-	trail = "·", -- Espaços em branco no final da linha
-	nbsp = "␣", -- Espaços não quebráveis
-	extends = "»", -- Indicação de texto escondido à direita
-	precedes = "«", -- Indicação de texto escondido à esquerda
-	eol = "↲", -- Exibe o fim da linha
-	lead = "·", -- Indica espaços no início da linha
-	multispace = "⋅", -- Diferencia múltiplos espaços
-	leadmultispace = "│⋅", -- Representação especial para múltiplos espaços no início da linha
+  tab = '▸ ', -- Representação de tabulação
+  trail = '·', -- Espaços em branco no final da linha
+  nbsp = '␣', -- Espaços não quebráveis
+  extends = '»', -- Indicação de texto escondido à direita
+  precedes = '«', -- Indicação de texto escondido à esquerda
+  eol = '↲', -- Exibe o fim da linha
+  lead = '·', -- Indica espaços no início da linha
+  multispace = '⋅', -- Diferencia múltiplos espaços
+  leadmultispace = '│⋅', -- Representação especial para múltiplos espaços no início da linha
 }
 
 -- Splits
@@ -104,8 +104,8 @@ vim.opt.splitbelow = true -- split horizontal window to the bottom
 vim.opt.swapfile = false
 
 -- Folding Options
-vim.o.foldcolumn = "1"
+vim.o.foldcolumn = '1'
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
-vim.o.foldmethod = "marker"
+vim.o.foldmethod = 'marker'
