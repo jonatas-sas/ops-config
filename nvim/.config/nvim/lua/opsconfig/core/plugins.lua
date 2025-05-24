@@ -999,7 +999,6 @@ return {
     config = function()
       local conform = require('conform')
       local format_opts = { lsp_fallback = true, async = false, timeout_ms = 1000 }
-      local bin = require('opsconfig.plugins.conform.formatters.bin')
 
       local formatters = {}
 
@@ -1577,12 +1576,11 @@ hi FloatBorder guibg=#1e1e2e guifg=#89b4fa
 
     dependencies = {
       { 'nvim-lua/plenary.nvim', enabled = true },
-      { 'nvim-tree/nvim-web-devicons', enabled = plugins.nvim_web_devicons },
+      { 'nvim-tree/nvim-web-devicons', enabled = true },
     },
 
     config = function()
       local telescope = require('telescope')
-      local builtin = require('telescope.builtin')
       local themes = require('telescope.themes')
 
       telescope.setup({
