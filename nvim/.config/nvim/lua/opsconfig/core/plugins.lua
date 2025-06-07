@@ -260,6 +260,7 @@ return {
       { 'hrsh7th/cmp-buffer', enabled = true },
       { 'hrsh7th/cmp-path', enabled = true },
       { 'hrsh7th/cmp-cmdline', enabled = true },
+      { 'hrsh7th/cmp-nvim-lsp', enabled = true },
       { 'onsails/lspkind.nvim', enabled = true },
     },
 
@@ -298,7 +299,6 @@ return {
         menu = {
           buffer = '[Buf]',
           nvim_lsp = '[LSP]',
-          luasnip = '[Snip]',
           path = '[Path]',
           nvim_lua = '[NeoVim]',
         },
@@ -866,7 +866,7 @@ return {
             auto_open = {
               enabled = true,
               trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
-              luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
+              luasnip = false, -- Will open signature help when jumping to Luasnip insert nodes
               throttle = 50, -- Debounce lsp signature help request by 50ms
             },
             view = nil, -- when nil, use defaults from documentation
@@ -1306,10 +1306,6 @@ return {
             return false
           end
 
-          if require('luasnip').in_snippet() then
-            return false
-          end
-
           local blocked_filetypes = {
             'neo-tree', -- NeoTree file explorer
             'oil', -- oil.nvim file explorer
@@ -1427,22 +1423,20 @@ return {
         severity_sort = true,
       }
 
-      if vim.g.opsconfig.global.fonts.nerd_font_available then
-        local signs = {
-          ERROR = '',
-          WARN = '',
-          INFO = '',
-          HINT = '',
-        }
+      local signs = {
+        ERROR = '',
+        WARN = '',
+        INFO = '',
+        HINT = '',
+      }
 
-        local diagnostic_signs = {}
+      local diagnostic_signs = {}
 
-        for type, icon in pairs(signs) do
-          diagnostic_signs[vim.diagnostic.severity[type]] = icon
-        end
-
-        diagnostic_config.signs = { text = diagnostic_signs }
+      for type, icon in pairs(signs) do
+        diagnostic_signs[vim.diagnostic.severity[type]] = icon
       end
+
+      diagnostic_config.signs = { text = diagnostic_signs }
 
       vim.diagnostic.config(diagnostic_config)
 
@@ -1604,47 +1598,6 @@ hi FloatBorder guibg=#1e1e2e guifg=#89b4fa
       })
 
       telescope.load_extension('noice')
-
-      -- local keymap = require('opsconfig.helpers.telescope.keymap')
-      -- local cwd = vim.fn.stdpath('config')
-      --
-      -- keymap.set_fn('<leader>sh', builtin.help_tags, '[S]earch [H]elp')
-      -- keymap.set_fn('<leader>sk', builtin.keymaps, '[S]earch [K]eymaps')
-      -- keymap.set_fn('<leader>ss', builtin.builtin, '[S]earch [S]elect Telescope')
-      -- keymap.set_fn('<leader>sw', builtin.grep_string, '[S]earch current [W]ord')
-      -- keymap.set_fn('<leader>sm', builtin.marks, '[S]earch [M]arks')
-      -- keymap.set_fn('<leader>sg', builtin.live_grep, '[S]earch by [G]rep')
-      -- keymap.set_fn('<leader>sd', builtin.diagnostics, '[S]earch [D]iagnostics')
-      -- keymap.set_fn('<leader>sr', builtin.registers, '[S]earch [R]egisters')
-      -- keymap.set_fn('<leader>s.', builtin.oldfiles, '[S]earch Recent Files')
-      -- keymap.set_fn('<leader>sv', builtin.vim_options, '[S]earch NeoVim [O]ptions')
-      -- keymap.set_fn('<leader>sc', builtin.commands, '[S]earch [C]ommands')
-      -- keymap.set_fn('<leader>sb', builtin.buffers, '[S]earch [B]uffers')
-      -- keymap.set_fn('<leader><leader>', builtin.buffers, 'Search Buffers')
-      --
-      -- keymap.set_find_files('<leader>sf', '[S]earch [F]iles', 'Project Files')
-      -- keymap.set_find_files('<leader>sn', '[S]earch [N]eoVim Config Files', 'NeoVim Configuration Files', { cwd = cwd })
-      -- keymap.set_find_files('<leader>so', '[S]earch [O]mni (Root Path)', 'NeoVim Configuration Files', { cwd = '/' })
-      -- keymap.set_grep('<leader>s/', '[S]earch [/] in Open Files', 'Live Grep in Open Files', { grep_open_files = true })
-      --
-      -- local telescope_ag = vim.api.nvim_create_augroup('telescope_ag', { clear = true })
-      --
-      -- vim.api.nvim_create_autocmd({ 'BufEnter' }, {
-      --   group = telescope_ag,
-      --   callback = function()
-      --     local current_cwd = vim.fn.expand('%:p:h')
-      --     local buf = vim.api.nvim_get_current_buf()
-      --
-      --     keymap.set_find_files(
-      --       '<leader>sF',
-      --       '[S]earch Current [F]ile Path',
-      --       'Current Directory Files',
-      --       { cwd = current_cwd },
-      --       'n',
-      --       buf
-      --     )
-      --   end,
-      -- })
     end,
   },
 }
